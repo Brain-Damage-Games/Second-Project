@@ -8,7 +8,8 @@ public class Spawner : MonoBehaviour
 	private GameObject objectPrefab;
 
 	// number of enemies spawned in one second
-	[SerializeField, Min(1)]
+	//it starts from 0
+	[SerializeField]
 	float spawnRate;
 
 	[SerializeField, Min(0)]
@@ -19,10 +20,11 @@ public class Spawner : MonoBehaviour
 
 	private float currentTime = 0f;
 
-	private float countSpawn = 0f;
+	private float countSpawn= 0f;
 
 	private bool spawn = true;
 
+	// here i gave this component to the outpost itself so if want to use it elseway you should make spawnPoint a SERIALIZEDFIELD
     private void Awake()
     {
 		spawnPoint = this.transform;
@@ -32,10 +34,17 @@ public class Spawner : MonoBehaviour
     private void FixedUpdate()
     {
 		if (spawn)
-			Spawn();
+			Spawnning();
     }
 
-    private void Spawn()
+	//if you want to activate spawning from outside this class use this function
+	public void Spawn()
+	{
+		spawn = true;
+		countSpawn = 0f;
+	}
+
+private void Spawnning()
 	{
 		currentTime += Time.deltaTime;
 

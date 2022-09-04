@@ -8,17 +8,20 @@ public class Recycler : MonoBehaviour
     [SerializeField]
     private float radiusAroundReSpawnPoint = 2;
 
-    public bool recycle = false;
+    //to check this class on a single enemy and not the outpost you can simply remove all commented codes 
 
+
+    //public bool recycle = false;
+    /*
     private void Update()
     {
         if (recycle)
         {
-            print("true");
             Recycle(1f, this.gameObject);
         }
             
     }
+    */
     private Vector3 GenerateSpawnPoint(GameObject objectToRespawn) 
     {
         Vector3 v = objectToRespawn.transform.position;
@@ -30,7 +33,7 @@ public class Recycler : MonoBehaviour
     {
         StartCoroutine(RecycleAfterTime(spawnTime, objectToRespawn));
 
-        recycle = false;
+        //recycle = false;
     }
     IEnumerator RecycleAfterTime(float spawnTime, GameObject objectToRespawn)
     {

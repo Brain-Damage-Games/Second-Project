@@ -361,8 +361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 6156381828864735390, guid: 87ecdcbf75dccc048982c30f659b7fa0, type: 3}
-  spawnRate: 1
-  maxSpawn: 10
+  spawnRate: 1.5
+  maxSpawn: 1
   radiusAroundSpawnPoint: 0.6
 --- !u!33 &956961300
 MeshFilter:
@@ -611,4 +611,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reSpawnPoint: {fileID: 956961298}
   radiusAroundReSpawnPoint: 1
-  recycle: 0
