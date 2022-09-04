@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,9 +13,6 @@ public class PlayerManager : MonoBehaviour
         rangeCollider = GetComponent<SphereCollider>();
         rangeCollider.radius = shootRange;
         enemiesInRange = new List<GameObject>();
-    }
-    void Update(){
-
     }
 
     private void Shoot(){
