@@ -18,15 +18,4 @@ public class Damager : MonoBehaviour
         objectToDamage.GetDamaged(damageValue);
     }
 
-    private void OnCollisionEnter(Collision other) 
-    {
-        //if(other.gameObject.GetComponent<Damageable>() != null)
-        //{
-            Damage(other.gameObject.GetComponent<Damageable>());
-            Destroy(gameObject);
-        //}
-            
-
-        
-    }
 }

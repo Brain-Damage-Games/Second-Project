@@ -12,22 +12,12 @@ public class Shooting : MonoBehaviour
     GameObject bulletPrefab;
 
     [SerializeField]
-    GameObject shootTarget;
+    Transform gun;
 
-    [SerializeField]
-    float distanceFromShooter = 1f;
-
-    public void Shoot()
+    public void Shoot(Transform shootTarget)
     {
-        Vector3 toTheTarget = (shootTarget.transform.position - transform.position).normalized;
-        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position + toTheTarget * distanceFromShooter, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().velocity = toTheTarget  * shootingSpeed;
-    }
-
-    private void Update() 
-    {
-        if(Input.GetMouseButtonDown(0))     
-            Shoot();
+        GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
     }
 
 }
