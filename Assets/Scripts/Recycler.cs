@@ -8,27 +8,28 @@ public class Recycler : MonoBehaviour
     [SerializeField]
     private float radiusAroundReSpawnPoint = 2;
 
+    private GameObject outPost;
+
+    private void Awake()
+    {
+        outPost = gameObject;
+    }
+
     //to check this class on a single enemy and not the outpost you can simply remove all commented codes 
+    // also remove the comment from line 37
 
-
-    //public bool recycle = false;
     /*
+    public bool recycle = false;
+    public GameObject enemy;
     private void Update()
     {
         if (recycle)
         {
-            Recycle(1f, this.gameObject);
+            Recycle(1f, enemy);
         }
             
-    }
-    */
-    private Vector3 GenerateSpawnPoint(GameObject objectToRespawn) 
-    {
-        Vector3 v = objectToRespawn.transform.position;
-        v.x = reSpawnPoint.position.x + Random.Range(-radiusAroundReSpawnPoint, radiusAroundReSpawnPoint);
-        v.z = reSpawnPoint.position.z + Random.Range(-radiusAroundReSpawnPoint, radiusAroundReSpawnPoint);
-        return v;
-    }
+    }*/
+    
     public void Recycle(float spawnTime, GameObject objectToRespawn) 
     {
         StartCoroutine(RecycleAfterTime(spawnTime, objectToRespawn));
@@ -39,7 +40,7 @@ public class Recycler : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnTime);
         objectToRespawn.SetActive(true);
-        objectToRespawn.transform.position = GenerateSpawnPoint(objectToRespawn);
+        objectToRespawn.transform.position = outPost.GetComponent<Spawner>().Spawn(objectToRespawn).position;
 
     }
     

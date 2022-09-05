@@ -18,23 +18,27 @@ public class Spawner : MonoBehaviour
 	[SerializeField]
 	private float radiusAroundSpawnPoint = 1f;
 
+	[SerializeField]
+	private float noOverlapRadius = 0.1f;
+
 	private float currentTime = 0f;
 
 	private float countSpawn= 0f;
-
-	private bool spawn = true;
+	
+	public bool spawn = true;
 
 	// here i gave this component to the outpost itself so if want to use it elseway you should make spawnPoint a SERIALIZEDFIELD
+	//to avoid spawn in the begining remove the awake method 
     private void Awake()
     {
-		spawnPoint = this.transform;
+		spawnPoint = transform;
 		CheckCount();
     }
 
     private void FixedUpdate()
     {
 		if (spawn)
-			Spawnning();
+			Spawning();
     }
 
 	//if you want to activate spawning from outside this class use this function
@@ -43,8 +47,14 @@ public class Spawner : MonoBehaviour
 		spawn = true;
 		countSpawn = 0f;
 	}
+	public Transform Spawn(GameObject gameObject)
+	{
+		Transform t = gameObject.transform;
+		t.position = GenerateSpawnPoint();
+		return t;
+	}
 
-private void Spawnning()
+	private void Spawning()
 	{
 		currentTime += Time.deltaTime;
 
@@ -55,19 +65,35 @@ private void Spawnning()
 			newEnemy.transform.position = GenerateSpawnPoint();
 			currentTime = 0f;
 			countSpawn += 1;
+			CheckCount();
 		}
-		CheckCount();
 	}
 	private Vector3 GenerateSpawnPoint()
 	{
 		Vector3 v = spawnPoint.transform.position;
-		v.x += Random.Range(-radiusAroundSpawnPoint, radiusAroundSpawnPoint);
-		v.z += Random.Range(-radiusAroundSpawnPoint, radiusAroundSpawnPoint);
+		do
+		{
+			v.x += Random.Range(-radiusAroundSpawnPoint, radiusAroundSpawnPoint);
+			v.z += Random.Range(-radiusAroundSpawnPoint, radiusAroundSpawnPoint);
+		}
+		while (ObjectExistHere(v, noOverlapRadius));
 		return v;
 	}
 	private void CheckCount() 
 	{
-		if (countSpawn == maxSpawn)
+		if (countSpawn >= maxSpawn)
 			spawn = false;
+	}
+	bool ObjectExistHere(Vector3 position,float radius)
+	{
+		Collider[] intersecting = Physics.OverlapSphere(position, radius);
+		if (intersecting.Length == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 }
