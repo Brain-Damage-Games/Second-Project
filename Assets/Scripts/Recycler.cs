@@ -3,9 +3,6 @@ using System.Collections;
 public class Recycler : MonoBehaviour
 {
     [SerializeField]
-    private Transform reSpawnPoint;
-
-    [SerializeField]
     private float radiusAroundReSpawnPoint = 2;
 
     private GameObject outPost;
@@ -15,8 +12,9 @@ public class Recycler : MonoBehaviour
         outPost = gameObject;
     }
 
-    //to check this class on a single enemy and not the outpost you can simply remove all commented codes 
+    // to check this class  you can simply remove all commented codes 
     // also remove the comment from line 37
+    // don't forget to give it an enemy that already exists in the game
 
     /*
     public bool recycle = false;
@@ -28,8 +26,8 @@ public class Recycler : MonoBehaviour
             Recycle(1f, enemy);
         }
             
-    }*/
-    
+    }
+    */
     public void Recycle(float spawnTime, GameObject objectToRespawn) 
     {
         StartCoroutine(RecycleAfterTime(spawnTime, objectToRespawn));

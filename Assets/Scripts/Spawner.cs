@@ -38,7 +38,7 @@ public class Spawner : MonoBehaviour
     private void FixedUpdate()
     {
 		if (spawn)
-			Spawning();
+			StartSpawning();
     }
 
 	//if you want to activate spawning from outside this class use this function
@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
 		return t;
 	}
 
-	private void Spawning()
+	private void StartSpawning()
 	{
 		currentTime += Time.deltaTime;
 
@@ -96,4 +96,21 @@ public class Spawner : MonoBehaviour
 			return true;
 		}
 	}
+	public void SetSpawnRate(float spawnRate)
+    {
+		this.spawnRate = spawnRate;
+    }
+	public float GetSpawnRate()
+	{
+		return spawnRate;
+	}
+    public void SetMaxSpawn(int maxSpawn)
+    {
+		this.maxSpawn = maxSpawn;
+    }
+	public int GetMaxSpawn()
+    {
+		return maxSpawn;
+    }
+
 }
