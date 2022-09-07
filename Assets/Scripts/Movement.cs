@@ -8,23 +8,18 @@ public class Movement : MonoBehaviour
    private float moveSpeed ; 
    [SerializeField]
    private Joystick joystick ; 
-
-   public void Move (Vector3 moveDirection)
+   private Rigidbody rb ; 
+   public void MoveSpeed (float newMoveSpeed)
    {
-
+    moveSpeed = newMoveSpeed; 
    }
-   public float SetMoveSpeed (float newMoveSpeed)
+   private void Move ()
    {
-    return newMoveSpeed ; 
+      rb = GetComponent<Rigidbody>() ; 
+      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed) ; 
    }
-   private void JoystickMove ()
+   private void FixedUpdate()
    {
-    var rigidbody = GetComponent<Rigidbody>(); 
-    Vector3 direction = transform.position ; 
-    direction += new Vector3(joystick.Horizontal* moveSpeed * Time.deltaTime, rigidbody.velocity.y, joystick.Vertical * moveSpeed * Time.deltaTime);
-    transform.position = direction ; 
-   }
-   private void Update() {
-    JoystickMove(); 
+      Move(); 
    }
 }
