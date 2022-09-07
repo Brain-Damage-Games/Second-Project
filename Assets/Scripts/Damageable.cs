@@ -32,5 +32,10 @@ public class Damageable : MonoBehaviour
         this.maxHealth = maxHealth;
     }
 
-    
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+
 }

@@ -13,6 +13,11 @@ public class Damager : MonoBehaviour
         damageValue = newDamageValue;
     }
 
+    public float GetDamageValue()
+    {
+        return damageValue;
+    }
+
     public void Damage(Damageable objectToDamage)
     {
         objectToDamage.GetDamaged(damageValue);
