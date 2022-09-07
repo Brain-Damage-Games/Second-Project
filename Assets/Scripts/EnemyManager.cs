@@ -16,8 +16,7 @@ public class EnemyManager : MonoBehaviour
     private float damageValue;
     public SphereCollider collider;
     
-    void Start()
-    {
+    void Start(){
         collider.radius = shootRange;
     }
 
@@ -25,11 +24,10 @@ public class EnemyManager : MonoBehaviour
 
         if(isInArea){
             Debug.Log("Found in Area!");
-            
-
         } 
-        
     }
+
+
     void OnTriggerStay(Collider other){
 
         if(other.CompareTag("Player")){
@@ -37,15 +35,17 @@ public class EnemyManager : MonoBehaviour
             shooting.Shoot(other.transform);
             // pathFinding.following=true;
             // pathFinding.SetTarget(other.transform);
-        }
+        }    
+    }
+
     void OnCollisionEnter(Collision collision){
         if (collision.gameObject.CompareTag("Bullet")){
-            damageable.GetDamaged(damageValue);
+            Debug.Log("bullet found");
             Destroy(collision.gameObject);
         }
     }
-        
-    }
+
+
     void OnTriggerExit(Collider other){
         if(other.CompareTag("Player")){
             isInArea = false;
