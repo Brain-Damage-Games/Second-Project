@@ -15,7 +15,7 @@ public class Shooting : MonoBehaviour
     Transform gun;
 
     [SerializeField]
-    bool shoot;
+    bool shooting;
 
     [SerializeField]
     float coolDown = 1f;
@@ -27,27 +27,23 @@ public class Shooting : MonoBehaviour
 
     private void Update() 
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
+        if(shooting)    Shoot();
     }
 
     public void Shoot()
     {
-        print("inside shoot");
-        while(shoot)
-        {
-            print("inside while");
-            StartCoroutine(Wait());
-            GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
-        }
-    }
+        pasedTime += Time.deltaTime;
 
-    IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(coolDown);
+        if(pasedTime >= coolDown)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+
+            if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
+            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
+                
+            bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
+            pasedTime = 0f;
+        }   
     }
 
     public void SetShootTarget(Transform shootTarget)
@@ -55,9 +51,10 @@ public class Shooting : MonoBehaviour
         this.shootTarget = shootTarget;
     }
 
-    public void SetShoot(bool shoot)
+    public void SetShooting(bool shooting)
     {
-        this.shoot = shoot;
+        this.shooting = shooting;
+        if(!shooting)   pasedTime = 0f;
     }
 
 
