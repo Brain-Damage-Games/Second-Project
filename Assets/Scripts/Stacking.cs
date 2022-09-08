@@ -11,13 +11,16 @@ public class Stacking : MonoBehaviour
     [SerializeField]
     private float prefabScale = 0 ; 
     private int amount =  0 ; 
+    private int itemCount = 0 ; 
     private List <Transform> items = new List<Transform> () ; 
 
-    public void changeStack(int amount) 
+    public void RemoveItem(int amount) 
     {
+        itemCount = items.Count ; 
         for(int i = 0 ; i <= amount; i++)
         {
-            Destroy (items[i].gameObject) ; 
+            Destroy (items[itemCount - i].gameObject) ; 
+            items.Remove (items [itemCount - i]) ; 
         }
     }
     public void AddItem(Transform itemToAdd)
