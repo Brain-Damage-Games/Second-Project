@@ -24,15 +24,16 @@ public class Spawner : MonoBehaviour
 	private float currentTime = 0f;
 
 	private float countSpawn= 0f;
-	
-	public bool spawn = true;
+
+	//to avoid spawn in the begining make it false and comment the CheckCounta() in Awake
+	public bool spawn = false;
 
 	// here i gave this component to the outpost itself so if want to use it elseway you should make spawnPoint a SERIALIZEDFIELD
-	//to avoid spawn in the begining remove the awake method 
+	
     private void Awake()
     {
 		spawnPoint = transform;
-		CheckCount();
+		//CheckCount();
     }
 
     private void FixedUpdate()
@@ -111,6 +112,10 @@ public class Spawner : MonoBehaviour
 	public int GetMaxSpawn()
     {
 		return maxSpawn;
+    }
+	public bool GetSpawnStatus()
+    {
+		return spawn;
     }
 
 }
