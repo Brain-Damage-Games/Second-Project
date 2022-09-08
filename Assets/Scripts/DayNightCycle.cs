@@ -87,7 +87,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void DayCycle()
     {
-        print(daysPassed);
+        
         if (Application.isPlaying)
         {
             if (currentTime >= dayStart && currentTime <= nightStart)
@@ -121,7 +121,9 @@ public class DayNightCycle : MonoBehaviour
         {
             ChangeLight(currentTime / 24f);
         }
-        SaveDayTime();
+
+        //SaveDayTime();
+        //here i called it just to check it works
     }
     private void ChangeLight(float timePercent)
     {
@@ -162,6 +164,8 @@ public class DayNightCycle : MonoBehaviour
             spawnRate = maxSpawnRate - (((spawnTimeCount-(nightTime - deltaTime)) / deltaTime) * maxSpawnRate);
         }
     }
+
+    // call it where ever you want to save time and the days passed
     public void SaveDayTime()
     {
         PlayerPrefs.SetFloat("currentTime", currentTime);
