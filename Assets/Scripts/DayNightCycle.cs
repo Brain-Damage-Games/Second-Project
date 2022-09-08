@@ -5,22 +5,25 @@ using UnityEngine;
 [ExecuteAlways]
 public class DayNightCycle : MonoBehaviour
 {
-    
-    
+
+    [Header("Light Info")]
     [SerializeField] 
     private Light worldLight;
-
-    [SerializeField] 
-    private Spawner[] outposts;
 
     [SerializeField]
     private LightingPreset preset;
 
+
+
+    [Header("Spawn Info")]
     [SerializeField]
     private float defualtMaxSpawnRate = 1;
 
     [SerializeField]
     private float fixedSpawnRatePercent = 50;
+
+    [SerializeField]
+    private Spawner[] outposts;
 
     [Header("Day Info")]
 
@@ -34,11 +37,12 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField, Range(0, 24)]
     private float currentTime;
 
-    [SerializeField]
+    
+
+
+
+
     private bool night;
-
-
-
 
     private int daysPassed;
     private float dayStart = 6f;
@@ -51,20 +55,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void Awake()
     {
-        spawnRate = 0;
-        daysPassed = -1;
-        currentTime = dayStart;
-        maxSpawnRate = defualtMaxSpawnRate;
-
-        nightTime = dayLength * (nightPercent / 100) * 60;
-        dayTime = dayLength * (1 - nightPercent / 100) *60;
-
-        if (nightPercent == 0)
-            nightTime = 0.1f;
-        else if (nightPercent == 100)
-            dayTime = 0.1f;
-
-        night = false;
+        FirstInfo();
     }
 
     private void FixedUpdate()
@@ -72,8 +63,31 @@ public class DayNightCycle : MonoBehaviour
         DayCycle();
     }
 
+    private void FirstInfo()
+    {
+
+        spawnRate = 0;
+        daysPassed = 0;
+        currentTime = dayStart;
+        maxSpawnRate = defualtMaxSpawnRate;
+
+        nightTime = dayLength * (nightPercent / 100) * 60;
+        dayTime = dayLength * (1 - nightPercent / 100) * 60;
+
+        if (nightPercent == 0)
+            nightTime = 0.1f;
+        else if (nightPercent == 100)
+            dayTime = 0.1f;
+
+        night = false;
+
+        // comment it if you want the time to start over each time
+        GetSavedData();
+    }
+
     private void DayCycle()
     {
+        print(daysPassed);
         if (Application.isPlaying)
         {
             if (currentTime >= dayStart && currentTime <= nightStart)
@@ -107,6 +121,7 @@ public class DayNightCycle : MonoBehaviour
         {
             ChangeLight(currentTime / 24f);
         }
+        SaveDayTime();
     }
     private void ChangeLight(float timePercent)
     {
@@ -137,16 +152,45 @@ public class DayNightCycle : MonoBehaviour
     {
         float deltaTime = ((1 - (fixedSpawnRatePercent / 100)) / 2) * nightTime;
 
-        print("rate:"+ spawnRate+ "spawnTime:"+ spawnTimeCount+ "deltaTime:"+ deltaTime+"MaxSpawnRate"+maxSpawnRate);
+
         if (spawnTimeCount <= deltaTime )
         { 
             spawnRate = (spawnTimeCount / deltaTime) * maxSpawnRate;
         }
         else if (spawnTimeCount >= nightTime - deltaTime)
         {
-            spawnRate = maxSpawnRate-(((spawnTimeCount-(nightTime - deltaTime)) / deltaTime) * maxSpawnRate);
+            spawnRate = maxSpawnRate - (((spawnTimeCount-(nightTime - deltaTime)) / deltaTime) * maxSpawnRate);
         }
     }
+    public void SaveDayTime()
+    {
+        PlayerPrefs.SetFloat("currentTime", currentTime);
+        PlayerPrefs.SetInt("daysPassed", daysPassed);
+        PlayerPrefs.Save();
+    }
+    public void GetSavedData()
+    {
+        if(PlayerPrefs.HasKey("currentTime") && PlayerPrefs.HasKey("daysPassed"))
+            SetTime(PlayerPrefs.GetFloat("currentTime"), PlayerPrefs.GetInt("daysPassed"));
+    }
+    private void SetTime(float lastTime,int daysPassed)
+    {
+        this.daysPassed = daysPassed;
+        if(lastTime > nightStart)
+        {
+            spawnTimeCount = (lastTime - nightStart) * nightTime / 12;
+            night = true;
+        }
+        else if(lastTime < dayStart)
+        {
+            spawnTimeCount = (lastTime + 24 - nightStart) * nightTime / 12;
+            night = true;
+
+        }
+
+        currentTime = lastTime;
+    }
+    
     private void SetMaxSpawnRate()
     {
         maxSpawnRate = defualtMaxSpawnRate + daysPassed * 2;
@@ -155,13 +199,6 @@ public class DayNightCycle : MonoBehaviour
     {
         return night;
     }
-    /*private void SetNight()
-    {
-        night = true;
-    }
-    private void SetDay()
-    {
-        night = false;
-        daysPassed += 1;
-    }*/
+
+   
 }
