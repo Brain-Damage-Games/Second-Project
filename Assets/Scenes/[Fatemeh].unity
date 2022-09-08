@@ -329,16 +329,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldLight: {fileID: 574948977}
-  outposts:
-  - {fileID: 1434872761}
-  - {fileID: 651679964}
   preset: {fileID: 11400000, guid: 66ed8415d2f94e34d90e6f67227bee04, type: 2}
   defualtMaxSpawnRate: 0.5
   fixedSpawnRatePercent: 50
-  dayLength: 1
-  nightPercent: 90
-  currentTime: 6
-  night: 0
+  outposts:
+  - {fileID: 1434872761}
+  - {fileID: 651679964}
+  dayLength: 0.2
+  nightPercent: 30
+  currentTime: 22.933521
 --- !u!4 &491227894
 Transform:
   m_ObjectHideFlags: 0
