@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Movement : MonoBehaviour
+{
+   [SerializeField]
+   private float moveSpeed ; 
+   [SerializeField]
+   private Joystick joystick ; 
+   private Rigidbody rb ; 
+   public void MoveSpeed (float newMoveSpeed)
+   {
+    moveSpeed = newMoveSpeed; 
+   }
+   private void Move ()
+   {
+      rb = GetComponent<Rigidbody>() ; 
+      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed) ; 
+   }
+   private void FixedUpdate()
+   {
+      Move(); 
+   }
+}
