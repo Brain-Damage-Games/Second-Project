@@ -14,10 +14,50 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     Transform gun;
 
-    public void Shoot(Transform shootTarget)
+    [SerializeField]
+    bool shooting;
+
+    [SerializeField]
+    float coolDown = 1f;
+
+    float pasedTime = 0f;
+
+    [SerializeField]
+    Transform shootTarget;
+
+    private void Update() 
     {
-        GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
+        if(shooting)    Shoot();
     }
+
+    public void Shoot()
+    {
+        pasedTime += Time.deltaTime;
+
+        if(pasedTime >= coolDown)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+
+            if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
+            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
+                
+            bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
+            pasedTime = 0f;
+        }   
+    }
+
+    public void SetShootTarget(Transform shootTarget)
+    {
+        this.shootTarget = shootTarget;
+    }
+
+    public void SetShooting(bool shooting)
+    {
+        this.shooting = shooting;
+        if(!shooting)   pasedTime = 0f;
+    }
+
+
+
 
 }
