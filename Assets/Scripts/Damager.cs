@@ -20,7 +20,7 @@ public class Damager : MonoBehaviour
 
     public void Damage(Damageable objectToDamage)
     {
-        objectToDamage.GetDamaged(damageValue);
+        objectToDamage.GetDamaged(damageValue, transform);
     }
 
 }

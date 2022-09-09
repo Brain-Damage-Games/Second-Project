@@ -13,8 +13,6 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField]
     private LightingPreset preset;
 
-
-
     [Header("Spawn Info")]
     [SerializeField]
     private float defualtMaxSpawnRate = 1;
@@ -36,14 +34,7 @@ public class DayNightCycle : MonoBehaviour
 
     [SerializeField, Range(0, 24)]
     private float currentTime;
-
-    
-
-
-
-
     private bool night;
-
     private int daysPassed;
     private float dayStart = 6f;
     private float nightStart = 18f;
@@ -52,7 +43,6 @@ public class DayNightCycle : MonoBehaviour
     private float maxSpawnRate;
     private float spawnRate;
     private float spawnTimeCount = 0;
-
     private void Awake()
     {
         FirstInfo();
