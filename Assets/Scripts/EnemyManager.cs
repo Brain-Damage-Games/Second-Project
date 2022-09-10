@@ -22,14 +22,17 @@ public class EnemyManager : MonoBehaviour
     void OnTriggerEnter(Collider other){
 
         if(other.CompareTag("Player")){
-            // shooting.shoot = true;
+            
+            shooting.shooting = true;
             pathFinding.SetStop(true);
+            
         }    
     }
 
     void OnTriggerExit(Collider other){
         if(other.CompareTag("Player")){
             pathFinding.SetStop(false);
+            shooting.shooting = false;
         }       
     }
         
