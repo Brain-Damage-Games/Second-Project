@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
 
         if(other.CompareTag("Player")){
             
-            shooting.shooting = true;
+            shooting.SetShooting(true);
             pathFinding.SetStop(true);
             
         }    
@@ -32,7 +32,7 @@ public class EnemyManager : MonoBehaviour
     void OnTriggerExit(Collider other){
         if(other.CompareTag("Player")){
             pathFinding.SetStop(false);
-            shooting.shooting = false;
+            shooting.SetShooting(false);
         }       
     }
         
