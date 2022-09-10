@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
 
-    private EnemyNavMesh pathFinding;
+    private PathFinding pathFinding;
     private Shooting shooting;
     
     [SerializeField]
@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
   
     void Awake(){
         shooting = GetComponent<Shooting>();
-        pathFinding = GetComponent<EnemyNavMesh>();
+        pathFinding = GetComponent<PathFinding>();
     }
     
     void Start(){
