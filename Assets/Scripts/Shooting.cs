@@ -38,7 +38,7 @@ public class Shooting : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
-            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
+            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
                 
             bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
             passedTime = 0f;

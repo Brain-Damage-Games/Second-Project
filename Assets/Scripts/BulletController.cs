@@ -13,8 +13,8 @@ public class BulletController : MonoBehaviour
         if (damageable != null){
             onCollision.Invoke();
             damager.Damage(damageable);
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 
     public Damager GetDamager(){

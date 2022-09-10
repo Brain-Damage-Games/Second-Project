@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
    {
       rb = GetComponent<Rigidbody>() ; 
       rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed);
-      if (joystick.Horizontal > 0 || joystick.Vertical > 0) moving = true;
+      if (joystick.Horizontal != 0 || joystick.Vertical != 0) moving = true;
       else moving = false; 
    }
    private void FixedUpdate()

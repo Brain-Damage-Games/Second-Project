@@ -19,33 +19,33 @@ public class PlayerManager : MonoBehaviour
         damageable = GetComponent<Damageable>();
     }
 
-    private void FindNewTarget(){
-        if (currentTarget != null){
-            targetsInRange.Remove(currentTarget.transform);
-            currentTarget.onDeath -= FindNewTarget;
-        } 
+    private void FindNewTarget(Transform previousTarget){
+        if (previousTarget != null) targetsInRange.Remove(previousTarget);
         currentTarget = null;
         shooting.SetShooting(false);
         if (targetsInRange.Count > 0){
             currentTarget = targetsInRange[Random.Range(0,targetsInRange.Count-1)].GetComponent<Damageable>();
-            currentTarget.onDeath += FindNewTarget;
             shooting.SetShootTarget(currentTarget.transform);
             shooting.SetShooting(true);
         }
     }
 
     private void OnTriggerEnter(Collider col){
+        if (col.isTrigger) return;
         if (col.tag == "Enemy"){ 
             targetsInRange.Add(col.transform);
-            if (currentTarget == null) FindNewTarget();
+            col.GetComponent<Damageable>().onDeath += FindNewTarget;
+            if (currentTarget == null) FindNewTarget(null);
         }
     }
 
     private void OnTriggerExit(Collider col){
+        if (col.isTrigger) return;
         if (col.tag == "Enemy"){
             targetsInRange.Remove(col.transform);
+            col.GetComponent<Damageable>().onDeath -= FindNewTarget;
             if (currentTarget.gameObject == col.gameObject){
-                FindNewTarget();
+                FindNewTarget(null);
             }
         } 
     }

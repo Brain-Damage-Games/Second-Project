@@ -11,7 +11,9 @@ public class Damageable : MonoBehaviour
     float maxHealth = 1f;
     private float health;
     [SerializeField] private UnityEvent onDamage;
-    public event Action onDeath;
+
+    public delegate void onDeathDel(Transform transform);
+    public event onDeathDel onDeath;
     private Transform lastDamager;
     [SerializeField] private bool dead = false;
 
@@ -26,7 +28,7 @@ public class Damageable : MonoBehaviour
         lastDamager = damager;
         onDamage.Invoke();
         if (health <= 0){
-            onDeath.Invoke();
+            onDeath?.Invoke(transform);
             dead = true;
             gameObject.SetActive(false);
         }
