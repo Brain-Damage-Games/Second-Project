@@ -46,6 +46,15 @@ public class Shooting : MonoBehaviour
         }   
     }
 
+    public bool HitPlayer()
+    {
+        RaycastHit hit;
+        Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
+
+        if(hit.transform.gameObject.CompareTag("Player"))       return true;
+        else                                                    return false;
+    }
+
     public void SetShootTarget(Transform shootTarget)
     {
         this.shootTarget = shootTarget;
