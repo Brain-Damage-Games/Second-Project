@@ -11,9 +11,6 @@ public class OutpostUpgrade : MonoBehaviour
     private Spawner spawner;
 
     [SerializeField]
-    private GameObject[] statePrefabs;
-
-    [SerializeField]
     float maxHealthIncrease = 10f;
 
     [SerializeField]
@@ -22,6 +19,10 @@ public class OutpostUpgrade : MonoBehaviour
     [SerializeField]
     float spawnRateIncrease = 10f;
 
+    [SerializeField]
+    private GameObject[] statePrefabs;
+
+
     private GameObject outPost;
 
 
@@ -29,6 +30,7 @@ public class OutpostUpgrade : MonoBehaviour
     {
         level = 1;
         outPost = gameObject;
+        outPost.transform.SetAsFirstSibling();
         damageable = GetComponent<Damageable>();
         spawner = GetComponent<Spawner>();
     }
@@ -59,9 +61,10 @@ public class OutpostUpgrade : MonoBehaviour
         if (level - 2 < statePrefabs.Length)
         {
             Vector3 position = outPost.transform.position;
+            Quaternion q = outPost.transform.rotation;
             GameObject currentState = outPost.transform.GetChild(0).gameObject;
             Destroy(currentState);
-            GameObject newState = Instantiate(statePrefabs[level - 2], position, Quaternion.identity);
+            GameObject newState = Instantiate(statePrefabs[level - 2], position,q);
             newState.transform.SetParent(outPost.transform);
             newState.transform.SetAsFirstSibling();
         }
