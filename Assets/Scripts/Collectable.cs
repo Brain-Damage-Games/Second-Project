@@ -23,7 +23,7 @@ public class Collectable : MonoBehaviour
 
     public void MoveTowardsPlayer()
     {
-        Vector3 goTo = Vector3.Slerp(transform.position, player.position, (distance + 1) / baseSpeed);
+        Vector3 goTo = Vector3.Slerp(transform.position, player.position, (distance + baseSpeed) / baseSpeed);
         transform.position = goTo;
     }
 }
