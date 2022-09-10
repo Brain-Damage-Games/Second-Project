@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,9 +11,9 @@ public class Damageable : MonoBehaviour
     float maxHealth = 1f;
     private float health;
     [SerializeField] private UnityEvent onDamage;
-    [SerializeField] private UnityEvent onDeath;
+    public event Action onDeath;
     private Transform lastDamager;
-    private bool dead = false;
+    [SerializeField] private bool dead = false;
 
     private void Awake() 
     {
@@ -25,6 +28,7 @@ public class Damageable : MonoBehaviour
         if (health <= 0){
             onDeath.Invoke();
             dead = true;
+            gameObject.SetActive(false);
         }
     }
 

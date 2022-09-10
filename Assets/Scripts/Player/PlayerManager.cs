@@ -8,26 +8,45 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float shootRange = 4f;
     private Shooting shooting;
     private SphereCollider rangeCollider;
-    public List<GameObject> enemiesInRange;
+    [SerializeField] private List<Transform> targetsInRange = new List<Transform>();
+    [SerializeField] private Damageable currentTarget;
     private Damageable damageable;
 
     void Awake(){
         shooting = GetComponent<Shooting>();
         rangeCollider = GetComponent<SphereCollider>();
         rangeCollider.radius = shootRange;
-        enemiesInRange = new List<GameObject>();
         damageable = GetComponent<Damageable>();
     }
 
-    private void Shoot(){
-
+    private void FindNewTarget(){
+        if (currentTarget != null){
+            targetsInRange.Remove(currentTarget.transform);
+            currentTarget.onDeath -= FindNewTarget;
+        } 
+        currentTarget = null;
+        shooting.SetShooting(false);
+        if (targetsInRange.Count > 0){
+            currentTarget = targetsInRange[Random.Range(0,targetsInRange.Count-1)].GetComponent<Damageable>();
+            currentTarget.onDeath += FindNewTarget;
+            shooting.SetShootTarget(currentTarget.transform);
+            shooting.SetShooting(true);
+        }
     }
 
     private void OnTriggerEnter(Collider col){
-        if (col.tag == "Enemy") enemiesInRange.Add(col.gameObject);
+        if (col.tag == "Enemy"){ 
+            targetsInRange.Add(col.transform);
+            if (currentTarget == null) FindNewTarget();
+        }
     }
 
     private void OnTriggerExit(Collider col){
-        if (col.tag == "Enemy") enemiesInRange.Remove(col.gameObject);
+        if (col.tag == "Enemy"){
+            targetsInRange.Remove(col.transform);
+            if (currentTarget.gameObject == col.gameObject){
+                FindNewTarget();
+            }
+        } 
     }
 }

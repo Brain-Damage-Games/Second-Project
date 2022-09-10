@@ -8,7 +8,8 @@ public class Movement : MonoBehaviour
    private float moveSpeed ; 
    [SerializeField]
    private Joystick joystick ; 
-   private Rigidbody rb ; 
+   private Rigidbody rb;
+   [SerializeField] private bool moving = false; 
    public void MoveSpeed (float newMoveSpeed)
    {
     moveSpeed = newMoveSpeed; 
@@ -16,10 +17,16 @@ public class Movement : MonoBehaviour
    private void Move ()
    {
       rb = GetComponent<Rigidbody>() ; 
-      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed) ; 
+      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed);
+      if (joystick.Horizontal > 0 || joystick.Vertical > 0) moving = true;
+      else moving = false; 
    }
    private void FixedUpdate()
    {
       Move(); 
+   }
+
+   public bool IsMoving(){
+      return moving;
    }
 }
