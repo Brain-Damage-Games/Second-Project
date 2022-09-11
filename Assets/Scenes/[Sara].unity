@@ -286,6 +286,7 @@ MonoBehaviour:
   shooting: 0
   coolDown: 1
   shootTarget: {fileID: 2147267582}
+  shootParticlePrefab: {fileID: 7572591312335661994, guid: 1b3ac15616d027e4f8c9ae9012b4cdc8, type: 3}
 --- !u!65 &1608393163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -441,14 +442,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764413058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 25.2, z: -94.3}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 4.2, y: 14.34, z: 19.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &2147267578
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,9 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     Transform shootTarget;
 
+    [SerializeField]
+    private GameObject shootParticlePrefab;
+
     private void Update() 
     {
         if(shooting)    Shoot();
@@ -37,6 +40,9 @@ public class Shooting : MonoBehaviour
         if(pasedTime >= coolDown)
         {
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+
+            GameObject bulletParticle =  Instantiate(shootParticlePrefab, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+            Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
