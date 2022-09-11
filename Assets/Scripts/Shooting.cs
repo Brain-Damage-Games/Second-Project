@@ -52,13 +52,15 @@ public class Shooting : MonoBehaviour
         }   
     }
 
-    public bool HitPlayer()
+    public string CanHitTarget()
     {
         RaycastHit hit;
         Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
 
-        if(hit.transform.gameObject.CompareTag("Player"))       return true;
-        else                                                    return false;
+        if(hit.transform.gameObject.CompareTag("Player"))               return "Player";
+        else if(hit.transform.gameObject.CompareTag("Enemy"))           return "Enemy";
+        else if(hit.transform.gameObject.CompareTag("PlayerPatrol"))    return "PlayerPatrol";
+        else                                                            return "nothing";
     }
 
     public void SetShootTarget(Transform shootTarget)
