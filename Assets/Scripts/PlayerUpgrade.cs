@@ -32,6 +32,7 @@ public class PlayerUpgrade : MonoBehaviour
     {
         level = 1;
         castle = gameObject;
+        upgradableObjects = GameObject.FindGameObjectsWithTag("Upgradable");
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
     }
@@ -60,13 +61,13 @@ public class PlayerUpgrade : MonoBehaviour
     }
     public void CastleUpgrade()
     {
-        if (level - 2 < statePrefabs.Length)
+        if (level - 1 < statePrefabs.Length)
         {
             Vector3 position = castle.transform.position;
             Quaternion q = castle.transform.rotation;
             GameObject currentState = castle.transform.GetChild(0).gameObject;
             Destroy(currentState);
-            GameObject newState = Instantiate(statePrefabs[level - 2], position, q);
+            GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
             newState.transform.SetParent(castle.transform);
             newState.transform.SetAsFirstSibling();
         }
@@ -78,7 +79,6 @@ public class PlayerUpgrade : MonoBehaviour
     public static void CheckForUpgrade()
     {
         bool doAct = true;
-        upgradableObjects = GameObject.FindGameObjectsWithTag("Upgradable");
         foreach(GameObject up in upgradableObjects)
         {
             if(up.GetComponent<Upgradable>().GetLevel() <= level)
@@ -88,6 +88,27 @@ public class PlayerUpgrade : MonoBehaviour
             }
         }
         doAction = doAct;
+
+    }
+    public static bool CheckIndividualUpgrade(int theLevel)
+    {
+        bool doActUp = false;
+        bool doActEq = true;
+        foreach (GameObject up in upgradableObjects)
+        {
+            int l = up.GetComponent<Upgradable>().GetLevel();
+            if (l > theLevel || theLevel < level)
+            {
+                doActUp = true;
+                doActEq = false;
+                break;
+            }
+            else if (l < theLevel)
+            {
+                doActEq = false;
+            }
+        }
+        return (doActUp || doActEq) ;
 
     }
     public int GetLevel()

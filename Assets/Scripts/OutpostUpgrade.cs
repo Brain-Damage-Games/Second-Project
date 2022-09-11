@@ -58,13 +58,13 @@ public class OutpostUpgrade : MonoBehaviour
         spawner.SetSpawnRate(currentSpawnRate + spawnRateIncrease);
         damageable.SetMaxHealth(currentMaxHealth + maxHealthIncrease);
 
-        if (level - 2 < statePrefabs.Length)
+        if (level - 1 < statePrefabs.Length)
         {
             Vector3 position = outPost.transform.position;
             Quaternion q = outPost.transform.rotation;
             GameObject currentState = outPost.transform.GetChild(0).gameObject;
             Destroy(currentState);
-            GameObject newState = Instantiate(statePrefabs[level - 2], position,q);
+            GameObject newState = Instantiate(statePrefabs[level - 1], position,q);
             newState.transform.SetParent(outPost.transform);
             newState.transform.SetAsFirstSibling();
         }
