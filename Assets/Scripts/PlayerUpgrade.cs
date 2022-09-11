@@ -5,7 +5,7 @@ using System;
 public class PlayerUpgrade : MonoBehaviour
 {
     [SerializeField]
-    private static int level;
+    private int level;
 
 
     [SerializeField]
@@ -14,9 +14,10 @@ public class PlayerUpgrade : MonoBehaviour
 
     [SerializeField]
     float damageValueIncrease = 10f;
+   
 
     [SerializeField]
-    private GameObject[] statePrefabs;
+    private GameObject[] upgradableObjects;
 
     private static bool doAction = false;
 
@@ -24,15 +25,12 @@ public class PlayerUpgrade : MonoBehaviour
 
     private Damager damager;
 
-    private GameObject castle;
 
-    private static GameObject[]  upgradableObjects;
+    
 
     private void Awake()
     {
         level = 1;
-        castle = gameObject;
-        upgradableObjects = GameObject.FindGameObjectsWithTag("Upgradable");
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
     }
@@ -57,26 +55,10 @@ public class PlayerUpgrade : MonoBehaviour
 
         damageable.SetMaxHealth(currentMaxHealth + maxHealthIncrease);
         damager.SetDamageValue(currentDamageValue + damageValueIncrease);
-        CastleUpgrade();
+        gameObject.GetComponent<Upgradable>().Upgrade();
+       
     }
-    public void CastleUpgrade()
-    {
-        if (level - 1 < statePrefabs.Length)
-        {
-            Vector3 position = castle.transform.position;
-            Quaternion q = castle.transform.rotation;
-            GameObject currentState = castle.transform.GetChild(0).gameObject;
-            Destroy(currentState);
-            GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
-            newState.transform.SetParent(castle.transform);
-            newState.transform.SetAsFirstSibling();
-        }
-        else
-        {
-            print("PlayerUpgrade: no more statePrefabs for castle");
-        }
-    }
-    public static void CheckForUpgrade()
+    public void CheckForUpgrade()
     {
         bool doAct = true;
         foreach(GameObject up in upgradableObjects)
@@ -90,7 +72,7 @@ public class PlayerUpgrade : MonoBehaviour
         doAction = doAct;
 
     }
-    public static bool CheckIndividualUpgrade(int theLevel)
+    public bool CheckIndividualUpgrade(int theLevel)
     {
         bool doActUp = false;
         bool doActEq = true;

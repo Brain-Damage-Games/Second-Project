@@ -11,6 +11,8 @@ public class Upgradable : MonoBehaviour
     [SerializeField]
     private GameObject[] statePrefabs;
 
+    [SerializeField]
+    private PlayerUpgrade PU;
     private GameObject parent;
 
     private void Awake()
@@ -19,8 +21,8 @@ public class Upgradable : MonoBehaviour
         parent = gameObject;
     }
     //remove comment form codes below to test this class
-    /*
-    public bool update = false;
+    
+    /*public bool update = false;
     public bool downdate = false;
     private void Update()
     {
@@ -37,7 +39,7 @@ public class Upgradable : MonoBehaviour
     }*/
     public void Upgrade()
     {
-        if (PlayerUpgrade.CheckIndividualUpgrade(level))
+        if (PU.CheckIndividualUpgrade(level))
         {
             level++;
             if (level - 1 < statePrefabs.Length)
@@ -49,7 +51,7 @@ public class Upgradable : MonoBehaviour
                 GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
                 newState.transform.SetParent(parent.transform);
                 newState.transform.SetAsFirstSibling();
-                PlayerUpgrade.CheckForUpgrade();
+                PU.CheckForUpgrade();
             }
             else
             {
@@ -57,7 +59,7 @@ public class Upgradable : MonoBehaviour
             }
         }
         else
-            print("all upfradable objects should reach the same level to make upgrade possible for others ");
+            print("all upgradable objects should reach the same level to make upgrade possible for others ");
     }
     public void Downgrade()
     {
