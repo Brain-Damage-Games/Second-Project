@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Damageable : MonoBehaviour
 {
-    
     [SerializeField] float maxHealth = 1f;
     [SerializeField] private float health;
     [SerializeField] private UnityEvent onDamage;
@@ -18,9 +14,7 @@ public class Damageable : MonoBehaviour
     private Transform lastDamager;
     private bool dead = false;
     private float timeBetweenHealthBarChange = 0f;
-    private float currentHealthValue;      //***** this will change slowly
-    private Transform lastDamager;
-    private bool dead = false;
+    private float currentHealthValue;
 
     private void Awake() 
     {
@@ -30,8 +24,6 @@ public class Damageable : MonoBehaviour
 
     private void Update() 
     {
-        // if(Input.GetMouseButtonDown(0))     DamageTest();
-
         if(currentHealthValue != health)
         {
             currentHealthValue = Mathf.Lerp(currentHealthValue, health, timeBetweenHealthBarChange);
@@ -83,5 +75,4 @@ public class Damageable : MonoBehaviour
     {
         return health / maxHealth;
     }
-
 }

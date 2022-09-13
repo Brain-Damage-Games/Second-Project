@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-
     [SerializeField]
     private float shootingSpeed = 1f;
     [SerializeField]
@@ -32,7 +29,7 @@ public class Shooting : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
             bullet.transform.SetParent(gameObject.transform);
 
-            GameObject bulletParticle =  Instantiate(shootParticlePrefab, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+            GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
             Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
@@ -48,7 +45,7 @@ public class Shooting : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
 
-        if(gameObject.CompareTag("player") || gameObject.CompareTag("PlayerPatrol"))
+        if(gameObject.CompareTag("Player") || gameObject.CompareTag("PlayerPatrol"))
             if(hit.transform.gameObject.CompareTag("Enemy"))        return true;
             else                                                    return false;
 
@@ -73,5 +70,4 @@ public class Shooting : MonoBehaviour
             shootTarget = null;
         }   
     }
-
 }
