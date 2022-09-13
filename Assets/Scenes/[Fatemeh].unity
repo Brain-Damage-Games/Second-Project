@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 23774801}
   - component: {fileID: 23774805}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,6 @@ MonoBehaviour:
   - {fileID: 1865429723}
   - {fileID: 902391031}
   - {fileID: 277424477}
-  level: 0
   progress: 0
 --- !u!114 &23774802
 MonoBehaviour:
@@ -228,15 +227,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 8037216766300634235, guid: d3ba90d2c593003488b76769f02cb68e, type: 3}
   - {fileID: 746069552309407936, guid: b32a0f27ea5b1c546b5d40ca0f6f9d6c, type: 3}
   - {fileID: 4426201891005447843, guid: fb37a0a356239594ca02b5dda23f341d, type: 3}
   - {fileID: 4426201891005447843, guid: 841d54f601311cf43b3b28d8150606d8, type: 3}
-  level: 0
-  update: 0
-  downdate: 0
+  BU: {fileID: 23774801}
 --- !u!1 &52317749
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,16 +494,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  level: 0
-  update: 0
-  downdate: 0
+  BU: {fileID: 23774801}
 --- !u!114 &277424480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1303,16 +1296,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  level: 0
-  update: 0
-  downdate: 0
+  BU: {fileID: 23774801}
 --- !u!114 &902391034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1460,7 +1450,7 @@ GameObject:
   - component: {fileID: 1123416790}
   - component: {fileID: 1123416789}
   m_Layer: 0
-  m_Name: Player
+  m_Name: base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1574,7 +1564,31 @@ MonoBehaviour:
   tankShooterShakePower: 0.6
   tankShakePower: 0.05
   shakePauseTime: 0.35
-  limitedDistanceToShoot: 1
+  limitedAngleToShoot: 0.4
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1168123707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9211777065164396928, guid: 5a6c1f1740de5124fa11a6ba545d231a, type: 3}
@@ -2504,16 +2518,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  level: 0
-  update: 0
-  downdate: 0
+  BU: {fileID: 23774801}
 --- !u!114 &1865429726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2909,16 +2920,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  level: 0
-  update: 0
-  downdate: 0
+  BU: {fileID: 23774801}
 --- !u!114 &2131313498
 MonoBehaviour:
   m_ObjectHideFlags: 0

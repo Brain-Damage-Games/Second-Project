@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Upgradable : MonoBehaviour
 {
-    public delegate bool baseUpgrade(int level);
-    public static event baseUpgrade BaseUpgradeEvent;
-
-    public delegate void downgrade(int level);
-    public static event downgrade DownGrade;
-
-
     [SerializeField]
     float maxHealthIncrease = 10f;
     [SerializeField]
@@ -18,10 +11,11 @@ public class Upgradable : MonoBehaviour
 
     [SerializeField]
     private GameObject[] statePrefabs;
-  
+    [SerializeField]
+    BaseUpgrade BU;
 
     // comment the following SeralizedField after testing the class
-    [SerializeField]
+    //[SerializeField]
     int level;
 
     private GameObject parent;
@@ -39,7 +33,7 @@ public class Upgradable : MonoBehaviour
     }
     //remove comment form codes below to test this class
     
-    public bool update = false;
+    /*public bool update = false;
     public bool downdate = false;
     private void Update()
     {
@@ -53,11 +47,11 @@ public class Upgradable : MonoBehaviour
             Downgrade();
             downdate = false;
         }
-    }
+    }*/
     public void Upgrade()
     {
 
-        if (BaseUpgradeEvent(level))
+        if (BU.CheckIndividualUpgrade(level))
         {
             level++;
             damageable.SetMaxHealth(damageable.GetMaxHealth() + maxHealthIncrease);
@@ -89,7 +83,7 @@ public class Upgradable : MonoBehaviour
 
             if (level - 1 >= 0)
             {
-                DownGrade(-level);
+                BU.ChangeProgress(-level);
                 ChangeFace();
             }
             else

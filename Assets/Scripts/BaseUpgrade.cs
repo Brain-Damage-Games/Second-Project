@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class PlayerUpgrade : MonoBehaviour
+public class BaseUpgrade : MonoBehaviour
 {
 
     [SerializeField]
@@ -12,7 +12,7 @@ public class PlayerUpgrade : MonoBehaviour
 
 
     // comment the following SeralizedField after testing the class
-    [SerializeField]
+    //[SerializeField]
     private int level;
     public int progress;
     private int maxProgress;
@@ -24,8 +24,6 @@ public class PlayerUpgrade : MonoBehaviour
         progress = 0;
         maxProgress = 4;
         lastMaxProgress = 0;
-        Upgradable.BaseUpgradeEvent += CheckIndividualUpgrade;
-        Upgradable.DownGrade += ChangeProgress;
     }
 
 
@@ -45,7 +43,7 @@ public class PlayerUpgrade : MonoBehaviour
         CalculateMaxProgress();
         progress = lastMaxProgress;
     }
-    public void CheckForUpgrade()
+    private void CheckForUpgrade()
     {
         if(progress == maxProgress)
         {
@@ -65,7 +63,7 @@ public class PlayerUpgrade : MonoBehaviour
 
         return doAct;
     }
-    private void ChangeProgress(int level) 
+    public void ChangeProgress(int level) 
     {
         progress += level;
     }
