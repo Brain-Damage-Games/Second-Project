@@ -37,7 +37,7 @@ public class PathFinding : MonoBehaviour
             timer += Time.deltaTime;
         }
     }
-    public void SetTarget(Transfrom newTarget)
+    public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }

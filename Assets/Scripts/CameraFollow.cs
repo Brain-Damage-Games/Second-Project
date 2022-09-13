@@ -15,21 +15,33 @@ public class CameraFollow : MonoBehaviour
     private Vector3 offset;
 
     [SerializeField]
-    public float zoomMultiplier = 2;
-    public float defaultFov = 60;
-    public float zoomDuration = 2;
+    private float maxSize =10.0f;
+
     [SerializeField]
-    public float zoomSpeed = 2;
-    public Camera cam;
+
+    private float minSize=5.0f;
+  
+    [SerializeField]
+    private float zoomSpeed = 2.0f;
+
+    [SerializeField]
+    private float zoomSmoothness = 2;
+    private Camera cam;
+
+     public void Awake()
+     {
+         cam = this.GetComponent<Camera>();
+     }
 
     void Update(){
         if (Input.GetMouseButton(1))
         {
-            SetZoom(zoomSpeed,defaultFov / zoomMultiplier);
+            
+            StartCoroutine(SetZoom(cam.orthographicSize,minSize,zoomSpeed*zoomSmoothness));
         }
-        else if (cam.fieldOfView != defaultFov)
+        else if (cam.orthographicSize != maxSize)
         {
-            SetZoom(zoomSpeed,defaultFov);
+            cam.orthographicSize=maxSize;
         }
     }
 
@@ -39,12 +51,18 @@ public class CameraFollow : MonoBehaviour
     }
 
     
-    public void SetZoom(float zoomSpeed, float targetZoom){
-        float angle = Mathf.Abs((defaultFov / zoomMultiplier) - defaultFov);
-        cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, targetZoom, angle / zoomDuration * zoomSpeed);
-        
-        
-    }
+   IEnumerator SetZoom( float v_start, float v_end, float duration )
+   {
+    float elapsed = 0.0f;
+    while (elapsed < duration )
+    {
+        cam.orthographicSize = Mathf.Lerp( v_start, v_end, elapsed / duration );
+        elapsed += Time.deltaTime;
+        yield return null;
+     }
+     cam.orthographicSize = v_end;
+    
+   }
         
 
 }
