@@ -6,38 +6,28 @@ public class Shooting : MonoBehaviour
 {
 
     [SerializeField]
-    float shootingSpeed = 1f;
-
+    private float shootingSpeed = 1f;
     [SerializeField]
-    GameObject bulletPrefab;
-
+    private GameObject bulletPrefab;
     [SerializeField]
-    Transform gun;
-
+    private Transform gun;
     [SerializeField]
-    bool shooting;
-
-    [SerializeField]
-    float coolDown = 1f;
-
-    float pasedTime = 0f;
-
-    [SerializeField]
-    Transform shootTarget;
-
-    [SerializeField]
-    private GameObject shootParticlePrefab;
-
+    private float coolDown = 1f;
+    private float passedTime = 0f;
+    private Transform shootTarget;
+    private bool shooting;
+    private GameObject shootParticle;
+    
     private void Update() 
     {
         if(shooting)    Shoot();
     }
 
-    public void Shoot()
+    private void Shoot()
     {
-        pasedTime += Time.deltaTime;
+        passedTime += Time.deltaTime;
 
-        if(pasedTime >= coolDown)
+        if(passedTime >= coolDown)
         {
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
             bullet.transform.SetParent(gameObject.transform);
@@ -46,10 +36,10 @@ public class Shooting : MonoBehaviour
             Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
-            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
+            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
                 
             bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
-            pasedTime = 0f;
+            passedTime = 0f;
         }   
     }
 
@@ -78,10 +68,10 @@ public class Shooting : MonoBehaviour
     public void SetShooting(bool shooting)
     {
         this.shooting = shooting;
-        if(!shooting)   pasedTime = 0f;
+        if(!shooting){
+            passedTime = 0f;
+            shootTarget = null;
+        }   
     }
-
-
-
 
 }

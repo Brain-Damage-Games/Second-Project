@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,13 +11,16 @@ public class Damageable : MonoBehaviour
     [SerializeField] float maxHealth = 1f;
     [SerializeField] private float health;
     [SerializeField] private UnityEvent onDamage;
-    [SerializeField] private UnityEvent onDeath;
+    public delegate void onDeathDel(Transform transform);
+    public event onDeathDel onDeath;
     [SerializeField] private Image healthBar;
     [SerializeField] private float acceleration = 1f;
     private Transform lastDamager;
     private bool dead = false;
     private float timeBetweenHealthBarChange = 0f;
     private float currentHealthValue;      //***** this will change slowly
+    private Transform lastDamager;
+    private bool dead = false;
 
     private void Awake() 
     {
@@ -40,10 +46,10 @@ public class Damageable : MonoBehaviour
         health -= damageValue;
         lastDamager = damager;
         onDamage.Invoke();
-        if (health <= 0)
-        {
-            onDeath.Invoke();
+        if (health <= 0){
+            onDeath?.Invoke(transform);
             dead = true;
+            gameObject.SetActive(false);
         }
         timeBetweenHealthBarChange = 0f;
     }
