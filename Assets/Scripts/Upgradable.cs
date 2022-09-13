@@ -4,25 +4,42 @@ using UnityEngine;
 
 public class Upgradable : MonoBehaviour
 {
+    public delegate bool baseUpgrade(int level);
+    public static event baseUpgrade BaseUpgradeEvent;
+
+    public delegate void downgrade(int level);
+    public static event downgrade DownGrade;
+
 
     [SerializeField]
-    private int level;
+    float maxHealthIncrease = 10f;
+    [SerializeField]
+    float damageValueIncrease = 10f;
 
     [SerializeField]
     private GameObject[] statePrefabs;
+  
 
+    // comment the following SeralizedField after testing the class
     [SerializeField]
-    private PlayerUpgrade PU;
+    int level;
+
     private GameObject parent;
+    private Damageable damageable;
+    private Damager damager;
+    
+
 
     private void Awake()
     {
         level = 1;
         parent = gameObject;
+        damageable = GetComponent<Damageable>();
+        damager = GetComponent<Damager>();
     }
     //remove comment form codes below to test this class
     
-    /*public bool update = false;
+    public bool update = false;
     public bool downdate = false;
     private void Update()
     {
@@ -36,22 +53,19 @@ public class Upgradable : MonoBehaviour
             Downgrade();
             downdate = false;
         }
-    }*/
+    }
     public void Upgrade()
     {
-        if (PU.CheckIndividualUpgrade(level))
+
+        if (BaseUpgradeEvent(level))
         {
             level++;
+            damageable.SetMaxHealth(damageable.GetMaxHealth() + maxHealthIncrease);
+            damager.SetDamageValue(damager.GetDamageValue() + damageValueIncrease);
+            
             if (level - 1 < statePrefabs.Length)
             {
-                Vector3 position = parent.transform.position;
-                Quaternion q = parent.transform.rotation;
-                GameObject currentState = parent.transform.GetChild(0).gameObject;
-                Destroy(currentState);
-                GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
-                newState.transform.SetParent(parent.transform);
-                newState.transform.SetAsFirstSibling();
-                PU.CheckForUpgrade();
+                ChangeFace();
             }
             else
             {
@@ -70,21 +84,29 @@ public class Upgradable : MonoBehaviour
         else
         {
             level--;
+            damageable.SetMaxHealth(damageable.GetMaxHealth() - maxHealthIncrease);
+            damager.SetDamageValue(damager.GetDamageValue() - damageValueIncrease);
+
             if (level - 1 >= 0)
             {
-                Vector3 position = parent.transform.position;
-                Quaternion q = parent.transform.rotation;
-                GameObject currentState = parent.transform.GetChild(0).gameObject;
-                Destroy(currentState);
-                GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
-                newState.transform.SetParent(parent.transform);
-                newState.transform.SetAsFirstSibling();
+                DownGrade(-level);
+                ChangeFace();
             }
             else
             {
                 print("Upgradable: no more option Downgrade for this upgradableObject");
             }
         }
+    }
+    private void ChangeFace()
+    {
+        Vector3 position = parent.transform.position;
+        Quaternion q = parent.transform.rotation;
+        GameObject currentState = parent.transform.GetChild(0).gameObject;
+        Destroy(currentState);
+        GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
+        newState.transform.SetParent(parent.transform);
+        newState.transform.SetAsFirstSibling();
     }
     public int GetLevel()
     {

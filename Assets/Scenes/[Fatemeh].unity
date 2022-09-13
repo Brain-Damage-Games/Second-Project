@@ -155,14 +155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f10ac72f5f2c004bb15dbc546d1cccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
-  maxHealthIncrease: 10
-  damageValueIncrease: 10
   upgradableObjects:
   - {fileID: 2131313495}
   - {fileID: 1865429723}
   - {fileID: 902391031}
   - {fileID: 277424477}
+  level: 0
+  progress: 0
 --- !u!114 &23774802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,13 +226,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 8037216766300634235, guid: d3ba90d2c593003488b76769f02cb68e, type: 3}
   - {fileID: 746069552309407936, guid: b32a0f27ea5b1c546b5d40ca0f6f9d6c, type: 3}
   - {fileID: 4426201891005447843, guid: fb37a0a356239594ca02b5dda23f341d, type: 3}
   - {fileID: 4426201891005447843, guid: 841d54f601311cf43b3b28d8150606d8, type: 3}
-  PU: {fileID: 23774801}
+  level: 0
+  update: 0
+  downdate: 0
 --- !u!1 &52317749
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,6 +459,8 @@ GameObject:
   m_Component:
   - component: {fileID: 277424478}
   - component: {fileID: 277424479}
+  - component: {fileID: 277424481}
+  - component: {fileID: 277424480}
   m_Layer: 0
   m_Name: w4
   m_TagString: Untagged
@@ -491,14 +496,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  PU: {fileID: 23774801}
+  level: 0
+  update: 0
+  downdate: 0
+--- !u!114 &277424480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277424477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
+--- !u!114 &277424481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277424477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &320146274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,6 +1264,8 @@ GameObject:
   m_Component:
   - component: {fileID: 902391032}
   - component: {fileID: 902391033}
+  - component: {fileID: 902391035}
+  - component: {fileID: 902391034}
   m_Layer: 0
   m_Name: w3
   m_TagString: Untagged
@@ -1258,14 +1301,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  PU: {fileID: 23774801}
+  level: 0
+  update: 0
+  downdate: 0
+--- !u!114 &902391034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902391031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
+--- !u!114 &902391035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902391031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &946582542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,9 +1571,9 @@ MonoBehaviour:
   patrolDegree: 80
   coolDown: 3
   shootPower: 100
-  tankShooterShakePower: 0.1
+  tankShooterShakePower: 0.6
   tankShakePower: 0.05
-  shakePauseTime: 0.2
+  shakePauseTime: 0.35
   limitedDistanceToShoot: 1
 --- !u!4 &1168123707 stripped
 Transform:
@@ -2201,7 +2280,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738376508}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.49, y: 13.94, z: -1.11}
+  m_LocalPosition: {x: 4.79, y: 9.83, z: -1.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2386,6 +2465,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1865429724}
   - component: {fileID: 1865429725}
+  - component: {fileID: 1865429727}
+  - component: {fileID: 1865429726}
   m_Layer: 0
   m_Name: w2
   m_TagString: Untagged
@@ -2421,14 +2502,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  PU: {fileID: 23774801}
+  level: 0
+  update: 0
+  downdate: 0
+--- !u!114 &1865429726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865429723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
+--- !u!114 &1865429727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865429723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1914559598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,6 +2870,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2131313496}
   - component: {fileID: 2131313497}
+  - component: {fileID: 2131313499}
+  - component: {fileID: 2131313498}
   m_Layer: 0
   m_Name: w1
   m_TagString: Untagged
@@ -2788,14 +2907,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  PU: {fileID: 23774801}
   statePrefabs:
   - {fileID: 5231793928794756329, guid: a7be61a85a6521b4e83e876c28e0bbba, type: 3}
   - {fileID: 5231793928794756329, guid: 8dcb3776adc069f45aefe588f1e882e3, type: 3}
   - {fileID: 4751229716828193305, guid: 0c19132e746d90e47ba1f39080f3c873, type: 3}
   - {fileID: 4751229716828193305, guid: 3cc4deb527d13074cb3c9d756ad866f2, type: 3}
   - {fileID: 4751229716828193305, guid: 12033a51e42f8114b8eef2d9a63453c1, type: 3}
-  PU: {fileID: 23774801}
+  level: 0
+  update: 0
+  downdate: 0
+--- !u!114 &2131313498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131313495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2131313499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131313495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
 --- !u!1 &654355803365620148
 GameObject:
   m_ObjectHideFlags: 0

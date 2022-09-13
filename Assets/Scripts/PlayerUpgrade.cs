@@ -4,41 +4,33 @@ using System;
 
 public class PlayerUpgrade : MonoBehaviour
 {
-    [SerializeField]
-    private int level;
-
-
-    [SerializeField]
-    float maxHealthIncrease = 10f;
-
-
-    [SerializeField]
-    float damageValueIncrease = 10f;
-   
 
     [SerializeField]
     private GameObject[] upgradableObjects;
 
-    private static bool doAction = false;
-
-    private Damageable damageable;
-
-    private Damager damager;
+    private bool doAction = false;
 
 
+    // comment the following SeralizedField after testing the class
+    [SerializeField]
+    private int level;
+    public int progress;
+    private int maxProgress;
+    private int lastMaxProgress;
     
-
     private void Awake()
     {
         level = 1;
-        damageable = GetComponent<Damageable>();
-        damager = GetComponent<Damager>();
+        progress = 0;
+        maxProgress = 4;
+        lastMaxProgress = 0;
+        Upgradable.BaseUpgradeEvent += CheckIndividualUpgrade;
+        Upgradable.DownGrade += ChangeProgress;
     }
 
 
     private void Update()
     {
-
         if (doAction)
         {
             Upgrade();
@@ -49,49 +41,38 @@ public class PlayerUpgrade : MonoBehaviour
     private void Upgrade() 
     {
         level++;
-
-        float currentMaxHealth = damageable.GetMaxHealth();
-        float currentDamageValue = damager.GetDamageValue();
-
-        damageable.SetMaxHealth(currentMaxHealth + maxHealthIncrease);
-        damager.SetDamageValue(currentDamageValue + damageValueIncrease);
         gameObject.GetComponent<Upgradable>().Upgrade();
-       
+        CalculateMaxProgress();
+        progress = lastMaxProgress;
     }
     public void CheckForUpgrade()
     {
-        bool doAct = true;
-        foreach(GameObject up in upgradableObjects)
+        if(progress == maxProgress)
         {
-            if(up.GetComponent<Upgradable>().GetLevel() <= level)
-            {
-                doAct = false;
-                break;
-            }
+            doAction = true;
         }
-        doAction = doAct;
-
     }
-    public bool CheckIndividualUpgrade(int theLevel)
+    public bool CheckIndividualUpgrade(int level)
     {
-        bool doActUp = false;
-        bool doActEq = true;
-        foreach (GameObject up in upgradableObjects)
-        {
-            int l = up.GetComponent<Upgradable>().GetLevel();
-            if (l > theLevel || theLevel < level)
-            {
-                doActUp = true;
-                doActEq = false;
-                break;
-            }
-            else if (l < theLevel)
-            {
-                doActEq = false;
-            }
-        }
-        return (doActUp || doActEq) ;
+        bool doAct = false;
 
+        if ((level < this.level) || (level == this.level && progress >= lastMaxProgress))
+        {
+            doAct = true;
+            ChangeProgress(level);
+            CheckForUpgrade();
+        }    
+
+        return doAct;
+    }
+    private void ChangeProgress(int level) 
+    {
+        progress += level;
+    }
+    private void CalculateMaxProgress()
+    {
+        lastMaxProgress = maxProgress;
+        maxProgress = level * (level + 1) * 2;
     }
     public int GetLevel()
     {
