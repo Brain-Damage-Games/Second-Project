@@ -3,23 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Damageable : MonoBehaviour
 {
     
-    [SerializeField]
-    float maxHealth = 1f;
-    private float health;
+    [SerializeField] float maxHealth = 1f;
+    [SerializeField] private float health;
     [SerializeField] private UnityEvent onDamage;
-
     public delegate void onDeathDel(Transform transform);
     public event onDeathDel onDeath;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private float acceleration = 1f;
     private Transform lastDamager;
-    [SerializeField] private bool dead = false;
+    private bool dead = false;
+    private float timeBetweenHealthBarChange = 0f;
+    private float currentHealthValue;      //***** this will change slowly
+    private Transform lastDamager;
+    private bool dead = false;
 
     private void Awake() 
     {
         health = maxHealth;
+        currentHealthValue = maxHealth;
+    }
+
+    private void Update() 
+    {
+        // if(Input.GetMouseButtonDown(0))     DamageTest();
+
+        if(currentHealthValue != health)
+        {
+            currentHealthValue = Mathf.Lerp(currentHealthValue, health, timeBetweenHealthBarChange);
+            timeBetweenHealthBarChange += acceleration * Time.deltaTime;
+        }
+
+        healthBar.fillAmount = currentHealthValue / maxHealth;
     }
 
     public void GetDamaged(float damageValue, Transform damager)
@@ -32,12 +51,12 @@ public class Damageable : MonoBehaviour
             dead = true;
             gameObject.SetActive(false);
         }
+        timeBetweenHealthBarChange = 0f;
     }
 
     public void Heal(float healValue)
     {
-        if(health <= maxHealth)
-            health += healValue;
+        if(health <= maxHealth)     health += healValue;
     }
 
     public void SetMaxHealth(float maxHealth)
@@ -50,11 +69,19 @@ public class Damageable : MonoBehaviour
         return maxHealth;
     }
 
-    public Transform GetLastDamager(){
+    public Transform GetLastDamager()
+    {
         return lastDamager;
     }
 
-    public bool IsDead(){
+    public bool IsDead()
+    {
         return dead;
     }
+
+    public float GetHealth()
+    {
+        return health / maxHealth;
+    }
+
 }

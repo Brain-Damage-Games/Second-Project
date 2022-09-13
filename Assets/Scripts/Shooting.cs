@@ -6,23 +6,18 @@ public class Shooting : MonoBehaviour
 {
 
     [SerializeField]
-    float shootingSpeed = 1f;
-
+    private float shootingSpeed = 1f;
     [SerializeField]
-    GameObject bulletPrefab;
+    private GameObject bulletPrefab;
     [SerializeField]
-    Transform gun;
-    private bool shooting;
-
+    private Transform gun;
     [SerializeField]
-    float coolDown = 1f;
-    float passedTime = 0f;
+    private float coolDown = 1f;
+    private float passedTime = 0f;
     private Transform shootTarget;
-    private Movement movement;
-
-    void Awake(){
-        movement = GetComponent<Movement>();
-    }
+    private bool shooting;
+    private GameObject shootParticle;
+    
     private void Update() 
     {
         if(shooting)    Shoot();
@@ -30,12 +25,15 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        if (movement != null && movement.IsMoving()) return;
         passedTime += Time.deltaTime;
 
         if(passedTime >= coolDown)
         {
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+            bullet.transform.SetParent(gameObject.transform);
+
+            GameObject bulletParticle =  Instantiate(shootParticlePrefab, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+            Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
@@ -43,6 +41,23 @@ public class Shooting : MonoBehaviour
             bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
             passedTime = 0f;
         }   
+    }
+
+    public bool CanHitTarget()
+    {
+        RaycastHit hit;
+        Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
+
+        if(gameObject.CompareTag("player") || gameObject.CompareTag("PlayerPatrol"))
+            if(hit.transform.gameObject.CompareTag("Enemy"))        return true;
+            else                                                    return false;
+
+        else if(gameObject.CompareTag("Enemy"))
+            if(hit.transform.gameObject.CompareTag("Player") || hit.transform.gameObject.CompareTag("PlayerPatrol"))        return true;
+            else                                                                                                            return false;
+
+        else
+            return false;
     }
 
     public void SetShootTarget(Transform shootTarget)
