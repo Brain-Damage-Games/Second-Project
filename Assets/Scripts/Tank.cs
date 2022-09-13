@@ -7,6 +7,7 @@ public class Tank : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField]
     private Transform tank;
+    //remove comment from the SERIALIZEDFIELD below if you wanna test havinf a target dont forget to make the hasTarget bool true
     [SerializeField]
     private Transform target;
     [SerializeField]
@@ -29,27 +30,25 @@ public class Tank : MonoBehaviour
     private float shootPower = 100f;
     [SerializeField]
     private float tankShooterShakePower = 0.2f;
-    [SerializeField]
-    private float tankShakePower = 0.1f;
-    [SerializeField]
-    float shakePauseTime = 0.2f;
+    //[SerializeField]
+    //private float tankShakePower = 0.1f;
     [SerializeField]
     float limitedAngleToShoot = 0.2f;
     [SerializeField]
-    private AnimationCurve MoveCurve;
+    private AnimationCurve MoveCurve1;
 
 
 
 
     private bool goRight = true;
     private Transform tankShooter;
-    private bool hasTarget = true;
+    private bool hasTarget = false;
     private bool fixedOnTraget = false;
-    private bool shake1 = false;
-    private bool shake2 = false;
+    private bool shake = false;
     private float passedTime = 0f;
     private Vector3 tOrigin;
-    private Vector3 tTarget;
+    private Vector3 tTarget1;
+    //private Vector3 tTarget2;
     private float _animationTimePosition;
 
     void Awake()
@@ -78,13 +77,9 @@ public class Tank : MonoBehaviour
         else
             Patrol();
 
-        /*if (shake1)
+        if (shake)
         {
-            Shake1();
-        }*/
-        if (shake2)
-        {
-            Shake2();
+            Shake();
         }
     }
     private void RotateToTarget()
@@ -134,33 +129,24 @@ public class Tank : MonoBehaviour
         dir.y = 0;
         dir = dir.normalized;
         tOrigin = tankShooter.position;
-        tTarget = tankShooter.position - dir * tankShooterShakePower;
+        tTarget1 = tankShooter.position - dir * tankShooterShakePower;
+        //tTarget2 = tank.position - dir * tankShakePower;
 
-
-        shake2 = true;
+        shake = true;
         _animationTimePosition = 0;
 
     }
-    /*private void Shake1()
+    private void Shake()
     {
         if (_animationTimePosition >= 1)
         {
-            shake1 = false;
-            shake2 = true;
+
+            shake = false;
+            _animationTimePosition = 0;
             return;
         }
-        tankShooter.position = Vector3.Lerp(tOrigin, tTarget, MoveCurve.Evaluate(_animationTimePosition));
-        //tank.position = Vector3.Lerp(tank.position, tank.position - dir * tankShakePower, Time.deltaTime);
-    }*/
-    private void Shake2()
-    {
-        if (_animationTimePosition >= 1)
-        {
-            shake2 = false;
-            return;
-        }
-        tankShooter.position = Vector3.Lerp(tTarget, tOrigin, MoveCurve.Evaluate(_animationTimePosition));
-        //tank.position = Vector3.Lerp(tank.position, tank.position + dir * tankShakePower, Time.deltaTime);
+        tankShooter.position = Vector3.Lerp(tOrigin, tTarget1, MoveCurve1.Evaluate(_animationTimePosition));
+        //tank.position = Vector3.Lerp(tank.position, tTarget2, MoveCurve1.Evaluate(_animationTimePosition));
     }
     public void SetTarget(Transform target) 
     {

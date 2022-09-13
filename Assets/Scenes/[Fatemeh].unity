@@ -1561,30 +1561,48 @@ MonoBehaviour:
   patrolDegree: 80
   coolDown: 4
   shootPower: 100
-  tankShooterShakePower: 0.2
+  tankShooterShakePower: 0.1
   tankShakePower: 0.05
   shakePauseTime: 0.35
   limitedAngleToShoot: 0.4
-  MoveCurve:
+  MoveCurve1:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 200
+      outSlope: 200
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.005
       value: 1
-      inSlope: 0
+      inSlope: 200
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 69
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.05
+      value: 1
+      inSlope: -0
+      outSlope: -0.5540965
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.09802872
+    - serializedVersion: 3
+      time: 0.45
+      value: 0
+      inSlope: -4.198702
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.06782183
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
