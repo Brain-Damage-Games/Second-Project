@@ -1559,9 +1559,9 @@ MonoBehaviour:
   rotationSpeed: 5
   patrolRotationSpeed: 5
   patrolDegree: 80
-  coolDown: 3
+  coolDown: 4
   shootPower: 100
-  tankShooterShakePower: 0.6
+  tankShooterShakePower: 0.2
   tankShakePower: 0.05
   shakePauseTime: 0.35
   limitedAngleToShoot: 0.4
@@ -2397,7 +2397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9211777065164031392, guid: 5a6c1f1740de5124fa11a6ba545d231a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9211777065164396928, guid: 5a6c1f1740de5124fa11a6ba545d231a, type: 3}
       propertyPath: m_RootOrder
