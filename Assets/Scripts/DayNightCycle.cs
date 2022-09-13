@@ -11,6 +11,9 @@ public class DayNightCycle : MonoBehaviour
     private Light worldLight;
 
     [SerializeField]
+    private Light moonLight;
+
+    [SerializeField]
     private LightingPreset preset;
 
     [Header("Spawn Info")]
@@ -124,6 +127,7 @@ public class DayNightCycle : MonoBehaviour
         worldLight.color = preset.directionalColor.Evaluate(timePercent);
 
         worldLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+        moonLight.transform.localRotation = Quaternion.Euler(new Vector3(360f-((timePercent * 360f) - 90f), 180f-170f, 0));
 
     }
 
