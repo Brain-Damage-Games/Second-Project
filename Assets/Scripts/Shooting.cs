@@ -37,8 +37,8 @@ public class Shooting : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
             bullet.transform.SetParent(gameObject.transform);
 
-            //GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
-            //Destroy(bulletParticle, 2f);
+            GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+            Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");

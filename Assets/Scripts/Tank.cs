@@ -7,7 +7,7 @@ public class Tank : MonoBehaviour
     [SerializeField]
     private Transform tank;
     //remove comment from the SERIALIZEDFIELD below if you wanna test havinf a target dont forget to make the hasTarget bool true
-    [SerializeField]
+    //[SerializeField]
     private Transform target;
     [SerializeField]
     private Transform bulletShootPoint;
