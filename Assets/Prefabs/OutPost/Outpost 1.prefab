@@ -120,7 +120,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outpost 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3131621280579199695, guid: 4ec464708d771584b9ff756b978553c0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4ec464708d771584b9ff756b978553c0, type: 3}
 --- !u!4 &5920043757080601148 stripped
 Transform:

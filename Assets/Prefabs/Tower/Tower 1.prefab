@@ -68,6 +68,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6873110273194343889, guid: 5bb49342ebcce4048b09dcd378da0463, type: 3}
+      propertyPath: statePrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873110273194343889, guid: 5bb49342ebcce4048b09dcd378da0463, type: 3}
+      propertyPath: statePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1046636596643277448, guid: 7d03a029e0438bc4a92b540fb1bafe7d, type: 3}
+    - target: {fileID: 6873110273194343889, guid: 5bb49342ebcce4048b09dcd378da0463, type: 3}
+      propertyPath: statePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 7386518495632116869, guid: 3d4b463a07afe1d48b52f4981a5f498b, type: 3}
+    - target: {fileID: 6873110273194343889, guid: 5bb49342ebcce4048b09dcd378da0463, type: 3}
+      propertyPath: statePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6403992838100166643, guid: 15009926c7157bb4c88c007d18d4b533, type: 3}
     - target: {fileID: 8131376563396700651, guid: 5bb49342ebcce4048b09dcd378da0463, type: 3}
       propertyPath: m_RootOrder
       value: 0

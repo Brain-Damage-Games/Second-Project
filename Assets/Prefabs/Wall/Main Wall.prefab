@@ -80,5 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthIncrease: 10
   damageValueIncrease: 10
-  statePrefabs: []
+  statePrefabs:
+  - {fileID: 8034989288008787183, guid: e4c4fb44756082e4089939f15a9a35e3, type: 3}
+  - {fileID: 2431133182648246996, guid: 1b134762da1fcb645a3314c85406aad7, type: 3}
+  - {fileID: 6022243215105515399, guid: 553144a329381c14b9fb6822f569c6e1, type: 3}
   BU: {fileID: 0}
