@@ -187,12 +187,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!4 &23774804
 Transform:
   m_ObjectHideFlags: 0
@@ -527,12 +526,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!1 &320146274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,12 +1223,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!4 &651679968
 Transform:
   m_ObjectHideFlags: 0
@@ -1329,12 +1326,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!1 &946582542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,16 +1550,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tank: {fileID: 1168123707}
   target: {fileID: 7974948673578030483}
-  bulletPrefab: {fileID: 4426201891005447843, guid: cd64817fa82673b419c7960ae9e9036f, type: 3}
   bulletShootPoint: {fileID: 2040687422}
   rotationSpeed: 5
-  patrolRotationSpeed: 5
-  patrolDegree: 80
-  coolDown: 4
-  shootPower: 100
+  patrolRotationSpeed: 1
+  minPatrolDegree: 25
+  maxPatrolDegree: 80
   tankShooterShakePower: 0.1
-  tankShakePower: 0.05
-  shakePauseTime: 0.35
+  tankShakePower: 0.01
   limitedAngleToShoot: 0.4
   MoveCurve1:
     serializedVersion: 2
@@ -1607,11 +1600,76 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  MoveCurve2:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 100
+      outSlope: 100
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.01
+      value: 1
+      inSlope: 47.930923
+      outSlope: 0.13883185
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16224985
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: -3.8892334
+      outSlope: -3.8892334
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03436451
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shooting: {fileID: 1168123710}
 --- !u!4 &1168123707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9211777065164396928, guid: 5a6c1f1740de5124fa11a6ba545d231a, type: 3}
   m_PrefabInstance: {fileID: 1828412928}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1168123710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168123703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dcc34a52a54e6a48bd24edce883b389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingSpeed: 15
+  bulletPrefab: {fileID: 4426201891005447843, guid: cd64817fa82673b419c7960ae9e9036f, type: 3}
+  gun: {fileID: 2040687422}
+  coolDown: 4
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1434872759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,12 +1769,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!1 &1502797259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2569,12 +2626,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!1 &1914559598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,12 +3014,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  acceleration: 1
 --- !u!114 &2131313499
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Tank : MonoBehaviour
 {
@@ -11,8 +10,6 @@ public class Tank : MonoBehaviour
     [SerializeField]
     private Transform target;
     [SerializeField]
-    private GameObject bulletPrefab;
-    [SerializeField]
     private Transform bulletShootPoint;
 
     [Header("Rotation Setting")]
@@ -21,40 +18,47 @@ public class Tank : MonoBehaviour
     [SerializeField]
     private float patrolRotationSpeed = 5f;
     [SerializeField]
-    private float patrolDegree = 60f;
+    private float minPatrolDegree = 25f; 
+    [SerializeField]
+    private float maxPatrolDegree = 80f;
+
 
     [Header("Shooting Setting")]
     [SerializeField]
-    private float coolDown = 1f;
-    [SerializeField]
-    private float shootPower = 100f;
-    [SerializeField]
     private float tankShooterShakePower = 0.2f;
-    //[SerializeField]
-    //private float tankShakePower = 0.1f;
+    [SerializeField]
+    private float tankShakePower = 0.1f;
     [SerializeField]
     float limitedAngleToShoot = 0.2f;
     [SerializeField]
     private AnimationCurve MoveCurve1;
+    [SerializeField]
+    private AnimationCurve MoveCurve2;
+    [SerializeField]
+    private Shooting shooting;
 
 
 
 
     private bool goRight = true;
+    private float patrolDegree;
     private Transform tankShooter;
-    private bool hasTarget = false;
+    private bool hasTarget = true;
     private bool fixedOnTraget = false;
     private bool shake = false;
-    private float passedTime = 0f;
-    private Vector3 tOrigin;
+    private Vector3 tOrigin1;
+    private Vector3 tOrigin2;
     private Vector3 tTarget1;
-    //private Vector3 tTarget2;
+    private Vector3 tTarget2;
     private float _animationTimePosition;
 
     void Awake()
     {
         tankShooter = tank.GetChild(0);
-        passedTime = coolDown;
+        patrolDegree = Random.Range(minPatrolDegree, maxPatrolDegree);
+        shooting.OnShoot.AddListener(ShootProperty);
+        shooting.SetShootTarget(target);
+        
     }
     
     void Update()
@@ -63,19 +67,23 @@ public class Tank : MonoBehaviour
     }
     private void TankManager()
     {
-        passedTime += Time.deltaTime;
         _animationTimePosition += Time.deltaTime;
         if (hasTarget)
         {
             RotateToTarget();
-            if (passedTime >= coolDown && fixedOnTraget)
+            if (fixedOnTraget)
             {
-                Shoot();
-                passedTime = 0f;
+                shooting.SetShooting(true);
+                shooting.SetShootTarget(target);
             }
+            else
+                shooting.SetShooting(false);
         }
         else
+        {
             Patrol();
+            shooting.SetShooting(false);
+        }
 
         if (shake)
         {
@@ -103,9 +111,15 @@ public class Tank : MonoBehaviour
             rotatedDegree = rotatedDegree - 360;
 
         if (goRight && rotatedDegree >= patrolDegree)
+        {
+            patrolDegree = Random.Range(minPatrolDegree, maxPatrolDegree);
             goRight = false;
+        }
         else if (!goRight && rotatedDegree <= -patrolDegree)
+        {
+            patrolDegree = Random.Range(minPatrolDegree, maxPatrolDegree);
             goRight = true;
+        }
 
         if (goRight)
         {
@@ -118,35 +132,30 @@ public class Tank : MonoBehaviour
             tankShooter.rotation = Quaternion.Slerp(tankShooter.rotation, Quaternion.Euler(0, targetAngle, 0), patrolRotationSpeed * Time.deltaTime);
         }
     }
-    private void Shoot()
+    private void ShootProperty()
     {
-        GameObject newBullet = Instantiate(bulletPrefab, bulletShootPoint.position, Quaternion.identity, tank);
-        Vector3 direction = (target.position - newBullet.transform.position).normalized;
-        newBullet.GetComponent<Rigidbody>().AddForce(direction * shootPower);
-
-
         Vector3 dir = bulletShootPoint.position - tankShooter.position;
         dir.y = 0;
         dir = dir.normalized;
-        tOrigin = tankShooter.position;
+
+        tOrigin2 = tank.position;
+        tOrigin1 = tankShooter.position;
+        tTarget2 = tank.position - dir * tankShakePower;
         tTarget1 = tankShooter.position - dir * tankShooterShakePower;
-        //tTarget2 = tank.position - dir * tankShakePower;
 
         shake = true;
         _animationTimePosition = 0;
-
     }
     private void Shake()
     {
         if (_animationTimePosition >= 1)
         {
-
             shake = false;
             _animationTimePosition = 0;
             return;
         }
-        tankShooter.position = Vector3.Lerp(tOrigin, tTarget1, MoveCurve1.Evaluate(_animationTimePosition));
-        //tank.position = Vector3.Lerp(tank.position, tTarget2, MoveCurve1.Evaluate(_animationTimePosition));
+        tankShooter.position = Vector3.Lerp(tOrigin1, tTarget1, MoveCurve1.Evaluate(_animationTimePosition));
+        tank.position = Vector3.Lerp(tOrigin2, tTarget2, MoveCurve2.Evaluate(_animationTimePosition));
     }
     public void SetTarget(Transform target) 
     {

@@ -1,49 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shooting : MonoBehaviour
 {
-
     [SerializeField]
-    float shootingSpeed = 1f;
-
+    private float shootingSpeed = 1f;
     [SerializeField]
-    GameObject bulletPrefab;
-
+    private GameObject bulletPrefab;
     [SerializeField]
-    Transform gun;
-
+    private Transform gun;
     [SerializeField]
-    bool shooting;
+    private float coolDown = 1f;
+    private float passedTime = 0f;
+    private Transform shootTarget;
+    private bool shooting;
+    private GameObject shootParticle;
 
-    [SerializeField]
-    float coolDown = 1f;
 
-    float pasedTime = 0f;
+    public UnityEvent OnShoot;
 
-    [SerializeField]
-    Transform shootTarget;
-
+    private void Awake()
+    {
+        passedTime = coolDown;
+    }
     private void Update() 
     {
         if(shooting)    Shoot();
     }
 
-    public void Shoot()
+    private void Shoot()
     {
-        pasedTime += Time.deltaTime;
+        passedTime += Time.deltaTime;
 
-        if(pasedTime >= coolDown)
+        if(passedTime >= coolDown)
         {
             GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+            bullet.transform.SetParent(gameObject.transform);
+
+            //GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+            //Destroy(bulletParticle, 2f);
 
             if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
-            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("Player");
+            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
                 
             bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
-            pasedTime = 0f;
+            passedTime = 0f;
+
+            OnShoot.Invoke();
         }   
+    }
+
+    public bool CanHitTarget()
+    {
+        RaycastHit hit;
+        Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
+
+        if(gameObject.CompareTag("Player") || gameObject.CompareTag("PlayerPatrol"))
+            if(hit.transform.gameObject.CompareTag("Enemy"))        return true;
+            else                                                    return false;
+
+        else if(gameObject.CompareTag("Enemy"))
+            if(hit.transform.gameObject.CompareTag("Player") || hit.transform.gameObject.CompareTag("PlayerPatrol"))        return true;
+            else                                                                                                            return false;
+
+        else
+            return false;
     }
 
     public void SetShootTarget(Transform shootTarget)
@@ -54,10 +75,10 @@ public class Shooting : MonoBehaviour
     public void SetShooting(bool shooting)
     {
         this.shooting = shooting;
-        if(!shooting)   pasedTime = 0f;
+        if(!shooting){
+            passedTime = coolDown;
+            shootTarget = null;
+        }   
     }
-
-
-
-
+    
 }

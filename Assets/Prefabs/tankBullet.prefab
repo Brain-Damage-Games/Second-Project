@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3270639945419580157}
   - component: {fileID: -2698990634329196843}
   - component: {fileID: 4088195105445137902}
-  - component: {fileID: -4407954609375400208}
+  - component: {fileID: 2576675655745254402}
   m_Layer: 0
   m_Name: tankBullet
   m_TagString: Untagged
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 1
---- !u!114 &-4407954609375400208
+  damageValue: 5
+--- !u!114 &2576675655745254402
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,8 +138,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4426201891005447843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3f2724c15d6dde418d2d14275110775, type: 3}
+  m_Script: {fileID: 11500000, guid: 858d25174ba5b92449fcde18ff210ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  explosive: 1
   impactRadius: 5
-  impactForce: 200
+  impactForce: 100
