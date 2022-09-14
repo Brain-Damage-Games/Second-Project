@@ -30,7 +30,7 @@ public class Damageable : MonoBehaviour
             timeBetweenHealthBarChange += acceleration * Time.deltaTime;
         }
 
-        healthBar.fillAmount = currentHealthValue / maxHealth;
+        // healthBar.fillAmount = currentHealthValue / maxHealth;
     }
 
     public void GetDamaged(float damageValue, Transform damager)

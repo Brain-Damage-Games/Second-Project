@@ -13,7 +13,7 @@ public class Shooting : MonoBehaviour
     private float passedTime = 0f;
     private Transform shootTarget;
     private bool shooting;
-    private GameObject shootParticle;
+    [SerializeField] private GameObject shootParticle;
     
     private void Update() 
     {
