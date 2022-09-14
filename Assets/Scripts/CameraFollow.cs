@@ -14,18 +14,16 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private Vector3 offset;
 
-    [SerializeField]
-    private float maxSize =10.0f;
 
     [SerializeField]
 
-    private float minSize=5.0f;
+    private float size=5.0f;
   
     [SerializeField]
-    private float zoomSpeed = 2.0f;
+    private float zoomSpeed = 0.06f;
 
     [SerializeField]
-    private float zoomSmoothness = 2;
+    private float zoomSmoothness = 5;
     private Camera cam;
 
      public void Awake()
@@ -36,13 +34,9 @@ public class CameraFollow : MonoBehaviour
     void Update(){
         if (Input.GetMouseButton(1))
         {
-            
-            StartCoroutine(SetZoom(cam.orthographicSize,minSize,zoomSpeed*zoomSmoothness));
+            ZoomTo(size);
         }
-        else if (cam.orthographicSize != maxSize)
-        {
-            cam.orthographicSize=maxSize;
-        }
+
     }
 
     void LateUpdate(){
@@ -63,6 +57,9 @@ public class CameraFollow : MonoBehaviour
      cam.orthographicSize = v_end;
     
    }
-        
 
+   public void ZoomTo(float size){
+
+        StartCoroutine(SetZoom(cam.orthographicSize,size,zoomSpeed*zoomSmoothness));
+    }
 }

@@ -157,11 +157,9 @@ MonoBehaviour:
   target: {fileID: 346826343}
   followSmoothing: 0.9
   offset: {x: 0, y: 5, z: -10}
-  zoomMultiplier: 2
-  defaultFov: 60
-  zoomDuration: 2
+  size: 5
   zoomSpeed: 0.005
-  cam: {fileID: 139585100}
+  zoomSmoothness: 2
 --- !u!81 &139585099
 AudioListener:
   m_ObjectHideFlags: 0
@@ -196,7 +194,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -355,6 +353,9 @@ GameObject:
   - component: {fileID: 346826341}
   - component: {fileID: 346826340}
   - component: {fileID: 346826344}
+  - component: {fileID: 346826349}
+  - component: {fileID: 346826348}
+  - component: {fileID: 346826347}
   - component: {fileID: 346826346}
   - component: {fileID: 346826345}
   m_Layer: 0
@@ -449,11 +450,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346826339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d916082998d64cd40af8a0ad6d5e731f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dayNightCycle: {fileID: 0}
+  targetsInRange: []
+  currentTarget: {fileID: 0}
+  pursuitCooldown: 0
   shootRange: 4
 --- !u!114 &346826345
 MonoBehaviour:
@@ -462,11 +467,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346826339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d916082998d64cd40af8a0ad6d5e731f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dayNightCycle: {fileID: 0}
+  targetsInRange: []
+  currentTarget: {fileID: 0}
+  pursuitCooldown: 0
   shootRange: 4
 --- !u!135 &346826346
 SphereCollider:
@@ -481,6 +490,72 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &346826347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346826339}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dcc34a52a54e6a48bd24edce883b389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingSpeed: 1
+  bulletPrefab: {fileID: 0}
+  gun: {fileID: 0}
+  coolDown: 1
+--- !u!114 &346826348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346826339}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c39e2397966dd54b9eff81e20401df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  minPatrolX: 0
+  maxPatrolX: 0
+  minPatrolZ: 0
+  maxPatrolZ: 0
+  maxPatrolTime: 0
+  followRange: 0
+--- !u!114 &346826349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346826339}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  health: 0
+  onDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: d916082998d64cd40af8a0ad6d5e731f, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: StartPursuit
+          m_BoolArgument: 0
+        m_CallState: 2
+  healthBar: {fileID: 0}
+  acceleration: 1
 --- !u!1 &1153360660
 GameObject:
   m_ObjectHideFlags: 0
