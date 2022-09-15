@@ -18,9 +18,10 @@ public class NPCManager : MonoBehaviour
     private float currentHealthValue;
     private float lastHealthValue;
 
-    private bool isPersuiting=false;
+    private bool persuit=false;
     [SerializeField] float shootRange = 4f;
     
+    private bool coolDownComplete => pursuitCooldown >= pursuitCooldown;
   
     void Awake(){
         shooting = GetComponent<Shooting>();
@@ -38,8 +39,14 @@ public class NPCManager : MonoBehaviour
     }
 
     void Update(){ 
-        if(isPersuiting==true){
+        if(persuit==true){
             pursuitTimer += Time.deltaTime;
+            if (coolDownComplete){
+                StartPursuit();
+            }
+            else{
+                persuit=false;
+            }
         }
     }
     
@@ -47,7 +54,6 @@ public class NPCManager : MonoBehaviour
         pathFinding.SetStop(false);
         pathFinding.SetTarget(target);
     }
-
     private void Unfollow(){
         pathFinding.SetStop(true);
     }
@@ -68,11 +74,9 @@ public class NPCManager : MonoBehaviour
             shooting.SetShooting(true);
         }
     }
-
     public void StartNight(){
         FindNewTarget(null);
     }
-
     public void StartDay(){
         //DayStuff
     }
@@ -81,27 +85,18 @@ public class NPCManager : MonoBehaviour
         if (!dayNightCycle.IsNight())
             { return;}
 
-        isPersuiting=true;
-
-        if (pursuitTimer>=pursuitCooldown){
-            damager = damageable.GetLastDamager();
-            if(shooting.CanHitTarget() == true){
-                Follow(damager);
-                //Shoot
-                currentTarget = damager.GetComponent<Damageable>();
-                currentTarget.onDeath += FindNewTarget;
-                shooting.SetShootTarget(currentTarget.transform);
-                shooting.SetShooting(true);
-            }
+        persuit=true;
+        damager = damageable.GetLastDamager();
+        if(shooting.CanHitTarget() == true){
+            Follow(damager);
+            //Shoot
+            currentTarget = damager.GetComponent<Damageable>();
+            currentTarget.onDeath += FindNewTarget;
+            shooting.SetShootTarget(currentTarget.transform);
+            shooting.SetShooting(true);
+        }
             pursuitTimer=0f;
-        }
-        else{
-            isPersuiting=false;
-        }
     }
-
-
-
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
         if(this.tag == "Enemy"  )
@@ -128,7 +123,6 @@ public class NPCManager : MonoBehaviour
             }
         }
     }
-
     void OnTriggerExit(Collider col){
         if (col.isTrigger) return;
 
