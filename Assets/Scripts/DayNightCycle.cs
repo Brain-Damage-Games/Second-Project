@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ public class DayNightCycle : MonoBehaviour
     [Header("Light Info")]
     [SerializeField] 
     private Light worldLight;
+
+    [SerializeField]
+    private Light moonLight;
 
     [SerializeField]
     private LightingPreset preset;
@@ -43,6 +47,8 @@ public class DayNightCycle : MonoBehaviour
     private float maxSpawnRate;
     private float spawnRate;
     private float spawnTimeCount = 0;
+    
+    public event Action onDay, onNight;
     private void Awake()
     {
         FirstInfo();
@@ -124,6 +130,7 @@ public class DayNightCycle : MonoBehaviour
         worldLight.color = preset.directionalColor.Evaluate(timePercent);
 
         worldLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+        moonLight.transform.localRotation = Quaternion.Euler(new Vector3(360f-((timePercent * 360f) - 90f), 180f-170f, 0));
 
     }
 

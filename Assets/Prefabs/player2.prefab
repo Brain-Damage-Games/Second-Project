@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 3817278137875201447}
   - component: {fileID: 8072092899093945690}
   - component: {fileID: 3270639945419580157}
-  - component: {fileID: -2698990634329196843}
-  - component: {fileID: 4088195105445137902}
   m_Layer: 0
   m_Name: player2
   m_TagString: Untagged
@@ -99,32 +97,3 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-2698990634329196843
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426201891005447843}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &4088195105445137902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426201891005447843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageValue: 1

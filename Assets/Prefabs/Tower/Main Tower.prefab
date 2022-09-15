@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2337713453674672127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8131376563396700651}
+  - component: {fileID: 3100803371077620630}
+  - component: {fileID: 8335716960663664594}
+  - component: {fileID: 6873110273194343889}
+  m_Layer: 0
+  m_Name: Main Tower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8131376563396700651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337713453674672127}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3100803371077620630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337713453674672127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  health: 0
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  healthBar: {fileID: 0}
+  acceleration: 1
+--- !u!114 &8335716960663664594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337713453674672127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
+--- !u!114 &6873110273194343889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337713453674672127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  statePrefabs:
+  - {fileID: 1046636596643277448, guid: 7d03a029e0438bc4a92b540fb1bafe7d, type: 3}
+  - {fileID: 7386518495632116869, guid: 3d4b463a07afe1d48b52f4981a5f498b, type: 3}
+  - {fileID: 6403992838100166643, guid: 15009926c7157bb4c88c007d18d4b533, type: 3}
+  BU: {fileID: 0}

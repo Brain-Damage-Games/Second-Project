@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &780265892435729781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 297372981132878294}
+  - component: {fileID: 3011550903130602236}
+  - component: {fileID: 286722362184765312}
+  - component: {fileID: 3767365776905105012}
+  - component: {fileID: 2484613950444461606}
+  m_Layer: 0
+  m_Name: Main house
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &297372981132878294
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780265892435729781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3011550903130602236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780265892435729781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8771b2d4ef5ad741b1cca8fe326cb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  health: 0
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  healthBar: {fileID: 0}
+  acceleration: 1
+--- !u!114 &286722362184765312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780265892435729781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bc50a082b61cc4ebb6fcafec7d2559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 1
+--- !u!114 &3767365776905105012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780265892435729781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f5f510e101e3c4c9445ad1f1eb169f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthIncrease: 10
+  damageValueIncrease: 10
+  statePrefabs:
+  - {fileID: 5916022625145205778, guid: 24cae665f71c1804f9fd11096ce32149, type: 3}
+  - {fileID: 6351292737589567901, guid: d1ff1f798dd89424699b5323209d6ba0, type: 3}
+  - {fileID: 9123868950611489942, guid: e1f6aaf9f798bb847bf546c769ee5818, type: 3}
+  BU: {fileID: 0}
+--- !u!114 &2484613950444461606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780265892435729781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f10ac72f5f2c004bb15dbc546d1cccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradableObjects: []
+  progress: 0
