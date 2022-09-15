@@ -42,11 +42,9 @@ public class NPCManager : MonoBehaviour
         if(persuit==true){
             pursuitTimer += Time.deltaTime;
             if (coolDownComplete){
-                StartPursuit();
+               FindNewTarget();
             }
-            else{
-                persuit=false;
-            }
+
         }
     }
     
@@ -61,6 +59,7 @@ public class NPCManager : MonoBehaviour
         if(dayNightCycle.IsNight() && this.tag == "Enemy"){
             Follow(baseTransform);
             isPersuiting=false;
+            pursuitTimer=0f;
             return;
         }
 
@@ -95,7 +94,7 @@ public class NPCManager : MonoBehaviour
             shooting.SetShootTarget(currentTarget.transform);
             shooting.SetShooting(true);
         }
-            pursuitTimer=0f;
+            
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
