@@ -14,24 +14,32 @@ public class EnemyManager : MonoBehaviour
     private float pursuitTimer;
     private Damageable damageable;
     private Transform damager;
+   private Transform baseTransform;
     private float currentHealthValue;
     private float lastHealthValue;
+
+    private bool isPersuiting=false;
     [SerializeField] float shootRange = 4f;
+    
   
     void Awake(){
         shooting = GetComponent<Shooting>();
         pathFinding = GetComponent<PathFinding>();
         damageable = GetComponent<Damageable>();
         dayNightCycle = GetComponent<DayNightCycle>();
-        currentHealthValue = damageable.GetHealth();
-        lastHealthValue = damageable.GetMaxHealth();
+
+        dayNightCycle.onNight += StartNight;
+        dayNightCycle.onDay += StartDay;
+
         GetComponent<SphereCollider>().radius = shootRange;
-        pursuitTimer = Time.time;
+        baseTransform = GameObject.FindGameObjectWithTag("Base").GetComponent<Transform>();
+
+        pursuitTimer = 0f;
     }
 
-    void Update(){
-        if(dayNightCycle.IsNight()==true ){
-            StartPursuit();
+    void Update(){ 
+        if(isPersuiting==true){
+            pursuitTimer += Time.deltaTime;
         }
     }
     
@@ -44,6 +52,13 @@ public class EnemyManager : MonoBehaviour
         pathFinding.SetStop(true);
     }
     private void FindNewTarget(Transform previousTarget ){
+        if(dayNightCycle.IsNight() && this.tag == "Enemy"){
+            Follow(baseTransform);
+            isPersuiting=false;
+            return;
+        }
+
+
         if (previousTarget != null) targetsInRange.Remove(previousTarget);
         currentTarget = null;
         shooting.SetShooting(false);
@@ -53,23 +68,36 @@ public class EnemyManager : MonoBehaviour
             shooting.SetShooting(true);
         }
     }
-        public void StartPursuit(){
-        Follow(GameObject.FindGameObjectWithTag("Base").GetComponent<Transform>());
-            while (Time.time - pursuitTimer<pursuitCooldown)
-                {
-                pursuitTimer = Time.time;
-                damager = damageable.GetLastDamager();
-                if(shooting.CanHitTarget() == true){
-                    Follow(damager);
-                    //Shoot
-                    currentTarget = damager.GetComponent<Damageable>();
-                    shooting.SetShootTarget(currentTarget.transform);
-                    shooting.SetShooting(true);
-                }
-            }
-            pursuitTimer = Time.time;
 
+    public void StartNight(){
+        FindNewTarget(null);
+    }
+
+    public void StartDay(){
+        //DayStuff
+    }
+    public void StartPursuit(){
         
+        if (!dayNightCycle.IsNight())
+            { return;}
+
+        isPersuiting=true;
+
+        if (pursuitTimer>=pursuitCooldown){
+            damager = damageable.GetLastDamager();
+            if(shooting.CanHitTarget() == true){
+                Follow(damager);
+                //Shoot
+                currentTarget = damager.GetComponent<Damageable>();
+                currentTarget.onDeath += FindNewTarget;
+                shooting.SetShootTarget(currentTarget.transform);
+                shooting.SetShooting(true);
+            }
+            pursuitTimer=0f;
+        }
+        else{
+            isPersuiting=false;
+        }
     }
 
 
