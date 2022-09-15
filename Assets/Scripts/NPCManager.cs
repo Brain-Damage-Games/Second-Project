@@ -21,7 +21,7 @@ public class NPCManager : MonoBehaviour
     private bool persuit=false;
     [SerializeField] float shootRange = 4f;
     
-    private bool coolDownComplete => pursuitCooldown >= pursuitCooldown;
+    private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
         shooting = GetComponent<Shooting>();
