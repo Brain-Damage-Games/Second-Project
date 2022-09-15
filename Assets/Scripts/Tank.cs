@@ -7,7 +7,7 @@ public class Tank : MonoBehaviour
     [SerializeField]
     private Transform tank;
     //remove comment from the SERIALIZEDFIELD below if you wanna test havinf a target dont forget to make the hasTarget bool true
-    //[SerializeField]
+    [SerializeField]
     private Transform target;
     [SerializeField]
     private Transform bulletShootPoint;
@@ -31,11 +31,14 @@ public class Tank : MonoBehaviour
     [SerializeField]
     float limitedAngleToShoot = 0.2f;
     [SerializeField]
+    private Shooting shooting;
+    [SerializeField]
+    private float coolDown = 4f;
+    [SerializeField]
     private AnimationCurve MoveCurve1;
     [SerializeField]
     private AnimationCurve MoveCurve2;
-    [SerializeField]
-    private Shooting shooting;
+    
 
 
 
@@ -50,6 +53,7 @@ public class Tank : MonoBehaviour
     private Vector3 tOrigin2;
     private Vector3 tTarget1;
     private Vector3 tTarget2;
+    private float passedTime;
     private float _animationTimePosition;
 
     void Awake()
@@ -57,8 +61,7 @@ public class Tank : MonoBehaviour
         tankShooter = tank.GetChild(0);
         patrolDegree = Random.Range(minPatrolDegree, maxPatrolDegree);
         shooting.OnShoot.AddListener(ShootProperty);
-        shooting.SetShootTarget(target);
-        
+        passedTime = coolDown;
     }
     
     void Update()
@@ -68,21 +71,20 @@ public class Tank : MonoBehaviour
     private void TankManager()
     {
         _animationTimePosition += Time.deltaTime;
+        passedTime += Time.deltaTime;
         if (hasTarget)
         {
             RotateToTarget();
-            if (fixedOnTraget)
+            if (passedTime>=coolDown && fixedOnTraget)
             {
-                shooting.SetShooting(true);
                 shooting.SetShootTarget(target);
+                shooting.Shoot();
+                passedTime = 0f;
             }
-            else
-                shooting.SetShooting(false);
         }
         else
         {
             Patrol();
-            shooting.SetShooting(false);
         }
 
         if (shake)

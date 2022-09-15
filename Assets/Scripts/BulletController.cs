@@ -25,6 +25,7 @@ public class BulletController : MonoBehaviour
         else
         { 
             Collider[] intersecting = Physics.OverlapSphere(transform.position, impactRadius);
+            print(intersecting.Length);
             foreach (Collider coll in intersecting)
             {
                 Damageable damageable = coll.gameObject.GetComponent<Damageable>();

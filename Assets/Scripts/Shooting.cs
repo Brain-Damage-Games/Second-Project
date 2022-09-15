@@ -25,29 +25,29 @@ public class Shooting : MonoBehaviour
     }
     private void Update() 
     {
-        if(shooting)    Shoot();
+        if(shooting)
+        {
+            passedTime += Time.deltaTime;
+            if (passedTime >= coolDown)
+                Shoot();
+        }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
-        passedTime += Time.deltaTime;
+        GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
+        bullet.transform.SetParent(gameObject.transform);
 
-        if(passedTime >= coolDown)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
-            bullet.transform.SetParent(gameObject.transform);
+        //GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+        //Destroy(bulletParticle, 2f);
 
-            GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
-            Destroy(bulletParticle, 2f);
-
-            if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
-            else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
+        if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
+        else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
                 
-            bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
-            passedTime = 0f;
+        bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
+        passedTime = 0f;
 
-            OnShoot.Invoke();
-        }   
+        OnShoot.Invoke();  
     }
 
     public bool CanHitTarget()
@@ -76,7 +76,6 @@ public class Shooting : MonoBehaviour
     {
         this.shooting = shooting;
         if(!shooting){
-            passedTime = coolDown;
             shootTarget = null;
         }   
     }

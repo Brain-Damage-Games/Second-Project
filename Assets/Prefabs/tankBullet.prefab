@@ -146,4 +146,4 @@ MonoBehaviour:
       m_Calls: []
   explosive: 1
   impactRadius: 5
-  impactForce: 100
+  impactForce: 200
