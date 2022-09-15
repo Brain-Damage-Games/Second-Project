@@ -7,8 +7,9 @@ public class Movement : MonoBehaviour
    [SerializeField]
    private float moveSpeed ; 
    [SerializeField]
+   private float rotationSpeed = 700f ; 
+   [SerializeField]
    private Joystick joystick ; 
-   private Rigidbody rb;
    [SerializeField] private bool moving = false; 
    public void MoveSpeed (float newMoveSpeed)
    {
@@ -16,12 +17,19 @@ public class Movement : MonoBehaviour
    }
    private void Move ()
    {
-      rb = GetComponent<Rigidbody>() ; 
-      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed);
+      Vector3 direction = new Vector3(joystick.Horizontal, 0f, joystick.Vertical) ; 
+      direction.Normalize() ; 
+      transform.Translate(direction * moveSpeed * Time.deltaTime , Space.World);
+      if (direction != Vector3.zero)
+      {
+         Quaternion toRotation = Quaternion.LookRotation(direction , Vector3.up) ; 
+         transform.rotation = Quaternion.RotateTowards(transform.rotation , toRotation , rotationSpeed* Time.deltaTime ) ; 
+      }
+
       if (joystick.Horizontal != 0 || joystick.Vertical != 0) moving = true;
       else moving = false; 
    }
-   private void FixedUpdate()
+   private void Update()
    {
       Move(); 
    }
