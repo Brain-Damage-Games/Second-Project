@@ -190,7 +190,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -426,7 +426,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -574,10 +574,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!195 &466820439
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -661,6 +662,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 454143163}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &467141907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -935,7 +939,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1025,6 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  rotationSpeed: 700
   joystick: {fileID: 295093842}
   moving: 0
 --- !u!114 &986421407
@@ -1043,6 +1048,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 259907298}
   coolDown: 1
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &986421408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1056,10 +1064,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!1 &1033018659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,6 +1123,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 1933996952}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1033018662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,10 +1193,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!136 &1033018666
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1317,7 +1330,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1510,6 +1523,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 1366781660}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1252532347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1577,10 +1593,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!136 &1252532351
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1782,6 +1799,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 1627149332}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1360840935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,10 +1869,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!136 &1360840939
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2000,7 +2021,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2097,7 +2118,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2194,7 +2215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2278,6 +2299,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 1690655734}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1721489404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2345,10 +2369,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!136 &1721489408
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2483,6 +2508,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4426201891005447843, guid: 6b732239eab26fc4f855d24c96f03a2e, type: 3}
   gun: {fileID: 93234805}
   coolDown: 1.5
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1868893432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,10 +2578,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  health: 0
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  acceleration: 1
 --- !u!136 &1868893436
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2701,7 +2730,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
