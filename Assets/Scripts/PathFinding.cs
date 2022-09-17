@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class PathFinding : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform target;
 
     [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime, followRange;
 
@@ -15,7 +15,7 @@ public class PathFinding : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         timer = maxPatrolTime;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
@@ -23,9 +23,9 @@ public class PathFinding : MonoBehaviour
     private void Update()
     {
 
-        if (Mathf.Abs(Vector3.Distance(player.transform.position, transform.position)) <= followRange)
+        if (Mathf.Abs(Vector3.Distance(target.transform.position, transform.position)) <= followRange)
         {
-            navMeshAgent.destination = player.position;
+            navMeshAgent.destination = target.position;
         }
         else
         {
@@ -36,6 +36,10 @@ public class PathFinding : MonoBehaviour
             }
             timer += Time.deltaTime;
         }
+    }
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 
     private Vector3 NextPostion()
