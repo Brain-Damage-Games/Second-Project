@@ -7,7 +7,7 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.DA949528" = "asset store"
+	"last_search.DA949528" = "postP"
 	"OpenInspectorPreview.DA949528" = "0"
 	"currentGroup.DA949528" = "all"
 }
@@ -56,6 +56,9 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"b"
+	"\\"
+	"p"
 ]
 searchItemFavorites = [
 ]
