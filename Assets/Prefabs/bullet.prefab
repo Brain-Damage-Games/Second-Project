@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3dd3e694d4e8d5742b40da927a967c3a, type: 2}
+  - {fileID: 2100000, guid: f775052f85a7c01489efcbe31fbc54b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -253,3 +253,6 @@ MonoBehaviour:
   onCollision:
     m_PersistentCalls:
       m_Calls: []
+  explosive: 0
+  impactRadius: 10
+  impactForce: 100

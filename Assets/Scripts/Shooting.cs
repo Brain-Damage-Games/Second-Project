@@ -16,6 +16,7 @@ public class Shooting : MonoBehaviour
     private bool shooting;
     [SerializeField] private GameObject shootParticle;
     public UnityEvent OnShoot;
+    private float aimSpeed = 700f;
 
     private void Awake()
     {
@@ -27,9 +28,15 @@ public class Shooting : MonoBehaviour
         if(shooting)
         {
             passedTime += Time.deltaTime;
-            if (passedTime >= coolDown)
+            AimAtTarget();
+            if (passedTime >= coolDown && CanHitTarget())
                 Shoot();
         }
+    }
+
+    private void AimAtTarget(){
+        Vector3 targetDirection = (shootTarget.position - transform.position).normalized;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), aimSpeed*Time.deltaTime);
     }
 
     public void Shoot()
@@ -37,8 +44,8 @@ public class Shooting : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
         bullet.transform.SetParent(gameObject.transform);
 
-        //GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
-        //Destroy(bulletParticle, 2f);
+        GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
+        Destroy(bulletParticle, 2f);
 
         if(gameObject.CompareTag("Enemy"))           bullet.layer = LayerMask.NameToLayer("EnemyBullet");
         else if(gameObject.CompareTag("Player"))     bullet.layer = LayerMask.NameToLayer("PlayerBullet");
@@ -49,7 +56,7 @@ public class Shooting : MonoBehaviour
         OnShoot.Invoke();  
     }
 
-    public bool CanHitTarget()
+    private bool CanHitTarget()
     {
         RaycastHit hit;
         Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);
