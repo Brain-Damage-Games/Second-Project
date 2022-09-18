@@ -11,12 +11,13 @@ public class PathFinding : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
 
-    private float timer = 0;
+    private float originalRange, timer = 0;
 
     private void Awake()
     {
         // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         timer = maxPatrolTime;
+        originalRange = followRange;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -59,6 +60,16 @@ public class PathFinding : MonoBehaviour
         maxPatrolX = maxX;
         minPatrolZ = minZ;
         maxPatrolZ = maxZ;
+    }
+
+    public void SetRange(float newRange) 
+    {
+        followRange = newRange;
+    }
+
+    public void RevertRange() 
+    {
+        followRange = originalRange;
     }
 }
 
