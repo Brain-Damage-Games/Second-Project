@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NPCManager : MonoBehaviour
 {
-
     private PathFinding pathFinding;
     private Shooting shooting;
     [SerializeField] private DayNightCycle dayNightCycle; 
@@ -14,13 +13,12 @@ public class NPCManager : MonoBehaviour
     private float pursuitTimer;
     private Damageable damageable;
     private Transform damager;
-   private Transform baseTransform;
+    private Transform baseTransform;
     private float currentHealthValue;
     private float lastHealthValue;
-
-    private bool persuit=false;
+    private bool pursuiting = false;
+    private bool followingTarget = false;
     [SerializeField] float shootRange = 4f;
-    
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
@@ -33,16 +31,16 @@ public class NPCManager : MonoBehaviour
         dayNightCycle.onDay += StartDay;
 
         GetComponent<SphereCollider>().radius = shootRange;
-        baseTransform = GameObject.FindGameObjectWithTag("Base").GetComponent<Transform>();
+        baseTransform = GameObject.FindGameObjectWithTag("PlayerBase").transform;
 
         pursuitTimer = 0f;
     }
 
     void Update(){ 
-        if(persuit==true){
+        if(pursuiting){
             pursuitTimer += Time.deltaTime;
             if (coolDownComplete){
-               FindNewTarget();
+               FindNewTarget(null);
             }
 
         }
@@ -55,14 +53,14 @@ public class NPCManager : MonoBehaviour
     private void Unfollow(){
         pathFinding.SetStop(true);
     }
-    private void FindNewTarget(Transform previousTarget ){
-        if(dayNightCycle.IsNight() && this.tag == "Enemy"){
+    private void FindNewTarget(Transform previousTarget){
+        if(dayNightCycle.IsNight() && CompareTag("Enemy")){
             Follow(baseTransform);
-            isPersuiting=false;
-            pursuitTimer=0f;
+            currentTarget = baseTransform.GetComponent<Damageable>();
+            pursuiting = false;
+            pursuitTimer = 0f;
             return;
         }
-
 
         if (previousTarget != null) targetsInRange.Remove(previousTarget);
         currentTarget = null;
@@ -71,6 +69,7 @@ public class NPCManager : MonoBehaviour
             currentTarget = targetsInRange[Random.Range(0,targetsInRange.Count-1)].GetComponent<Damageable>();
             shooting.SetShootTarget(currentTarget.transform);
             shooting.SetShooting(true);
+            Unfollow();
         }
     }
     public void StartNight(){
@@ -84,64 +83,34 @@ public class NPCManager : MonoBehaviour
         if (!dayNightCycle.IsNight())
             { return;}
 
-        persuit=true;
+        pursuiting = true;
         damager = damageable.GetLastDamager();
-        if(shooting.CanHitTarget() == true){
-            Follow(damager);
-            //Shoot
-            currentTarget = damager.GetComponent<Damageable>();
-            currentTarget.onDeath += FindNewTarget;
-            shooting.SetShootTarget(currentTarget.transform);
-            shooting.SetShooting(true);
-        }
-            
+        Follow(damager);
+        currentTarget = damager.GetComponent<Damageable>();
+        currentTarget.onDeath += FindNewTarget;
+        shooting.SetShootTarget(currentTarget.transform);
+        shooting.SetShooting(true);
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
-        if(this.tag == "Enemy"  )
-            {  
-                if(dayNightCycle.IsNight()==false)
-                    {
-                        if((col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))&& shooting.CanHitTarget() == true){
-                            targetsInRange.Add(col.transform);
-                            Unfollow();
-                            col.GetComponent<Damageable>().onDeath += FindNewTarget;
-                            if (currentTarget == null) FindNewTarget(null);
-                    }
-                }
-                else{
-                    return;
-                }
-        }
-
-        else{
-            if (col.tag == "Enemy"&& shooting.CanHitTarget() == true){ 
+        if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
+            (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
                 targetsInRange.Add(col.transform);
                 col.GetComponent<Damageable>().onDeath += FindNewTarget;
                 if (currentTarget == null) FindNewTarget(null);
-            }
         }
+        
     }
+
     void OnTriggerExit(Collider col){
         if (col.isTrigger) return;
 
-        if((col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))){
-            Follow(GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>());
-            targetsInRange.Remove(col.transform);
-            col.GetComponent<Damageable>().onDeath -= FindNewTarget;
-            if (currentTarget.gameObject == col.gameObject){
-                FindNewTarget(null);
-            }
-        }
-
-        if (col.tag == "Enemy"){
-            Follow(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>());
-            targetsInRange.Remove(col.transform);
-            col.GetComponent<Damageable>().onDeath -= FindNewTarget;
-            if (currentTarget.gameObject == col.gameObject){
-                FindNewTarget(null);
-            }
-        }      
+        if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
+            (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
+                targetsInRange.Remove(col.transform);
+                col.GetComponent<Damageable>().onDeath -= FindNewTarget;
+                if (currentTarget.gameObject == col.gameObject) FindNewTarget(null);
+        }     
     }
         
 
