@@ -42,7 +42,7 @@ public class NPCManager : MonoBehaviour
         if(persuit==true){
             pursuitTimer += Time.deltaTime;
             if (coolDownComplete){
-               FindNewTarget();
+               FindNewTarget(null);
             }
 
         }
@@ -58,7 +58,7 @@ public class NPCManager : MonoBehaviour
     private void FindNewTarget(Transform previousTarget ){
         if(dayNightCycle.IsNight() && this.tag == "Enemy"){
             Follow(baseTransform);
-            isPersuiting=false;
+            persuit=false;
             pursuitTimer=0f;
             return;
         }
