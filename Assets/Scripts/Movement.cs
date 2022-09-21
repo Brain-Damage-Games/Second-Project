@@ -10,7 +10,12 @@ public class Movement : MonoBehaviour
    private float rotationSpeed = 700f ; 
    [SerializeField]
    private Joystick joystick ; 
-   [SerializeField] private bool moving = false; 
+   [SerializeField] private bool moving = false;
+   private PlayerManager playerManager;
+
+   void Awake(){
+      playerManager = GetComponent<PlayerManager>();
+   }
    public void MoveSpeed (float newMoveSpeed)
    {
     moveSpeed = newMoveSpeed; 
@@ -19,10 +24,10 @@ public class Movement : MonoBehaviour
    {
       Vector3 direction = new Vector3(joystick.Horizontal, 0f, joystick.Vertical) ; 
       direction.Normalize() ; 
-      transform.Translate(direction * moveSpeed * Time.deltaTime , Space.World);
-      if (direction != Vector3.zero)
+      transform.Translate(-direction * moveSpeed * Time.deltaTime , Space.World);
+      if (direction != Vector3.zero && !playerManager.hasTarget())
       {
-         Quaternion toRotation = Quaternion.LookRotation(direction , Vector3.up) ; 
+         Quaternion toRotation = Quaternion.LookRotation(-direction , Vector3.up) ; 
          transform.rotation = Quaternion.RotateTowards(transform.rotation , toRotation , rotationSpeed* Time.deltaTime ) ; 
       }
 

@@ -12,6 +12,8 @@ public class PathFinding : MonoBehaviour
     private NavMeshAgent navMeshAgent;
 
     private float originalRange, timer = 0;
+    private bool directFollow = false;
+    private Transform directFollowTarget;
 
     private void Awake()
     {
@@ -23,19 +25,20 @@ public class PathFinding : MonoBehaviour
 
     private void Update()
     {
-
-        if (Mathf.Abs(Vector3.Distance(target.transform.position, transform.position)) <= followRange)
-        {
-            navMeshAgent.destination = target.position;
-        }
-        else
-        {
-            if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
+        if (!directFollow){
+            if (Mathf.Abs(Vector3.Distance(target.transform.position, transform.position)) <= followRange || directFollow)
             {
-                navMeshAgent.destination = NextPostion();
-                timer = 0;
+                navMeshAgent.destination = target.position;
             }
-            timer += Time.deltaTime;
+            else
+            {
+                if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
+                {
+                    navMeshAgent.destination = NextPostion();
+                    timer = 0;
+                }
+                timer += Time.deltaTime;
+            }
         }
     }
     public void SetTarget(Transform newTarget)
@@ -70,6 +73,15 @@ public class PathFinding : MonoBehaviour
     public void RevertRange() 
     {
         followRange = originalRange;
+    }
+
+    public void Follow(Transform target){
+        directFollow = true;
+        this.target = target;
+    }
+
+    public void UnFollow(){
+        directFollow = false;
     }
 }
 

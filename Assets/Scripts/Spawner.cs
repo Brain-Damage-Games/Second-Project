@@ -20,10 +20,12 @@ public class Spawner : MonoBehaviour
 
 	[SerializeField]
 	private float noOverlapRadius = 0.1f;
-
+	[SerializeField]
+	private float playerDetectionRange = 8f;
 	private float currentTime = 0f;
-
 	private float countSpawn= 0f;
+	private SphereCollider rangeCollider;
+	private Transform playerTransform;
 
 	//to avoid spawn in the begining make it false and comment the CheckCounta() in Awake
 	public bool spawn = false;
@@ -33,20 +35,27 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
 		spawnPoint = transform;
+		rangeCollider = GetComponent<SphereCollider>();
+		rangeCollider.radius = playerDetectionRange;
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		//CheckCount();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
 		if (spawn)
-			StartSpawning();
+			Spawn();
     }
 
 	//if you want to activate spawning from outside this class use this function
-	public void Spawn()
+	public void StartSpawning()
 	{
 		spawn = true;
 		countSpawn = 0f;
+	}
+
+	public void StopSpawning(){
+		spawn = false;
 	}
 	public Transform Spawn(GameObject gameObject)
 	{
@@ -55,7 +64,7 @@ public class Spawner : MonoBehaviour
 		return t;
 	}
 
-	private void StartSpawning()
+	private void Spawn()
 	{
 		currentTime += Time.deltaTime;
 
@@ -63,6 +72,7 @@ public class Spawner : MonoBehaviour
 		{
 			GameObject newEnemy = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity);
 			newEnemy.transform.SetParent(this.transform);
+			newEnemy.GetComponent<PathFinding>().SetTarget(playerTransform);
 			newEnemy.transform.position = GenerateSpawnPoint();
 			currentTime = 0f;
 			countSpawn += 1;
@@ -118,4 +128,11 @@ public class Spawner : MonoBehaviour
 		return spawn;
     }
 
+	private void OnTriggerEnter(Collider col){
+		if (col.CompareTag("Player")) StartSpawning();
+	}
+
+	private void OnTriggerExit(Collider col){
+		if (col.CompareTag("Player")) StopSpawning();
+	}
 }
