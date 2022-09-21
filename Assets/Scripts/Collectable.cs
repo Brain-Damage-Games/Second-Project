@@ -35,7 +35,9 @@ public class Collectable : MonoBehaviour
             if (CompareTag("Money")){
                 Balance.ChangeBalance(10);
                 print(Balance.GetBalance());
-                Destroy(gameObject);
+                col.GetComponent<Stacking>().AddItem(transform);
+                this.enabled = false;
+                // Destroy(gameObject);
             }
         }
     }
