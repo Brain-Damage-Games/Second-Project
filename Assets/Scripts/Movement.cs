@@ -7,32 +7,34 @@ public class Movement : MonoBehaviour
    [SerializeField]
    private float moveSpeed ; 
    [SerializeField]
-   private Joystick joystick ; 
+   private float rotationSpeed = 700f ; 
    [SerializeField]
-   private float maxXRot = 15f ;
-   private Rigidbody rb;
-   [SerializeField] private bool moving = false; 
+   private Joystick joystick ; 
+   [SerializeField] private bool moving = false;
+   private PlayerManager playerManager;
+
+   void Awake(){
+      playerManager = GetComponent<PlayerManager>();
+   }
    public void MoveSpeed (float newMoveSpeed)
    {
     moveSpeed = newMoveSpeed; 
    }
    private void Move ()
    {
-      rb = GetComponent<Rigidbody>() ; 
-      rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,0 , joystick.Vertical* moveSpeed);
-      LimitRotation () ; 
+      Vector3 direction = new Vector3(joystick.Horizontal, 0f, joystick.Vertical) ; 
+      direction.Normalize() ; 
+      transform.Translate(-direction * moveSpeed * Time.deltaTime , Space.World);
+      if (direction != Vector3.zero && !playerManager.hasTarget())
+      {
+         Quaternion toRotation = Quaternion.LookRotation(-direction , Vector3.up) ; 
+         transform.rotation = Quaternion.RotateTowards(transform.rotation , toRotation , rotationSpeed* Time.deltaTime ) ; 
+      }
 
       if (joystick.Horizontal != 0 || joystick.Vertical != 0) moving = true;
       else moving = false; 
    }
-   private void LimitRotation ()
-   {
-      Vector3 playerAngles = transform.rotation.eulerAngles ; 
-      playerAngles.z = 0 ; 
-      playerAngles.x = Mathf.Clamp(playerAngles.x , 0 , maxXRot) ; 
-      
-   }
-   private void FixedUpdate()
+   private void Update()
    {
       Move(); 
    }
