@@ -12,15 +12,17 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private float coolDown = 1f;
     private float passedTime = 0f;
-    private Transform shootTarget;
-    private bool shooting;
+    [SerializeField] private Transform shootTarget;
+    [SerializeField] private bool shooting;
     [SerializeField] private GameObject shootParticle;
+    private Movement playerMovement;
     public UnityEvent OnShoot;
     private float aimSpeed = 700f;
 
     private void Awake()
     {
         passedTime = coolDown;
+        playerMovement = GetComponent<Movement>();
     }
     
     private void Update() 
@@ -29,7 +31,7 @@ public class Shooting : MonoBehaviour
         {
             passedTime += Time.deltaTime;
             AimAtTarget();
-            if (passedTime >= coolDown && CanHitTarget())
+            if (passedTime >= coolDown)
                 Shoot();
         }
     }
@@ -41,8 +43,9 @@ public class Shooting : MonoBehaviour
 
     public void Shoot()
     {
+        if (playerMovement != null && playerMovement.IsMoving()) return;
         GameObject bullet = Instantiate(bulletPrefab, gun.position, Quaternion.identity);
-        bullet.transform.SetParent(gameObject.transform);
+        // bullet.transform.SetParent(gameObject.transform);
 
         GameObject bulletParticle =  Instantiate(shootParticle, gun.position, Quaternion.LookRotation(gun.position - shootTarget.position));
         Destroy(bulletParticle, 2f);
@@ -52,11 +55,11 @@ public class Shooting : MonoBehaviour
                 
         bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
         passedTime = 0f;
-
-        OnShoot.Invoke();  
+        OnShoot.Invoke();
+        bullet = null;  
     }
 
-    private bool CanHitTarget()
+    public bool CanHitTarget()
     {
         RaycastHit hit;
         Physics.Raycast(gun.transform.position, (shootTarget.position - gun.position).normalized, out hit);

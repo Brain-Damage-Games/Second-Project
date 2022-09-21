@@ -13,11 +13,10 @@ public class NPCManager : MonoBehaviour
     private float pursuitTimer;
     private Damageable damageable;
     private Transform damager;
-    private Transform baseTransform;
+    private Transform playerBase;
     private float currentHealthValue;
     private float lastHealthValue;
     private bool pursuiting = false;
-    private bool followingTarget = false;
     [SerializeField] float shootRange = 4f;
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
@@ -25,13 +24,14 @@ public class NPCManager : MonoBehaviour
         shooting = GetComponent<Shooting>();
         pathFinding = GetComponent<PathFinding>();
         damageable = GetComponent<Damageable>();
-        dayNightCycle = GetComponent<DayNightCycle>();
-
-        dayNightCycle.onNight += StartNight;
-        dayNightCycle.onDay += StartDay;
+        dayNightCycle = GameObject.FindGameObjectWithTag("DayNight").GetComponent<DayNightCycle>();
+        if (dayNightCycle != null){
+            dayNightCycle.onNight += StartNight;
+            dayNightCycle.onDay += StartDay;
+        }
 
         GetComponent<SphereCollider>().radius = shootRange;
-        baseTransform = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+        playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
 
         pursuitTimer = 0f;
     }
@@ -42,21 +42,18 @@ public class NPCManager : MonoBehaviour
             if (coolDownComplete){
                FindNewTarget(null);
             }
+        }
 
+        if(currentTarget != null){
+            if (shooting.CanHitTarget()) pathFinding.SetStop(true);
+            else pathFinding.SetStop(false);
         }
     }
     
-    private void Follow(Transform target){
-        pathFinding.SetStop(false);
-        pathFinding.SetTarget(target);
-    }
-    private void Unfollow(){
-        pathFinding.SetStop(true);
-    }
     private void FindNewTarget(Transform previousTarget){
         if(dayNightCycle.IsNight() && CompareTag("Enemy")){
-            Follow(baseTransform);
-            currentTarget = baseTransform.GetComponent<Damageable>();
+            pathFinding.Follow(playerBase);
+            currentTarget = playerBase.GetComponent<Damageable>();
             pursuiting = false;
             pursuitTimer = 0f;
             return;
@@ -64,12 +61,14 @@ public class NPCManager : MonoBehaviour
 
         if (previousTarget != null) targetsInRange.Remove(previousTarget);
         currentTarget = null;
-        shooting.SetShooting(false);
         if (targetsInRange.Count > 0){
             currentTarget = targetsInRange[Random.Range(0,targetsInRange.Count-1)].GetComponent<Damageable>();
             shooting.SetShootTarget(currentTarget.transform);
             shooting.SetShooting(true);
-            Unfollow();
+        }
+        else{
+            shooting.SetShooting(false);
+            pathFinding.SetStop(false);
         }
     }
     public void StartNight(){
@@ -85,7 +84,7 @@ public class NPCManager : MonoBehaviour
 
         pursuiting = true;
         damager = damageable.GetLastDamager();
-        Follow(damager);
+        pathFinding.Follow(damager);
         currentTarget = damager.GetComponent<Damageable>();
         currentTarget.onDeath += FindNewTarget;
         shooting.SetShootTarget(currentTarget.transform);
