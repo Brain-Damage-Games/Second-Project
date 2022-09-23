@@ -42,7 +42,7 @@ public class Tank : MonoBehaviour
 
 
 
-
+    public ParticleSystem dust,fire;
     private bool goRight = true;
     private float patrolDegree;
     private Transform tankShooter;
@@ -78,6 +78,7 @@ public class Tank : MonoBehaviour
             if (passedTime>=coolDown && fixedOnTraget)
             {
                 shooting.SetShootTarget(target);
+                PlatParticle();
                 shooting.Shoot();
                 passedTime = 0f;
             }
@@ -156,6 +157,7 @@ public class Tank : MonoBehaviour
             _animationTimePosition = 0;
             return;
         }
+        
         tankShooter.position = Vector3.Lerp(tOrigin1, tTarget1, MoveCurve1.Evaluate(_animationTimePosition));
         tank.position = Vector3.Lerp(tOrigin2, tTarget2, MoveCurve2.Evaluate(_animationTimePosition));
     }
@@ -168,5 +170,12 @@ public class Tank : MonoBehaviour
     {
         hasTarget = false;
     }
+
+    public void PlatParticle(){
+        fire.Play();
+        dust.Play();
+    }
+
+
 
 }
