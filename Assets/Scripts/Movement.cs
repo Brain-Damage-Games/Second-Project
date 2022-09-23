@@ -9,8 +9,11 @@ public class Movement : MonoBehaviour
    [SerializeField]
    private Joystick joystick ; 
    private Rigidbody rb;
-   [SerializeField] private bool moving = false; 
-   public void MoveSpeed (float newMoveSpeed)
+   [SerializeField] private bool moving = false;
+
+   [SerializeField] private Animator animator;
+
+    public void MoveSpeed (float newMoveSpeed)
    {
     moveSpeed = newMoveSpeed; 
    }
@@ -18,8 +21,17 @@ public class Movement : MonoBehaviour
    {
       rb = GetComponent<Rigidbody>() ; 
       rb.velocity = new Vector3 (joystick.Horizontal*moveSpeed ,rb.velocity.y , joystick.Vertical* moveSpeed);
-      if (joystick.Horizontal != 0 || joystick.Vertical != 0) moving = true;
-      else moving = false; 
+        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+        {
+            moving = true;
+            animator.SetTrigger("startWalking");
+        }
+        else
+        {
+            moving = false;
+            animator.SetTrigger("StopWalking");
+        }
+
    }
    private void FixedUpdate()
    {
