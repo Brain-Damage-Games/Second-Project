@@ -5,6 +5,7 @@ using UnityEngine;
 public class Money : MonoBehaviour
 {
     bool isAlreadyCollected = false ; 
+    private MoneyCounter mc;
     private void OnTriggerEnter(Collider other)
     {
         if(isAlreadyCollected)
@@ -18,6 +19,8 @@ public class Money : MonoBehaviour
             {
                 stacking.AddItem(this.transform ) ; 
                 isAlreadyCollected = true ; 
+                mc.GetComponent<MoneyCounter>().Counter() ; 
+
             }
         }
     }

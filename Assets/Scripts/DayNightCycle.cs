@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,6 +47,8 @@ public class DayNightCycle : MonoBehaviour
     private float maxSpawnRate;
     private float spawnRate;
     private float spawnTimeCount = 0;
+    
+    public event Action onDay, onNight;
     private void Awake()
     {
         FirstInfo();
@@ -61,7 +64,7 @@ public class DayNightCycle : MonoBehaviour
 
         spawnRate = 0;
         daysPassed = 0;
-        currentTime = dayStart;
+        // currentTime = dayStart;
         maxSpawnRate = defualtMaxSpawnRate;
 
         nightTime = dayLength * (nightPercent / 100) * 60;
@@ -140,7 +143,7 @@ public class DayNightCycle : MonoBehaviour
 
             if (!s.GetSpawnStatus())
             {
-                s.Spawn();
+                s.StartSpawning();
             }
         }
     }

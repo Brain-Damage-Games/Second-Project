@@ -8,8 +8,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float shootRange = 4f;
     private Shooting shooting;
     private SphereCollider rangeCollider;
-    [SerializeField] private List<Transform> targetsInRange = new List<Transform>();
-    [SerializeField] private Damageable currentTarget;
+    private List<Transform> targetsInRange = new List<Transform>();
+    private Damageable currentTarget;
     private Damageable damageable;
 
     void Awake(){
@@ -49,4 +49,9 @@ public class PlayerManager : MonoBehaviour
             }
         } 
     }
+
+    public bool hasTarget(){
+        return currentTarget != null;
+    }
+
 }
