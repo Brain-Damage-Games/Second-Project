@@ -15,14 +15,16 @@ public class BaseUpgrade : MonoBehaviour
     //[SerializeField]
     private int level;
     public int progress;
-    private int maxProgress;
+    public int maxProgress;
     private int lastMaxProgress;
+    private int objectCounts;
     
     private void Awake()
     {
         level = 1;
         progress = 0;
-        maxProgress = 4;
+        objectCounts = upgradableObjects.Length;
+        maxProgress = objectCounts;
         lastMaxProgress = 0;
     }
 
@@ -70,7 +72,7 @@ public class BaseUpgrade : MonoBehaviour
     private void CalculateMaxProgress()
     {
         lastMaxProgress = maxProgress;
-        maxProgress = level * (level + 1) * 2;
+        maxProgress = (level * (level + 1)) * objectCounts / 2;
     }
     public int GetLevel()
     {

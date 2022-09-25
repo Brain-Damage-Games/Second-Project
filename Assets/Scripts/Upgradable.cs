@@ -14,6 +14,8 @@ public class Upgradable : MonoBehaviour
     [SerializeField]
     BaseUpgrade BU;
 
+    private ProgressBar PB;
+
     // comment the following SeralizedField after testing the class
     //[SerializeField]
     int level;
@@ -30,10 +32,11 @@ public class Upgradable : MonoBehaviour
         parent = gameObject;
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
+        PB = GetComponent<ProgressBar>();
     }
     //remove comment form codes below to test this class
     
-    /*public bool update = false;
+    public bool update = false;
     public bool downdate = false;
     private void Update()
     {
@@ -47,7 +50,7 @@ public class Upgradable : MonoBehaviour
             Downgrade();
             downdate = false;
         }
-    }*/
+    }
     public void Upgrade()
     {
 
@@ -60,6 +63,8 @@ public class Upgradable : MonoBehaviour
             if (level - 1 < statePrefabs.Length)
             {
                 ChangeFace();
+                if(PB != null)
+                    PB.Upgrade();
             }
             else
             {
