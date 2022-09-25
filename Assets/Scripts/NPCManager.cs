@@ -92,6 +92,7 @@ public class NPCManager : MonoBehaviour
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
+
         if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
             (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
                 targetsInRange.Add(col.transform);
@@ -110,7 +111,5 @@ public class NPCManager : MonoBehaviour
                 col.GetComponent<Damageable>().onDeath -= FindNewTarget;
                 if (currentTarget.gameObject == col.gameObject) FindNewTarget(null);
         }     
-    }
-        
-
+    }   
 }
