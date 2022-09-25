@@ -8,21 +8,19 @@ public class Upgradable : MonoBehaviour
     float maxHealthIncrease = 10f;
     [SerializeField]
     float damageValueIncrease = 10f;
+    [SerializeField] private float upgradeRange = 2f;
+    private bool playerInRange = false;
+    [SerializeField] private GameObject forceField;
 
     [SerializeField]
     private GameObject[] statePrefabs;
     [SerializeField]
     BaseUpgrade BU;
-
-    // comment the following SeralizedField after testing the class
-    //[SerializeField]
     int level;
-
     private GameObject parent;
     private Damageable damageable;
     private Damager damager;
     
-
 
     private void Awake()
     {
@@ -30,6 +28,8 @@ public class Upgradable : MonoBehaviour
         parent = gameObject;
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
+        forceField.transform.localScale = new Vector3(upgradeRange*2, upgradeRange*2, upgradeRange*2);
+        GetComponent<SphereCollider>().radius = upgradeRange;
     }
     //remove comment form codes below to test this class
     
@@ -50,7 +50,7 @@ public class Upgradable : MonoBehaviour
     }*/
     public void Upgrade()
     {
-
+        
         if (BU.CheckIndividualUpgrade(level))
         {
             level++;
@@ -101,6 +101,20 @@ public class Upgradable : MonoBehaviour
         GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
         newState.transform.SetParent(parent.transform);
         newState.transform.SetAsFirstSibling();
+    }
+
+    private void OnTriggerEnter(Collider col){
+        if (col.isTrigger) return;
+        if (col.CompareTag("Player")){
+            forceField.GetComponent<MeshRenderer>().enabled = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col){
+        if (col.isTrigger) return;
+        if (col.CompareTag("Player")){
+            forceField.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
     public int GetLevel()
     {

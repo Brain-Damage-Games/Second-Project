@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 162782588}
   - component: {fileID: 162782587}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: ForceField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,11 +320,9 @@ MonoBehaviour:
   target: {fileID: 0}
   followSmoothing: 0.125
   offset: {x: 0, y: 3, z: -5}
-  zoomMultiplier: 2
-  defaultFov: 60
-  zoomDuration: 2
+  size: 5
   zoomSpeed: 2
-  cam: {fileID: 1145252137}
+  zoomSmoothness: 5
 --- !u!1 &1328037147
 GameObject:
   m_ObjectHideFlags: 0
