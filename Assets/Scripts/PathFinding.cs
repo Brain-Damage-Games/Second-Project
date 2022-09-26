@@ -5,37 +5,45 @@ using UnityEngine.AI;
 
 public class PathFinding : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform target;
 
     [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime, followRange;
 
     private NavMeshAgent navMeshAgent;
 
-    private float timer = 0;
+    private float originalRange, timer = 0;
+    private bool directFollow = false;
+    private Transform directFollowTarget;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         timer = maxPatrolTime;
+        originalRange = followRange;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-
-        if (Mathf.Abs(Vector3.Distance(player.transform.position, transform.position)) <= followRange)
-        {
-            navMeshAgent.destination = player.position;
-        }
-        else
-        {
-            if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
+        if (!directFollow){
+            if (Mathf.Abs(Vector3.Distance(target.transform.position, transform.position)) <= followRange || directFollow)
             {
-                navMeshAgent.destination = NextPostion();
-                timer = 0;
+                navMeshAgent.destination = target.position;
             }
-            timer += Time.deltaTime;
+            else
+            {
+                if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
+                {
+                    navMeshAgent.destination = NextPostion();
+                    timer = 0;
+                }
+                timer += Time.deltaTime;
+            }
         }
+    }
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 
     private Vector3 NextPostion()
@@ -55,6 +63,25 @@ public class PathFinding : MonoBehaviour
         maxPatrolX = maxX;
         minPatrolZ = minZ;
         maxPatrolZ = maxZ;
+    }
+
+    public void SetRange(float newRange) 
+    {
+        followRange = newRange;
+    }
+
+    public void RevertRange() 
+    {
+        followRange = originalRange;
+    }
+
+    public void Follow(Transform target){
+        directFollow = true;
+        this.target = target;
+    }
+
+    public void UnFollow(){
+        directFollow = false;
     }
 }
 

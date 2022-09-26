@@ -9,7 +9,7 @@ public class Damageable : MonoBehaviour
     [SerializeField] private UnityEvent onDamage;
     public delegate void onDeathDel(Transform transform);
     public event onDeathDel onDeath;
-    [SerializeField] private Image healthBar;
+    //[SerializeField] private Slider healthBar;
     [SerializeField] private float acceleration = 1f;
     private Transform lastDamager;
     private bool dead = false;
@@ -30,7 +30,7 @@ public class Damageable : MonoBehaviour
             timeBetweenHealthBarChange += acceleration * Time.deltaTime;
         }
 
-        healthBar.fillAmount = currentHealthValue / maxHealth;
+        //healthBar.value = currentHealthValue / maxHealth;
     }
 
     public void GetDamaged(float damageValue, Transform damager)

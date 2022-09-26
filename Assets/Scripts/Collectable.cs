@@ -6,9 +6,10 @@ public class Collectable : MonoBehaviour
 {
     private Transform player;
     private float distance;
+    [SerializeField] private float magnetDistance = 10f;
 
-    [SerializeField]
-    float baseSpeed = 1f;
+    [SerializeField] private float baseSpeed = 1f;
+    [SerializeField, Min(1)] private int value = 5; 
 
     private void Awake() 
     {
@@ -18,12 +19,25 @@ public class Collectable : MonoBehaviour
     private void Update() 
     {
         distance = Mathf.Abs((player.position - transform.position).magnitude);
-        MoveTowardsPlayer();
+        if (distance <= magnetDistance)
+            MoveTowardsPlayer();
     }
 
     public void MoveTowardsPlayer()
     {
-        Vector3 goTo = Vector3.Slerp(transform.position, player.position, (distance + baseSpeed) / baseSpeed);
-        transform.position = goTo;
+        Vector3 goTo = Vector3.Slerp(transform.position, player.position, (distance + baseSpeed)*baseSpeed*Time.deltaTime);
+        transform.position = goTo;   
+    }
+    
+    private void OnTriggerEnter(Collider col){
+        if (col.isTrigger) return;
+        if (col.CompareTag("Player")){
+            if (CompareTag("Money")){
+                Balance.ChangeBalance(value);
+                print(Balance.GetBalance());
+                col.GetComponent<Stacking>().AddItem(transform);
+                this.enabled = false;
+            }
+        }
     }
 }
