@@ -45,6 +45,24 @@ public class CameraFollow : MonoBehaviour
     }
 
     
+    public IEnumerator shake (float duration, float magnitude)
+    {
+        Vector3 camPos = transform.localPosition ; 
+        float elapsedTime  = 0.0f ;
+        while(elapsedTime < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude ; 
+            float y = Random.Range(-1f, 1f) * magnitude ; 
+
+            transform.localPosition = new Vector3 (x, y , camPos.z); 
+
+            elapsedTime += Time.deltaTime ; 
+
+            yield return null ; 
+        }
+        transform.localPosition = camPos ; 
+    }
+        
    IEnumerator SetZoom( float v_start, float v_end, float duration )
    {
     float elapsed = 0.0f;
@@ -59,7 +77,6 @@ public class CameraFollow : MonoBehaviour
    }
 
    public void ZoomTo(float size){
-
         StartCoroutine(SetZoom(cam.orthographicSize,size,zoomSpeed*zoomSmoothness));
     }
 }
