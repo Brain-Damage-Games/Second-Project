@@ -51,7 +51,6 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-  healthBar: {fileID: 0}
   acceleration: 1
 --- !u!114 &-1864328160589885689
 MonoBehaviour:
