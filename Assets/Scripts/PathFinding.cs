@@ -101,5 +101,11 @@ public class PathFinding : MonoBehaviour
     public void UnFollow(){
         directFollow = false;
     }
+
+    public void Patrol() 
+    {
+        NextPostion();
+        SetTarget(patrolPoint);
+    }
 }
 
