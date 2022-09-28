@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  patrolPrefab: {fileID: 0}
+  patrolPrefab: {fileID: 8079905477551637005, guid: 9f28b2e0f405b50459a32316a98143d6, type: 3}
   minPatrolX: -13
   maxPatrolX: 16
   minPatrolZ: 0
