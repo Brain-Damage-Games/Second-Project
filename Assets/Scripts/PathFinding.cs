@@ -54,7 +54,7 @@ public class PathFinding : MonoBehaviour
 
     public void SetStop(bool isStopped) 
     {
-        navMeshAgent.isStopped = isStopped;
+        if (navMeshAgent != null) navMeshAgent.isStopped = isStopped;
     }
 
     public void SetBorder(float minX, float maxX, float minZ, float maxZ) 

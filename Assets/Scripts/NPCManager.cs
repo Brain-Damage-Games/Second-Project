@@ -32,7 +32,19 @@ public class NPCManager : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
-
+        foreach(Collider col in Physics.OverlapSphere(transform.position, shootRange)){
+            if (CompareTag("Enemy")){
+                if (col.CompareTag("Player") || col.CompareTag("PlayerPatrol")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+            else if (CompareTag("PlayerPatrol")){
+                if (col.CompareTag("Enemy")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+        }
+        FindNewTarget(null);
         pursuitTimer = 0f;
     }
 
