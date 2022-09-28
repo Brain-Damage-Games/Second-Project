@@ -68,6 +68,7 @@ public class PathFinding : MonoBehaviour
 
     public void SetStop(bool isStopped) 
     {
+        if (aIPathComponent == null) return;
         if (isStopped)
             aIPathComponent.maxSpeed = 0;
         else
