@@ -52,15 +52,18 @@ public class BaseUpgrade : MonoBehaviour
             doAction = true;
         }
     }
-    public bool CheckIndividualUpgrade(int level)
+    public bool CheckIndividualUpgrade(int level,bool addProgress)
     {
         bool doAct = false;
 
         if ((level < this.level) || (level == this.level && progress >= lastMaxProgress))
         {
             doAct = true;
-            ChangeProgress(level);
-            CheckForUpgrade();
+            if (addProgress) 
+            {
+                ChangeProgress(level);
+                CheckForUpgrade();
+            }
         }    
 
         return doAct;

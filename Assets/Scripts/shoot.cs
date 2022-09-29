@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Remove this script as soon as you dealed with animations
 public class shoot : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +14,7 @@ public class shoot : MonoBehaviour
     public bool idleG;
     public bool inG;
     public bool shootG;
-    public bool reload;
+    //public bool reload;
     public bool move;
     public float moveS;
 
@@ -34,11 +35,11 @@ public class shoot : MonoBehaviour
             Shoot();
             shootG = false;
         }
-        if (reload)
+        /*if (reload)
         {
             Reload();
             reload = false;
-        }
+        }*/
         if (move)
         {
             Move();
@@ -62,14 +63,15 @@ public class shoot : MonoBehaviour
         animator.SetInteger("WeaponType_int", 4);
         animator.SetBool("Reload_b", false);
         animator.SetBool("Shoot_b", true);
+
     }
 
-    private void Reload()
+    /*private void Reload()
     {
         animator.SetInteger("WeaponType_int", 4);
         animator.SetBool("Reload_b", true);
         animator.SetBool("Shoot_b", false);
-    }
+    }*/
     private void TakeInGun()
     {
         animator.SetInteger("WeaponType_int", -1);
