@@ -18,6 +18,9 @@ public class NPCManager : MonoBehaviour
     private float lastHealthValue;
     private bool pursuiting = false;
     [SerializeField] float shootRange = 4f;
+    /*private Animator animator;
+    [SerializeField]
+    private GameObject gunObject;*/
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
@@ -32,7 +35,7 @@ public class NPCManager : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
-
+        //animator = GetComponent<Animator>();
         pursuitTimer = 0f;
     }
 
@@ -111,6 +114,14 @@ public class NPCManager : MonoBehaviour
                 if (currentTarget.gameObject == col.gameObject) FindNewTarget(null);
         }     
     }
-        
+
+    /*private void Die()
+    {
+        animator.SetInteger("DeathType_int", 2);
+        animator.SetBool("Death_b", true);
+        animator.SetBool("Shoot_b", false);
+        gunObject.SetActive(false);
+    }*/
+         
 
 }

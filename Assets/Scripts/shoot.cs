@@ -14,6 +14,7 @@ public class shoot : MonoBehaviour
     public bool idleG;
     public bool inG;
     public bool shootG;
+    public bool die;
     //public bool reload;
     public bool move;
     public float moveS;
@@ -44,9 +45,9 @@ public class shoot : MonoBehaviour
         {
             Move();
         }
-        else
+        if (die)
         {
-
+            Die();
         }
 
    }
@@ -82,5 +83,12 @@ public class shoot : MonoBehaviour
     private void Move()
     {
         animator.SetFloat("Speed_f", moveS);
+    }
+    private void Die()
+    {
+        animator.SetInteger("DeathType_int", 2);
+        animator.SetBool("Death_b",true);
+        animator.SetBool("Shoot_b", false);
+        gun.SetActive(false);
     }
 }

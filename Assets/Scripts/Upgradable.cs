@@ -70,20 +70,30 @@ public class Upgradable : MonoBehaviour
     }
     //remove comment form codes below to test this class
     
-    public bool update = false;
+    
     private void Update()
     {
-        if (update)
+        if (playerInRange)
         {
-            UpdateHandler(inputMoney);
-            update = false;
+            inputMoney = Balance.GetBalance();
+            UpdateHandler();
         }
     }
-    private void UpdateHandler(float money)
+    private void UpdateHandler()
     {
-        if (BU.CheckIndividualUpgrade(level,false) && money > 0)
+        if (BU.CheckIndividualUpgrade(level,false) && inputMoney > 0)
         {
-            payedMoney += money;
+            if (inputMoney > (maxMoney - payedMoney))
+            {
+                inputMoney= (maxMoney - payedMoney);
+                Balance.ChangeBalance((int)(inputMoney - (maxMoney - payedMoney)));
+            }
+            else
+            {
+                Balance.ChangeBalance(0);
+            }
+
+            payedMoney += inputMoney;
             if (payedMoney >= maxMoney)
             {
                 payedMoney -= maxMoney;
@@ -96,9 +106,9 @@ public class Upgradable : MonoBehaviour
                 }
             }
         }
-        else if (money < 0)
+        else if (inputMoney < 0)
         {
-            payedMoney += money;
+            payedMoney += inputMoney;
             if (payedMoney < 0)
             {
                 payedMoney = 0;
@@ -110,7 +120,7 @@ public class Upgradable : MonoBehaviour
             }
         }
         slider.value = payedMoney;
-        txt.text = (payedMoney / maxMoney).ToString() + "%";
+        txt.text = ((int)(payedMoney / maxMoney)*100).ToString() + "%";
     }
     public void Upgrade()
     {
@@ -177,8 +187,9 @@ public class Upgradable : MonoBehaviour
         if (col.isTrigger) return;
         if (col.CompareTag("Player"))
         {
-            forceField.GetComponent<MeshRenderer>().enabled = true;
+            playerInRange = true;
             slider.gameObject.SetActive(true);
+            forceField.GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
@@ -187,6 +198,8 @@ public class Upgradable : MonoBehaviour
         if (col.isTrigger) return;
         if (col.CompareTag("Player"))
         {
+            playerInRange = false;
+            slider.gameObject.SetActive(false);
             forceField.GetComponent<MeshRenderer>().enabled = false;
         }
     }

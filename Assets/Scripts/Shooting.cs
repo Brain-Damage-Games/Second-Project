@@ -20,7 +20,7 @@ public class Shooting : MonoBehaviour
     private float aimSpeed = 700f;
     private Animator animator;
     [SerializeField]
-    private GameObject playerGun;
+    private GameObject gunObject;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class Shooting : MonoBehaviour
         playerMovement = GetComponent<Movement>();
         animator = GetComponent<Animator>();
         //animation handler
-        playerGun.SetActive(true);
+        gunObject.SetActive(true);
         animator.SetInteger("WeaponType_int", 4);
         animator.SetBool("Reload_b", false);
         animator.SetBool("Shoot_b", false);
