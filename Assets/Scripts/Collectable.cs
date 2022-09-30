@@ -8,8 +8,8 @@ public class Collectable : MonoBehaviour
     private float distance;
     [SerializeField] private float magnetDistance = 10f;
 
-    [SerializeField]
-    float baseSpeed = 1f;
+    [SerializeField] private float baseSpeed = 1f;
+    [SerializeField, Min(1)] private int value = 5; 
 
     private void Awake() 
     {
@@ -33,9 +33,10 @@ public class Collectable : MonoBehaviour
         if (col.isTrigger) return;
         if (col.CompareTag("Player")){
             if (CompareTag("Money")){
-                Balance.ChangeBalance(10);
+                Balance.ChangeBalance(value);
                 print(Balance.GetBalance());
-                Destroy(gameObject);
+                col.GetComponent<Stacking>().AddItem(transform);
+                this.enabled = false;
             }
         }
     }

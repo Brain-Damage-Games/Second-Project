@@ -36,6 +36,19 @@ public class NPCManager : MonoBehaviour
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
         //animator = GetComponent<Animator>();
+        foreach(Collider col in Physics.OverlapSphere(transform.position, shootRange)){
+            if (CompareTag("Enemy")){
+                if (col.CompareTag("Player") || col.CompareTag("PlayerPatrol")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+            else if (CompareTag("PlayerPatrol")){
+                if (col.CompareTag("Enemy")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+        }
+        FindNewTarget(null);
         pursuitTimer = 0f;
     }
 
@@ -95,6 +108,7 @@ public class NPCManager : MonoBehaviour
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
+
         if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
             (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
                 targetsInRange.Add(col.transform);
@@ -123,5 +137,4 @@ public class NPCManager : MonoBehaviour
         gunObject.SetActive(false);
     }*/
          
-
 }
