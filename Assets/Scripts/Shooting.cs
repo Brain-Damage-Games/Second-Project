@@ -18,11 +18,20 @@ public class Shooting : MonoBehaviour
     private Movement playerMovement;
     public UnityEvent OnShoot;
     private float aimSpeed = 700f;
+    private Animator animator;
+    [SerializeField]
+    private GameObject gunObject;
 
     private void Awake()
     {
         passedTime = coolDown;
         playerMovement = GetComponent<Movement>();
+        animator = GetComponent<Animator>();
+        //animation handler
+        gunObject.SetActive(true);
+        animator.SetInteger("WeaponType_int", 4);
+        animator.SetBool("Reload_b", false);
+        animator.SetBool("Shoot_b", false);
     }
     
     private void Update() 
@@ -34,6 +43,10 @@ public class Shooting : MonoBehaviour
             if (passedTime >= coolDown)
                 Shoot();
         }
+        //animation handler
+        else
+            animator.SetBool("Shoot_b", false);
+        
     }
 
     private void AimAtTarget(){
@@ -56,7 +69,11 @@ public class Shooting : MonoBehaviour
         bullet.GetComponent<Rigidbody>().velocity = (shootTarget.position - gun.position).normalized  * shootingSpeed;
         passedTime = 0f;
         OnShoot.Invoke();
-        bullet = null;  
+        bullet = null;
+
+        //animation handler
+
+        animator.SetBool("Shoot_b", true);
     }
 
     public bool CanHitTarget()
