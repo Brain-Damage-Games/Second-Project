@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class MoneyCounter : MonoBehaviour
 {
+    TextMesh textMesh ; 
     private int moneyAmount = 0  ;
     public void Counter()
     {
@@ -11,12 +13,11 @@ public class MoneyCounter : MonoBehaviour
     }
     void Start()
     {
-        
+        textMesh = GetComponent<TextMesh>(); 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        textMesh.text = moneyAmount.ToString(); 
     }
 }

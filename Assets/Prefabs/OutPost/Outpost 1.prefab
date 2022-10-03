@@ -65,6 +65,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: feb0d4a42c143244a806afaeeee0f59f, type: 3}
+--- !u!1 &7023979389766280892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8059794051734844880, guid: feb0d4a42c143244a806afaeeee0f59f, type: 3}
+  m_PrefabInstance: {fileID: 1053864262719050604}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8937689466820264073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7023979389766280892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  uniqueID: 1338328247802634322
+  updateError: 1
+  checkTime: 0.2
 --- !u!1001 &5970791208217234907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,8 +141,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outpost 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3131621280579199695, guid: 4ec464708d771584b9ff756b978553c0, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ec464708d771584b9ff756b978553c0, type: 3}
 --- !u!4 &5920043757080601148 stripped
 Transform:

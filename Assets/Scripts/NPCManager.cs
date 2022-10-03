@@ -40,7 +40,24 @@ public class NPCManager : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+<<<<<<< HEAD
         animator = GetComponent<Animator>();
+=======
+        //animator = GetComponent<Animator>();
+        foreach(Collider col in Physics.OverlapSphere(transform.position, shootRange)){
+            if (CompareTag("Enemy")){
+                if (col.CompareTag("Player") || col.CompareTag("PlayerPatrol")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+            else if (CompareTag("PlayerPatrol")){
+                if (col.CompareTag("Enemy")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+        }
+        FindNewTarget(null);
+>>>>>>> bbb69b9fc5d1331c094d5346aa95527f06424619
         pursuitTimer = 0f;
 
 
@@ -104,6 +121,7 @@ public class NPCManager : MonoBehaviour
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
+
         if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
             (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
                 targetsInRange.Add(col.transform);
@@ -130,6 +148,7 @@ public class NPCManager : MonoBehaviour
         animator.SetBool("Death_b", true);
         animator.SetBool("Shoot_b", false);
         gunObject.SetActive(false);
+<<<<<<< HEAD
         StartCoroutine(DeathEffect());
         
     }
@@ -151,4 +170,8 @@ public class NPCManager : MonoBehaviour
     }
 
 
+=======
+    }*/
+         
+>>>>>>> bbb69b9fc5d1331c094d5346aa95527f06424619
 }

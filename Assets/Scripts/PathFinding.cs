@@ -2,39 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Pathfinding;
 
 public class PathFinding : MonoBehaviour
 {
     [SerializeField] private Transform target;
+    [SerializeField] private GameObject patrolPrefab;
 
     [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime, followRange;
 
-    private NavMeshAgent navMeshAgent;
-
-    private float originalRange, timer = 0;
+    private Transform directFollowTarget, patrolPoint;
     private bool directFollow = false;
-    private Transform directFollowTarget;
+
+    //AI
+    private AIDestinationSetter destinationSetter;
+    private AIPath aIPathComponent;
+
+    //Private Floats
+    private float baseSpeed;
+    private float originalRange, timer = 0;
 
     private void Awake()
     {
+        patrolPoint = Instantiate(patrolPrefab).transform;
         // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         timer = maxPatrolTime;
         originalRange = followRange;
-        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        destinationSetter = GetComponent<AIDestinationSetter>();
+        aIPathComponent = GetComponent<AIPath>();
+
+        baseSpeed = aIPathComponent.maxSpeed;
     }
 
     private void Update()
     {
-        if (!directFollow){
-            if (Mathf.Abs(Vector3.Distance(target.transform.position, transform.position)) <= followRange || directFollow)
+        if (!directFollow)
+        {
+            if ((Mathf.Abs(Vector3.Distance(target.position, transform.position)) <= followRange || directFollow ) && !target.CompareTag("PatrolPoint"))
             {
-                navMeshAgent.destination = target.position;
+                destinationSetter.target = target;
             }
             else
             {
                 if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
                 {
-                    navMeshAgent.destination = NextPostion();
+                    NextPostion();
+                    SetTarget(patrolPoint);
+                    destinationSetter.target = target;
                     timer = 0;
                 }
                 timer += Time.deltaTime;
@@ -46,15 +61,18 @@ public class PathFinding : MonoBehaviour
         target = newTarget;
     }
 
-    private Vector3 NextPostion()
+    private void NextPostion()
     {
-        Vector3 pos = new Vector3(Random.Range(minPatrolX, maxPatrolX), 0, Random.Range(minPatrolZ, maxPatrolZ));
-        return pos;
+        patrolPoint.position = new Vector3(Random.Range(minPatrolX, maxPatrolX), 0, Random.Range(minPatrolZ, maxPatrolZ));
     }
 
     public void SetStop(bool isStopped) 
     {
-        navMeshAgent.isStopped = isStopped;
+        if (aIPathComponent == null) return;
+        if (isStopped)
+            aIPathComponent.maxSpeed = 0;
+        else
+            aIPathComponent.maxSpeed = baseSpeed;
     }
 
     public void SetBorder(float minX, float maxX, float minZ, float maxZ) 
@@ -82,6 +100,12 @@ public class PathFinding : MonoBehaviour
 
     public void UnFollow(){
         directFollow = false;
+    }
+
+    public void Patrol() 
+    {
+        NextPostion();
+        SetTarget(patrolPoint);
     }
 }
 
