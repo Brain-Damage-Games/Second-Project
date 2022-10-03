@@ -17,9 +17,13 @@ public class shoot : MonoBehaviour
     public bool die;
     //public bool reload;
     public bool move;
-    public float moveS;
+    public float moveS; 
+    [SerializeField]
+    private ParticleSystem smokeParticle;
+    [SerializeField]
+    private GameObject coin;
 
-   private void Update()
+    private void Update()
    {
         if (idleG)
         {
@@ -48,6 +52,7 @@ public class shoot : MonoBehaviour
         if (die)
         {
             Die();
+            die = false;
         }
 
    }
@@ -90,5 +95,25 @@ public class shoot : MonoBehaviour
         animator.SetBool("Death_b",true);
         animator.SetBool("Shoot_b", false);
         gun.SetActive(false);
+        StartCoroutine(DeathEffect());
+
     }
+    private IEnumerator DeathEffect()
+    {
+        float time = smokeParticle.duration;
+        yield return new WaitForSeconds(time/2);
+        Quaternion q = Quaternion.Euler(new Vector3(-90, 0, 0));
+        ParticleSystem p = Instantiate(smokeParticle, transform.position, q);
+        StartCoroutine(CoinInstantiate(time/2));
+        p.Play();
+        Destroy(p,p.duration+1);
+        Destroy(gameObject, time);
+    }
+    private IEnumerator CoinInstantiate(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Instantiate(coin, transform.position, Quaternion.identity);
+    }
+
+
 }

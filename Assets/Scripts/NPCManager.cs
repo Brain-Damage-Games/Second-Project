@@ -18,9 +18,14 @@ public class NPCManager : MonoBehaviour
     private float lastHealthValue;
     private bool pursuiting = false;
     [SerializeField] float shootRange = 4f;
-    /*private Animator animator;
+    private Animator animator;
     [SerializeField]
-    private GameObject gunObject;*/
+    private GameObject gunObject;
+    [SerializeField]
+    private ParticleSystem smokeParticle;
+    [SerializeField]
+    private GameObject coin;
+
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
@@ -35,8 +40,11 @@ public class NPCManager : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         pursuitTimer = 0f;
+
+
+        damageable.onDeath += Die;
     }
 
     void Update(){ 
@@ -51,6 +59,7 @@ public class NPCManager : MonoBehaviour
             if (shooting.CanHitTarget()) pathFinding.SetStop(true);
             else pathFinding.SetStop(false);
         }
+        
     }
     
     private void FindNewTarget(Transform previousTarget){
@@ -115,13 +124,31 @@ public class NPCManager : MonoBehaviour
         }     
     }
 
-    /*private void Die()
+    private void Die(Transform t)
     {
         animator.SetInteger("DeathType_int", 2);
         animator.SetBool("Death_b", true);
         animator.SetBool("Shoot_b", false);
         gunObject.SetActive(false);
-    }*/
-         
+        StartCoroutine(DeathEffect());
+        
+    }
+    private IEnumerator DeathEffect()
+    {
+        float time = smokeParticle.duration;
+        yield return new WaitForSeconds(time / 2);
+        Quaternion q = Quaternion.Euler(new Vector3(-90, 0, 0));
+        ParticleSystem p = Instantiate(smokeParticle, transform.position, q);
+        StartCoroutine(CoinInstantiate(time / 2));
+        p.Play();
+        Destroy(p, p.duration + 1);
+        Destroy(gameObject, time);
+    }
+    private IEnumerator CoinInstantiate(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Instantiate(coin, transform.position, Quaternion.identity);
+    }
+
 
 }
