@@ -75,4 +75,9 @@ public class Damageable : MonoBehaviour
     {
         return health / maxHealth;
     }
+
+    public int GetExactHealth()
+    {
+        return (int) health;
+    }
 }

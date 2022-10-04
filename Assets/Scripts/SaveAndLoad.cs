@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class SaveAndLoad : MonoBehaviour
 {
-    int wallSize = 14, outPostSize = 4, towerSize = 4, base_Size = 2;
+    int wallSize = 14, outPostSize = 4, towerSize = 4, base_Size = 1;
+
+    public GameObject[] walls = new GameObject[14];
+    public GameObject[] outPosts = new GameObject[4];
+    public GameObject[] towers = new GameObject[4];
+    public GameObject theBase;
 
     //***** first column is health and the secound is level
     public int[,] wall = new int[14,2];
@@ -42,6 +47,8 @@ public class SaveAndLoad : MonoBehaviour
     {
 
         ChangeWallAmount();
+
+        StoreInArray();
 
         PlayerPrefs.SetString("Wall", TurnToString(wall));
         PlayerPrefs.SetString("OutPost", TurnToString(outPost));
@@ -123,6 +130,34 @@ public class SaveAndLoad : MonoBehaviour
         for(int i = 0; i < wallSize; i++)
             for(int j = 0; j < 2; j++)
                 wall[i,j] ++;
+    }
+
+    private void StoreInArray()
+    {
+        //***** walls:
+        for(int i = 0; i < wallSize; i++)
+        {
+            wall[i,0] = walls[i].GetComponent<Damageable>().GetExactHealth();
+            wall[i,1] = walls[i].GetComponent<Upgradable>().GetLevel();
+        }
+
+        //***** outPost:
+        for(int i = 0; i < outPostSize; i++)
+        {
+            outPost[i,0] = outPosts[i].GetComponent<Damageable>().GetExactHealth();
+            outPost[i,1] = outPosts[i].GetComponent<OutpostUpgrade>().GetLevel();
+        }
+
+        //***** towers:
+        for(int i = 0; i < towerSize; i++)
+        {
+            tower[i,0] = towers[i].GetComponent<Damageable>().GetExactHealth();
+            tower[i,1] = towers[i].GetComponent<Upgradable>().GetLevel();
+        }
+
+        //***** base:
+        base_[0] = theBase.GetComponent<Damageable>().GetExactHealth();
+        base_[1] = theBase.GetComponent<BaseUpgrade>().GetLevel();
     }
     
 }
