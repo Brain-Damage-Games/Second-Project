@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -2698990634329196843}
   - component: {fileID: 4088195105445137902}
   - component: {fileID: 2708388722315806648}
+  - component: {fileID: 3268201244209380075}
   m_Layer: 0
   m_Name: bullet
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3dd3e694d4e8d5742b40da927a967c3a, type: 2}
+  - {fileID: 2100000, guid: f775052f85a7c01489efcbe31fbc54b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -237,3 +238,21 @@ TrailRenderer:
   m_MinVertexDistance: 0
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &3268201244209380075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426201891005447843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858d25174ba5b92449fcde18ff210ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  explosive: 0
+  impactRadius: 10
+  impactForce: 100

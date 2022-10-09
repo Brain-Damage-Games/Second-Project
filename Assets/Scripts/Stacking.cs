@@ -16,41 +16,41 @@ public class Stacking : MonoBehaviour
     private float jumpDuration = 0.5f ; 
     [SerializeField]
     private float delayDestroy = 1f ; 
-    private int amount =  0 ; 
-    private int itemCount = 0 ; 
+    [SerializeField] private int stackValue = 10; 
     private List <Transform> items = new List<Transform> () ; 
 
     public void RemoveItem(int amount , Transform upgradePosition) 
     {
-        itemCount = items.Count ; 
-        if(itemCount < amount)
+        if(items.Count < amount)
         {
             return ; 
         }
-        if(amount <= itemCount ) 
+        if(amount <= items.Count ) 
         {
             for(int i = 0 ; i <= amount; i++)
             {
-                items[itemCount - i].DOJump(upgradePosition.position , jumpPower , 1 , jumpDuration) ; 
-                if (items[itemCount - i].position == upgradePosition.position)
+                items[items.Count - i].DOJump(upgradePosition.position , jumpPower , 1 , jumpDuration) ; 
+                if (items[items.Count - i].position == upgradePosition.position)
                 {
-                    Destroy (items[itemCount - i].gameObject ,delayDestroy) ; 
-                    items.Remove (items [itemCount - i]) ; 
+                    Destroy (items[items.Count - i].gameObject ,delayDestroy) ; 
+                    items.Remove (items [items.Count - i]) ; 
                 }
             }
         }
     }
     public void AddItem(Transform itemToAdd)
     {
-        items.Add(itemToAdd); 
-        itemToAdd.DOJump(stackPoint.position + new Vector3(0 , prefabScale * amount , 0 ) , jumpPower, 1 , jumpDuration).OnComplete(
-            ()=>{
-                itemToAdd.SetParent(stackPoint , true);
-                itemToAdd.localPosition = new Vector3 (0f , prefabScale * amount , 0f ); 
-                itemToAdd.localRotation = Quaternion.identity; 
-                amount++;
-            }
-        ); 
+        if (items.Count == 0 || Balance.GetBalance() / stackValue > items.Count){
+            items.Add(itemToAdd); 
+            itemToAdd.DOJump(stackPoint.position + new Vector3(0 , prefabScale * items.Count , 0 ) , jumpPower, 1 , jumpDuration).OnComplete(
+                ()=>{
+                    itemToAdd.SetParent(stackPoint , true);
+                    itemToAdd.localPosition = new Vector3 (0f , prefabScale * items.Count , 0f ); 
+                    itemToAdd.localRotation = Quaternion.identity; 
+                }
+            ); 
+        }
+        else Destroy(itemToAdd.gameObject);
     }
     private void Start() {
         prefabScale /= 2f ;
