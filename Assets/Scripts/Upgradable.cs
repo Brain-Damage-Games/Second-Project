@@ -51,7 +51,7 @@ public class Upgradable : MonoBehaviour
 
     private float payedMoney;
     private float maxMoney;
-
+    public ParticleSystem upgrade;
     private void Awake()
     {
         level = 1;
@@ -124,6 +124,9 @@ public class Upgradable : MonoBehaviour
     }
     public void Upgrade()
     {
+        upgrade.transform.position = transform.position;
+        upgrade.Play();
+
         level++;
         UpdateMaxMoney();
         damageable.SetMaxHealth(damageable.GetMaxHealth() + maxHealthIncrease);

@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] private bool explosive;
     [SerializeField] private float impactRadius = 10f;
     [SerializeField] private float impactForce = 100f;
+    public ParticleSystem explosion;
     void Awake(){
         damager = GetComponent<Damager>();
     }
@@ -24,7 +25,10 @@ public class BulletController : MonoBehaviour
         }
         else
         { 
+            
             Collider[] intersecting = Physics.OverlapSphere(transform.position, impactRadius);
+            explosion.transform.position = transform.position;
+            explosion.Play();
             print(intersecting.Length);
             foreach (Collider coll in intersecting)
             {
