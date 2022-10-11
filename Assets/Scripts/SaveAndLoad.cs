@@ -38,6 +38,9 @@ public class SaveAndLoad : MonoBehaviour
         playerHealth = PlayerPrefs.GetFloat("PlayerHealth");
         time = PlayerPrefs.GetFloat("Time");
 
+        StoreInGameObject();
+
+        //this method is for test.
         Print_();
 
         print("Load");
@@ -45,7 +48,7 @@ public class SaveAndLoad : MonoBehaviour
 
     public void Save()
     {
-
+        // this method is for test;
         ChangeWallAmount();
 
         StoreInArray();
@@ -132,6 +135,7 @@ public class SaveAndLoad : MonoBehaviour
                 wall[i,j] ++;
     }
 
+    //***** this method will get the informathion from the gameObjects and store them in related arrays.
     private void StoreInArray()
     {
         //***** walls:
@@ -141,7 +145,7 @@ public class SaveAndLoad : MonoBehaviour
             wall[i,1] = walls[i].GetComponent<Upgradable>().GetLevel();
         }
 
-        //***** outPost:
+        //***** outPosts:
         for(int i = 0; i < outPostSize; i++)
         {
             outPost[i,0] = outPosts[i].GetComponent<Damageable>().GetExactHealth();
@@ -158,6 +162,50 @@ public class SaveAndLoad : MonoBehaviour
         //***** base:
         base_[0] = theBase.GetComponent<Damageable>().GetExactHealth();
         base_[1] = theBase.GetComponent<BaseUpgrade>().GetLevel();
+    }
+
+    //***** this method will store arrays informathion in related gameObjects.
+    private void StoreInGameObject()
+    {
+        //***** walls:
+        for(int i = 0; i < wallSize; i++)
+        {
+            walls[i].GetComponent<Damageable>().SetHealth(wall[i,0]);
+            walls[i].GetComponent<Upgradable>().SetLevel(wall[i,1]);
+        }
+
+        //***** outPosts:
+        for(int i = 0; i < outPostSize; i++)
+        {
+            outPosts[i].GetComponent<Damageable>().SetHealth(outPost[i,0]);
+            outPosts[i].GetComponent<OutpostUpgrade>().SetLevel(outPost[i,1]);
+        }
+
+        //***** towers:
+        for(int i = 0; i < towerSize; i++)
+        {
+            towers[i].GetComponent<Damageable>().SetHealth(outPost[i,0]);
+            towers[i].GetComponent<OutpostUpgrade>().SetLevel(outPost[i,1]);
+        }
+
+        //***** base:
+        theBase.GetComponent<Damageable>().SetHealth(base_[0]);
+        theBase.GetComponent<BaseUpgrade>().SetLevel(base_[1]);
+    }
+
+    public void SetMoney(float money)
+    {
+        this.money = money;
+    }
+
+    public void SetPlayerHealth(float playerHealth)
+    {
+        this.playerHealth = playerHealth;
+    }
+
+    public void SetTime(float time)
+    {
+        this.time = time;
     }
     
 }

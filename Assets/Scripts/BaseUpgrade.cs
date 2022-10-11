@@ -76,4 +76,9 @@ public class BaseUpgrade : MonoBehaviour
     {
         return level;
     }
+
+    public void SetLevel(int level)
+    {
+        this.level = level;
+    }
 }

@@ -80,4 +80,9 @@ public class Damageable : MonoBehaviour
     {
         return (int) health;
     }
+
+    public void SetHealth(float health)
+    {
+        this.health = health;
+    }
 }
