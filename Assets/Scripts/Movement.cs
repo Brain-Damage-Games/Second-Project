@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
 
    void Awake(){
         playerManager = GetComponent<PlayerManager>();
-        playerAnimator = GetComponent<Animator>();
+        playerAnimator = GetComponentInChildren<Animator>();
    }
    public void MoveSpeed (float newMoveSpeed)
    {

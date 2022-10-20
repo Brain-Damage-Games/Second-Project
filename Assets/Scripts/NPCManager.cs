@@ -26,6 +26,9 @@ public class NPCManager : MonoBehaviour
     [SerializeField]
     private GameObject coin;
 
+    [SerializeField]
+    private float destructionTime = 3f;
+
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
@@ -41,7 +44,7 @@ public class NPCManager : MonoBehaviour
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
 
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         foreach(Collider col in Physics.OverlapSphere(transform.position, shootRange)){
             if (CompareTag("Enemy")){
@@ -152,20 +155,13 @@ public class NPCManager : MonoBehaviour
     }
     private IEnumerator DeathEffect()
     {
-        float time = smokeParticle.duration;
-        yield return new WaitForSeconds(time / 2);
+        yield return new WaitForSeconds(destructionTime);
         Quaternion q = Quaternion.Euler(new Vector3(-90, 0, 0));
         ParticleSystem p = Instantiate(smokeParticle, transform.position, q);
-        StartCoroutine(CoinInstantiate(time / 2));
         p.Play();
-        Destroy(p, p.duration + 1);
-        Destroy(gameObject, time);
-    }
-    private IEnumerator CoinInstantiate(float time)
-    {
-        yield return new WaitForSeconds(time);
         Instantiate(coin, transform.position, Quaternion.identity);
+        Destroy(p, p.main.duration + 1);
+        Destroy(gameObject);
     }
-
 
 }
