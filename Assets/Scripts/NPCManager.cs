@@ -151,6 +151,8 @@ public class NPCManager : MonoBehaviour
         gunObject.SetActive(false);
 
         StartCoroutine(DeathEffect());
+        shooting.enabled = false;
+        pathFinding.enabled = false;
         
     }
     private IEnumerator DeathEffect()
