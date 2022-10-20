@@ -26,7 +26,7 @@ public class Shooting : MonoBehaviour
     {
         passedTime = coolDown;
         playerMovement = GetComponent<Movement>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         //animation handler
         gunObject.SetActive(true);
         animator.SetInteger("WeaponType_int", 4);
