@@ -75,4 +75,14 @@ public class Damageable : MonoBehaviour
     {
         return health / maxHealth;
     }
+
+    public int GetExactHealth()
+    {
+        return (int) health;
+    }
+
+    public void SetHealth(float health)
+    {
+        this.health = health;
+    }
 }
