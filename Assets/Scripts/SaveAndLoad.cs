@@ -6,18 +6,25 @@ public class SaveAndLoad : MonoBehaviour
 {
     int wallSize = 14, outPostSize = 4, towerSize = 4, base_Size = 1;
 
-    public GameObject[] walls = new GameObject[14];
-    public GameObject[] outPosts = new GameObject[4];
-    public GameObject[] towers = new GameObject[4];
-    public GameObject theBase;
+    [SerializeField]
+    private GameObject[] walls = new GameObject[14];
+    [SerializeField]
+    private GameObject[] outPosts = new GameObject[4];
+    [SerializeField]
+    private GameObject[] towers = new GameObject[4];
+    [SerializeField]
+    private GameObject theBase;
+    [SerializeField]
+    private GameObject timeGO, playerHealthGO;            
+
 
     //***** first column is health and the secound is level
-    public int[,] wall = new int[14,2];
-    public int[,] outPost = new int[4,2];
-    public int[,] tower = new int[4,2];
-    public int[] base_ = new int[2];
+    private int[,] wall = new int[14,2];
+    private int[,] outPost = new int[4,2];
+    private int[,] tower = new int[4,2];
+    private int[] base_ = new int[2];
 
-    public float money, playerHealth, time;
+    public float playerHealth, time;
     
 
     // Start is called before the first frame update
@@ -27,41 +34,94 @@ public class SaveAndLoad : MonoBehaviour
     //     Load();
     // }
 
-    private void Load()
+    private void WallLoad()
     {
         TurnToIntArray(wall, PlayerPrefs.GetString("Wall"));
-        TurnToIntArray(outPost, PlayerPrefs.GetString("OutPost"));
-        TurnToIntArray(tower, PlayerPrefs.GetString("Tower"));
-        turnOneToIntArray(base_, PlayerPrefs.GetString("Base"));
-
-        money = PlayerPrefs.GetFloat("Money");
-        playerHealth = PlayerPrefs.GetFloat("PlayerHealth");
-        time = PlayerPrefs.GetFloat("Time");
-
-        StoreInGameObject();
-
+        StoreInGameObjectForWalls(); 
         //this method is for test.
-        Print_();
+        // Print_();
 
-        print("Load");
+        // print("Load");
     }
 
-    public void Save()
+    // public void MoneyLoad()
+    // {
+    //     money = PlayerPrefs.GetFloat("Money");                                         //***** not compelet
+    //     //moneyGO.GetComponent<Balance>().
+    // }
+
+    public void PlayerHealthLoad()
     {
-        // this method is for test;
-        ChangeWallAmount();
+        playerHealth = PlayerPrefs.GetFloat("PlayerHealth");
+        playerHealthGO.GetComponent<Damageable>().SetHealth(playerHealth);
+    }
 
-        StoreInArray();
+    public void TimeLoad()
+    {
+        time = PlayerPrefs.GetFloat("Time");
+        timeGO.GetComponent<DayNightCycle>().SetCurrentTime(time);
+    }
 
+    public void OutPostLoad()
+    {
+        TurnToIntArray(outPost, PlayerPrefs.GetString("OutPost"));
+        StoreInGameObjectForOutposts();
+    }
+
+    public void TowerLoad()
+    {
+        TurnToIntArray(tower, PlayerPrefs.GetString("Tower"));
+        StoreInGameObjectFortowers();
+    }
+
+    public void BaseLoad()
+    {
+        turnOneToIntArray(base_, PlayerPrefs.GetString("Base"));
+        StoreInGameObjectForbase();
+    }
+
+
+
+    public void WallSave()
+    {
+        StoreInArrayForWalls();
         PlayerPrefs.SetString("Wall", TurnToString(wall));
-        PlayerPrefs.SetString("OutPost", TurnToString(outPost));
-        PlayerPrefs.SetString("Tower", TurnToString(tower));
-        PlayerPrefs.SetString("Base", TurnOneDToString(base_));
-        PlayerPrefs.SetFloat("Money", money);
-        PlayerPrefs.SetFloat("PlayerHealth", playerHealth);
-        PlayerPrefs.SetFloat("Time", time);
+    }
 
-        print("Save");
+    // public void MoneySave()
+    // {
+    //     //StoreInVariableFromGameObject                                               //***** not complete.....
+    //     PlayerPrefs.SetFloat("Money", money);
+    // }
+
+    public void PlayerHealthSave()
+    {
+        playerHealth = playerHealthGO.GetComponent<Damageable>().GetHealth();
+        PlayerPrefs.SetFloat("PlayerHealth", playerHealth);
+    }
+
+    public void TimeSave()
+    {
+        time = timeGO.GetComponent<DayNightCycle>().GetCurrentTime();
+        PlayerPrefs.SetFloat("Time", time);
+    }
+
+    public void OutPostSave()
+    {
+        StoreInArrayForOutPosts();
+        PlayerPrefs.SetString("OutPost", TurnToString(outPost));
+    }
+    
+    public void TowerSave()
+    {
+        StoreInArrayForTowers();
+        PlayerPrefs.SetString("Tower", TurnToString(tower));
+    }
+
+    public void BaseSave()
+    {
+        StoreInArrayForBase();
+        PlayerPrefs.SetString("Base", TurnOneDToString(base_));
     }
 
     private string TurnToString(int[,] array)
@@ -110,12 +170,12 @@ public class SaveAndLoad : MonoBehaviour
 
     private void Update() 
     {
-        if(Input.GetMouseButtonDown(0))
-            Save();
+        // if(Input.GetMouseButtonDown(0))
+        //     Save();
         
 
-        if(Input.GetMouseButtonDown(1))
-            Load();
+        // if(Input.GetMouseButtonDown(1))
+        //     Load();
     }
 
     public void Print_()
@@ -135,37 +195,44 @@ public class SaveAndLoad : MonoBehaviour
                 wall[i,j] ++;
     }
 
-    //***** this method will get the informathion from the gameObjects and store them in related arrays.
-    private void StoreInArray()
+    //***** this methods will get the informathion from the gameObjects and store them in related arrays.
+    private void StoreInArrayForWalls()
     {
         //***** walls:
         for(int i = 0; i < wallSize; i++)
         {
             wall[i,0] = walls[i].GetComponent<Damageable>().GetExactHealth();
             wall[i,1] = walls[i].GetComponent<Upgradable>().GetLevel();
-        }
-
+        }        
+    }
+    private void StoreInArrayForOutPosts()
+    {
         //***** outPosts:
         for(int i = 0; i < outPostSize; i++)
         {
             outPost[i,0] = outPosts[i].GetComponent<Damageable>().GetExactHealth();
             outPost[i,1] = outPosts[i].GetComponent<OutpostUpgrade>().GetLevel();
         }
-
+    }
+    private void StoreInArrayForTowers()
+    {
         //***** towers:
         for(int i = 0; i < towerSize; i++)
         {
             tower[i,0] = towers[i].GetComponent<Damageable>().GetExactHealth();
             tower[i,1] = towers[i].GetComponent<Upgradable>().GetLevel();
         }
-
+    }
+    private void StoreInArrayForBase()
+    {
         //***** base:
         base_[0] = theBase.GetComponent<Damageable>().GetExactHealth();
         base_[1] = theBase.GetComponent<BaseUpgrade>().GetLevel();
     }
 
-    //***** this method will store arrays informathion in related gameObjects.
-    private void StoreInGameObject()
+
+    //***** this methods will store arrays informathion in related gameObjects.
+    private void StoreInGameObjectForWalls()
     {
         //***** walls:
         for(int i = 0; i < wallSize; i++)
@@ -173,30 +240,37 @@ public class SaveAndLoad : MonoBehaviour
             walls[i].GetComponent<Damageable>().SetHealth(wall[i,0]);
             walls[i].GetComponent<Upgradable>().SetLevel(wall[i,1]);
         }
-
+    }
+    private void StoreInGameObjectForOutposts()
+    {
         //***** outPosts:
         for(int i = 0; i < outPostSize; i++)
         {
             outPosts[i].GetComponent<Damageable>().SetHealth(outPost[i,0]);
             outPosts[i].GetComponent<OutpostUpgrade>().SetLevel(outPost[i,1]);
         }
-
+    }
+    private void StoreInGameObjectFortowers()
+    {
         //***** towers:
         for(int i = 0; i < towerSize; i++)
         {
             towers[i].GetComponent<Damageable>().SetHealth(outPost[i,0]);
             towers[i].GetComponent<OutpostUpgrade>().SetLevel(outPost[i,1]);
         }
-
+    }
+    private void StoreInGameObjectForbase()
+    {
         //***** base:
         theBase.GetComponent<Damageable>().SetHealth(base_[0]);
         theBase.GetComponent<BaseUpgrade>().SetLevel(base_[1]);
     }
 
-    public void SetMoney(float money)
-    {
-        this.money = money;
-    }
+
+    // public void SetMoney(float money)
+    // {
+    //     this.money = money;
+    // }
 
     public void SetPlayerHealth(float playerHealth)
     {
