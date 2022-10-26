@@ -11,6 +11,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1409937095263151425, guid: 63449aea9b541454ebdf7262f6dadf6c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1409937095263151427, guid: 63449aea9b541454ebdf7262f6dadf6c, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1409937095263151427, guid: 63449aea9b541454ebdf7262f6dadf6c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7360666200301642489, guid: 63449aea9b541454ebdf7262f6dadf6c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -116,6 +128,10 @@ PrefabInstance:
     - target: {fileID: 2431133182648246996, guid: 1b134762da1fcb645a3314c85406aad7, type: 3}
       propertyPath: m_Name
       value: 'wall shape '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444460830920017522, guid: 1b134762da1fcb645a3314c85406aad7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b134762da1fcb645a3314c85406aad7, type: 3}

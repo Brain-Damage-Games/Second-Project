@@ -73,7 +73,6 @@ public class Spawner : MonoBehaviour
 			GameObject newEnemy = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity);
 			newEnemy.transform.SetParent(this.transform);
 			newEnemy.GetComponent<PathFinding>().SetTarget(playerTransform);
-			newEnemy.transform.position = GenerateSpawnPoint();
 			currentTime = 0f;
 			countSpawn += 1;
 			CheckCount();

@@ -18,6 +18,17 @@ public class NPCManager : MonoBehaviour
     private float lastHealthValue;
     private bool pursuiting = false;
     [SerializeField] float shootRange = 4f;
+    private Animator animator;
+    [SerializeField]
+    private GameObject gunObject;
+    [SerializeField]
+    private ParticleSystem smokeParticle;
+    [SerializeField]
+    private GameObject coin;
+
+    [SerializeField]
+    private float destructionTime = 3f;
+
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
   
     void Awake(){
@@ -33,7 +44,25 @@ public class NPCManager : MonoBehaviour
         GetComponent<SphereCollider>().radius = shootRange;
         playerBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
 
+        animator = GetComponentInChildren<Animator>();
+
+        foreach(Collider col in Physics.OverlapSphere(transform.position, shootRange)){
+            if (CompareTag("Enemy")){
+                if (col.CompareTag("Player") || col.CompareTag("PlayerPatrol")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+            else if (CompareTag("PlayerPatrol")){
+                if (col.CompareTag("Enemy")){
+                    targetsInRange.Add(col.transform);
+                }
+            }
+        }
+        FindNewTarget(null);
         pursuitTimer = 0f;
+
+
+        damageable.onDeath += Die;
     }
 
     void Update(){ 
@@ -48,6 +77,7 @@ public class NPCManager : MonoBehaviour
             if (shooting.CanHitTarget()) pathFinding.SetStop(true);
             else pathFinding.SetStop(false);
         }
+        
     }
     
     private void FindNewTarget(Transform previousTarget){
@@ -92,6 +122,7 @@ public class NPCManager : MonoBehaviour
     }
     void OnTriggerEnter(Collider col){
         if (col.isTrigger) return;
+
         if ((CompareTag("Enemy") && (col.CompareTag("Player") || col.CompareTag("PlayerPatrol"))) ||
             (CompareTag("PlayerPatrol") && col.CompareTag("Enemy"))){
                 targetsInRange.Add(col.transform);
@@ -111,6 +142,26 @@ public class NPCManager : MonoBehaviour
                 if (currentTarget.gameObject == col.gameObject) FindNewTarget(null);
         }     
     }
+
+    private void Die(Transform t)
+    {
+        animator.SetInteger("DeathType_int", 2);
+        animator.SetBool("Death_b", true);
+        animator.SetBool("Shoot_b", false);
+        gunObject.SetActive(false);
+
+        StartCoroutine(DeathEffect());
         
+    }
+    private IEnumerator DeathEffect()
+    {
+        yield return new WaitForSeconds(destructionTime);
+        Quaternion q = Quaternion.Euler(new Vector3(-90, 0, 0));
+        ParticleSystem p = Instantiate(smokeParticle, transform.position, q);
+        p.Play();
+        Instantiate(coin, transform.position, Quaternion.identity);
+        Destroy(p, p.main.duration + 1);
+        Destroy(gameObject);
+    }
 
 }

@@ -41,7 +41,7 @@ public class Damageable : MonoBehaviour
         if (health <= 0){
             onDeath?.Invoke(transform);
             dead = true;
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
         }
         timeBetweenHealthBarChange = 0f;
     }
