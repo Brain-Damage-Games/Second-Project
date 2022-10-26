@@ -201,5 +201,14 @@ public class DayNightCycle : MonoBehaviour
         return night;
     }
 
+    public void SetCurrentTime(float currentTime)
+    {
+        this.currentTime = currentTime;
+    }
+
+    public float GetCurrentTime()
+    {
+        return currentTime;
+    }
    
 }

@@ -79,4 +79,9 @@ public class OutpostUpgrade : MonoBehaviour
     {
         return level;
     }
+
+    public void SetLevel(int level)
+    {
+        this.level = level;
+    }
 }

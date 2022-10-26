@@ -13,5 +13,10 @@ public static class Balance
     {
         return PlayerPrefs.GetInt("Balance");
     }
+
+    public static void SetBalance(int balance)
+    {
+        PlayerPrefs.SetInt("Balance", balance);
+    }
     
 }
