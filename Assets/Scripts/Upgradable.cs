@@ -35,10 +35,11 @@ public class Upgradable : MonoBehaviour
     [SerializeField] private float upgradeRange = 2f;
     private bool playerInRange = false;
     [SerializeField] private GameObject forceField;
+    [SerializeField] private GameObject saveAndLoad;
 
 
     [SerializeField]
-    private float inputMoney;
+    private int inputMoney;
 
     // comment the following SeralizedField after testing the class
     //[SerializeField]
@@ -49,16 +50,19 @@ public class Upgradable : MonoBehaviour
     private Damager damager;
 
 
-    private float payedMoney;
-    private float maxMoney;
+    private int payedMoney;
+    private int maxMoney;
 
     private void Awake()
     {
-        level = 1;
+        saveAndLoad.GetComponent<SaveAndLoad>().UpgradableLoad();
+
+        ChangeFace();
+
         parent = gameObject;
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
-        payedMoney = 0;
+        
         UpdateMaxMoney();
         if (slider != null)
             ChangeProgressFace();
@@ -213,8 +217,19 @@ public class Upgradable : MonoBehaviour
         return level;
     }
 
+    public int GetPayedMoney()
+    {
+        return payedMoney;
+    }
+
+    public void SetPayedMoney(int payedMoney)
+    {
+        this.payedMoney = payedMoney;
+    }
+
     public void SetLevel(int level)
     {
         this.level = level;
     }
+
 }

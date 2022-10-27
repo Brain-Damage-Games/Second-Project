@@ -8,6 +8,9 @@ public class BaseUpgrade : MonoBehaviour
     [SerializeField]
     private GameObject[] upgradableObjects;
 
+    [SerializeField]
+    private GameObject saveAndLoad;
+
     private bool doAction = false;
 
 
@@ -21,11 +24,9 @@ public class BaseUpgrade : MonoBehaviour
     
     private void Awake()
     {
-        level = 1;
-        progress = 0;
+        saveAndLoad.GetComponent<SaveAndLoad>().BaseLoad();
         objectCounts = upgradableObjects.Length;
-        maxProgress = objectCounts;
-        lastMaxProgress = 0;
+        CalculateMaxProgress();
     }
 
 
@@ -74,8 +75,8 @@ public class BaseUpgrade : MonoBehaviour
     }
     private void CalculateMaxProgress()
     {
-        lastMaxProgress = maxProgress;
         maxProgress = (level * (level + 1)) * objectCounts / 2;
+        lastMaxProgress = ((level-1) * level) * objectCounts / 2;
     }
     public int GetLevel()
     {
@@ -85,5 +86,14 @@ public class BaseUpgrade : MonoBehaviour
     public void SetLevel(int level)
     {
         this.level = level;
+    }
+    public void SetProgress(int progress)
+    {
+        this.progress = progress;
+    }
+
+    public int GetProgress()
+    {
+        return progress;
     }
 }
