@@ -22,13 +22,17 @@ public class OutpostUpgrade : MonoBehaviour
     [SerializeField]
     private GameObject[] statePrefabs;
 
+    [SerializeField]
+    private GameObject saveAndLoad;
+
 
     private GameObject outPost;
 
 
     private void Awake()
     {
-        level = 1;
+        saveAndLoad.GetComponent<SaveAndLoad>().OutPostLoad();
+        SetFace();
         outPost = gameObject;
         outPost.transform.SetAsFirstSibling();
         damageable = GetComponent<Damageable>();
@@ -59,15 +63,8 @@ public class OutpostUpgrade : MonoBehaviour
         damageable.SetMaxHealth(currentMaxHealth + maxHealthIncrease);
 
         if (level - 1 < statePrefabs.Length)
-        {
-            Vector3 position = outPost.transform.position;
-            Quaternion q = outPost.transform.rotation;
-            GameObject currentState = outPost.transform.GetChild(0).gameObject;
-            Destroy(currentState);
-            GameObject newState = Instantiate(statePrefabs[level - 1], position,q);
-            newState.transform.SetParent(outPost.transform);
-            newState.transform.SetAsFirstSibling();
-        }
+            SetFace();
+        
         else
         {
             print("OutPostUpgrade: no more statePrefabs");
@@ -75,8 +72,24 @@ public class OutpostUpgrade : MonoBehaviour
 
     }
 
+    private void SetFace()
+    {
+        Vector3 position = outPost.transform.position;
+        Quaternion q = outPost.transform.rotation;
+        GameObject currentState = outPost.transform.GetChild(0).gameObject;
+        Destroy(currentState);
+        GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
+        newState.transform.SetParent(outPost.transform);
+        newState.transform.SetAsFirstSibling();
+    }
+
     public int GetLevel()
     {
         return level;
+    }
+
+    public void SetLevel(int level)
+    {
+        this.level = level;
     }
 }

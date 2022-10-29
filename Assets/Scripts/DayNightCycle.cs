@@ -36,6 +36,9 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField]
     private float nightPercent = 16;
 
+    [SerializeField]
+    private GameObject saveAndLoad;
+
     [SerializeField, Range(0, 24)]
     private float currentTime;
     private bool night;
@@ -92,6 +95,7 @@ public class DayNightCycle : MonoBehaviour
                 {
                     night = false;
                     daysPassed += 1;
+                    SaveDayInfo();
                     SetMaxSpawnRate();
                 }
 
@@ -165,14 +169,19 @@ public class DayNightCycle : MonoBehaviour
     // call it where ever you want to save time and the days passed
     public void SaveDayTime()
     {
-        PlayerPrefs.SetFloat("currentTime", currentTime);
         PlayerPrefs.SetInt("daysPassed", daysPassed);
         PlayerPrefs.Save();
     }
     public void GetSavedData()
     {
-        if(PlayerPrefs.HasKey("currentTime") && PlayerPrefs.HasKey("daysPassed"))
-            SetTime(PlayerPrefs.GetFloat("currentTime"), PlayerPrefs.GetInt("daysPassed"));
+        if(PlayerPrefs.HasKey("daysPassed"))
+            SetTime(dayStart, PlayerPrefs.GetInt("daysPassed"));
+
+        else
+        {
+            daysPassed = 0;
+            currentTime = dayStart;
+        }
     }
     private void SetTime(float lastTime,int daysPassed)
     {
@@ -201,5 +210,27 @@ public class DayNightCycle : MonoBehaviour
         return night;
     }
 
+    public void SetCurrentTime(float currentTime)
+    {
+        this.currentTime = currentTime;
+    }
+
+    public float GetCurrentTime()
+    {
+        return currentTime;
+    }
+
+    private void SaveDayInfo()
+    {
+        saveAndLoad.GetComponent<SaveAndLoad>().BaseSave();
+        saveAndLoad.GetComponent<SaveAndLoad>().UpgradableSave();
+        saveAndLoad.GetComponent<SaveAndLoad>().OutPostSave();
+        saveAndLoad.GetComponent<SaveAndLoad>().TimeSave();
+        saveAndLoad.GetComponent<SaveAndLoad>().PlayerHealthSave();
+
+        SaveDayTime();
+
+        //after this a label saying "saved" must be shown
+    }
    
 }
