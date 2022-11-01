@@ -86,13 +86,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  player: {fileID: 0}
   patrolPrefab: {fileID: 8079905477551637005, guid: 9f28b2e0f405b50459a32316a98143d6, type: 3}
   minPatrolX: -13
   maxPatrolX: 16
   minPatrolZ: 0
   maxPatrolZ: 20
   maxPatrolTime: 6
-  followRange: 20
 --- !u!114 &2340061672945064419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +110,10 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   pursuitCooldown: 0
   shootRange: 10
+  gunObject: {fileID: 0}
+  smokeParticle: {fileID: 0}
+  coin: {fileID: 0}
+  destructionTime: 3
 --- !u!114 &2340061672945064417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +136,7 @@ MonoBehaviour:
   OnShoot:
     m_PersistentCalls:
       m_Calls: []
+  gunObject: {fileID: 0}
 --- !u!114 &790785673477038205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,10 +192,10 @@ MonoBehaviour:
   orientation: 0
   enableRotation: 1
   autoRepath:
-    mode: 1
+    mode: 2
     interval: 1
     sensitivity: 10
-    maximumInterval: 1
+    maximumInterval: 0.5
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5

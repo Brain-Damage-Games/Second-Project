@@ -6,13 +6,13 @@ using Pathfinding;
 
 public class PathFinding : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform target, player;
     [SerializeField] private GameObject patrolPrefab;
 
-    [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime, followRange;
+    [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime;
 
     private Transform directFollowTarget, patrolPoint;
-    private bool directFollow = false;
+    private bool directFollow = false, patrol = true;
 
     //AI
     private AIDestinationSetter destinationSetter;
@@ -25,40 +25,41 @@ public class PathFinding : MonoBehaviour
     private void Awake()
     {
         patrolPoint = Instantiate(patrolPrefab).transform;
-        // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         timer = maxPatrolTime;
-        originalRange = followRange;
 
         destinationSetter = GetComponent<AIDestinationSetter>();
         aIPathComponent = GetComponent<AIPath>();
 
         baseSpeed = aIPathComponent.maxSpeed;
+
+        NextPostion();
+        SetTarget(patrolPoint);
+        destinationSetter.target = target;
     }
 
     private void Update()
     {
-        if (!directFollow)
-        {
-            if ((Mathf.Abs(Vector3.Distance(target.position, transform.position)) <= followRange || directFollow ) && !target.CompareTag("PatrolPoint"))
-            {
-                destinationSetter.target = target;
-            }
-            else
+        if (Input.GetKeyDown(KeyCode.A))
+            UnFollow();
+        else if (Input.GetKeyDown(KeyCode.D))
+            Follow(player);
+
+            if (patrol)
             {
                 if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
                 {
                     NextPostion();
                     SetTarget(patrolPoint);
-                    destinationSetter.target = target;
                     timer = 0;
                 }
                 timer += Time.deltaTime;
             }
-        }
     }
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
+        destinationSetter.target = target;
     }
 
     private void NextPostion()
@@ -83,29 +84,19 @@ public class PathFinding : MonoBehaviour
         maxPatrolZ = maxZ;
     }
 
-    public void SetRange(float newRange) 
-    {
-        followRange = newRange;
-    }
-
-    public void RevertRange() 
-    {
-        followRange = originalRange;
-    }
-
     public void Follow(Transform target){
-        directFollow = true;
+        patrol = false;
         this.target = target;
+        destinationSetter.target = target;
     }
 
     public void UnFollow(){
-        directFollow = false;
+        patrol = true;
     }
 
-    public void Patrol() 
+    public void Patrol(bool state) 
     {
-        NextPostion();
-        SetTarget(patrolPoint);
+        patrol = state;
     }
 }
 
