@@ -70,7 +70,7 @@ public class Spawner : MonoBehaviour
 
 		if (currentTime >= (1 / spawnRate))
 		{
-			GameObject newEnemy = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity);
+			GameObject newEnemy = Instantiate(objectPrefab, GenerateSpawnPoint(), Quaternion.identity);
 			newEnemy.transform.SetParent(this.transform);
 			newEnemy.GetComponent<PathFinding>().SetTarget(playerTransform);
 			currentTime = 0f;
