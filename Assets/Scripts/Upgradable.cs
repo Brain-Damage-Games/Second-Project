@@ -52,6 +52,7 @@ public class Upgradable : MonoBehaviour
 
     private int payedMoney;
     private int maxMoney;
+    private int levelCount;
 
     private void Awake()
     {
@@ -81,7 +82,7 @@ public class Upgradable : MonoBehaviour
             slider.gameObject.SetActive(false);
 
         }
-
+        levelCount = statePrefabs.Length;
 
         forceField.transform.localScale = new Vector3(upgradeRange * 2, upgradeRange * 2, upgradeRange * 2);
         GetComponent<SphereCollider>().radius = upgradeRange;
@@ -99,7 +100,7 @@ public class Upgradable : MonoBehaviour
     }
     private void UpdateHandler()
     {
-        if (BU.CheckIndividualUpgrade(level,false) && inputMoney > 0)
+        if (BU.CheckIndividualUpgrade(level,false) && inputMoney > 0 && level<=levelCount)
         {
 
             if (inputMoney > (maxMoney - payedMoney))

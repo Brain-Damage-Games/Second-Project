@@ -21,8 +21,9 @@ public static class Balance
 
             Debug.Log("print");
             i = true;
-            return 2;
+            return 200;
         }*/
+        //return 10; 
         
     }
 
