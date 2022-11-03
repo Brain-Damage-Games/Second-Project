@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
         rangeCollider.radius = shootRange;
         damageable = GetComponent<Damageable>();
         PlayerPrefs.SetInt("Balance", 0);
-        print(PlayerPrefs.GetInt("Balance"));
+        //print(PlayerPrefs.GetInt("Balance"));
     }
 
     private void FindNewTarget(Transform previousTarget){

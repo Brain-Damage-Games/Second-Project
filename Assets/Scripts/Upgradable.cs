@@ -55,19 +55,33 @@ public class Upgradable : MonoBehaviour
 
     private void Awake()
     {
+        saveAndLoad.GetComponent<SaveAndLoad>().BaseLoad();
         saveAndLoad.GetComponent<SaveAndLoad>().UpgradableLoad();
 
-        ChangeFace();
+        saveAndLoad.GetComponent<SaveAndLoad>().OutPostLoad();
+
+    }
+
+    private void Start()
+    {
+
 
         parent = gameObject;
+
         damageable = GetComponent<Damageable>();
         damager = GetComponent<Damager>();
+
+
+        ChangeFace();
         
         UpdateMaxMoney();
         if (slider != null)
+        {
             ChangeProgressFace();
+            slider.gameObject.SetActive(false);
 
-        slider.gameObject.SetActive(false);
+        }
+
 
         forceField.transform.localScale = new Vector3(upgradeRange * 2, upgradeRange * 2, upgradeRange * 2);
         GetComponent<SphereCollider>().radius = upgradeRange;
@@ -77,7 +91,7 @@ public class Upgradable : MonoBehaviour
     
     private void Update()
     {
-        if (playerInRange)
+        if (playerInRange && slider!=null )
         {
             inputMoney = Balance.GetBalance();
             UpdateHandler();
@@ -87,10 +101,11 @@ public class Upgradable : MonoBehaviour
     {
         if (BU.CheckIndividualUpgrade(level,false) && inputMoney > 0)
         {
+
             if (inputMoney > (maxMoney - payedMoney))
             {
-                inputMoney= (maxMoney - payedMoney);
                 Balance.ChangeBalance((int)(inputMoney - (maxMoney - payedMoney)));
+                inputMoney = (maxMoney - payedMoney);
             }
             else
             {
@@ -98,6 +113,7 @@ public class Upgradable : MonoBehaviour
             }
 
             payedMoney += inputMoney;
+            
             if (payedMoney >= maxMoney)
             {
                 payedMoney -= maxMoney;
@@ -109,6 +125,7 @@ public class Upgradable : MonoBehaviour
 
                 }
             }
+
         }
         else if (inputMoney < 0)
         {
@@ -123,8 +140,14 @@ public class Upgradable : MonoBehaviour
                 }
             }
         }
-        slider.value = payedMoney;
-        txt.text = ((int)(payedMoney / maxMoney)*100).ToString() + "%";
+
+        if (slider!=null)
+        {
+            slider.value = payedMoney;
+            txt.text = ((int)(payedMoney * 100) / maxMoney).ToString() + "%";
+
+
+        }
     }
     public void Upgrade()
     {
@@ -170,6 +193,7 @@ public class Upgradable : MonoBehaviour
     }
     private void ChangeFace()
     {
+        //print(level+"name:"+gameObject.name);
         Vector3 position = parent.transform.position;
         Quaternion q = parent.transform.rotation;
         GameObject currentState = parent.transform.GetChild(0).gameObject;
@@ -192,7 +216,8 @@ public class Upgradable : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             playerInRange = true;
-            slider.gameObject.SetActive(true);
+            if(slider!=null)
+                slider.gameObject.SetActive(true);
             forceField.GetComponent<MeshRenderer>().enabled = true;
         }
     }
@@ -203,7 +228,8 @@ public class Upgradable : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             playerInRange = false;
-            slider.gameObject.SetActive(false);
+            if(slider != null)
+                slider.gameObject.SetActive(false);
             forceField.GetComponent<MeshRenderer>().enabled = false;
         }
     }

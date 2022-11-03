@@ -22,13 +22,13 @@ public class BaseUpgrade : MonoBehaviour
     private int lastMaxProgress;
     private int objectCounts;
     
-    private void Awake()
+   
+    private void Start()
     {
-        saveAndLoad.GetComponent<SaveAndLoad>().BaseLoad();
+
         objectCounts = upgradableObjects.Length;
         CalculateMaxProgress();
     }
-
 
     private void Update()
     {

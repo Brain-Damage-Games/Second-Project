@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveAndLoad : MonoBehaviour
 {
-    int wallSize = 14, outPostSize = 4, towerSize = 4, upgradableSize = 18, base_Size = 1;
+    
 
     //[SerializeField]
     //private GameObject[] walls = new GameObject[14];
@@ -20,18 +20,26 @@ public class SaveAndLoad : MonoBehaviour
     [SerializeField]
     private GameObject timeGO, playerHealthGO;
 
+    int outPostSize , upgradableSize , base_Size ;
+
 
     //***** first column is health and the secound is level
     //public int[,] wall = new int[14,3];
     public int[,] outPost = new int[4,2];
     //public int[,] tower = new int[4,3];
     private int[,] upgradable = new int[18, 3];
-    //third one is progress
-     public int[] base_ = new int[3];
+    //second one is progress
+     private int[] base_ = new int[3];
 
     public float playerHealth, time;
-    
 
+    private void Awake()
+    {
+        outPostSize = outPosts.Length;
+        upgradableSize = upgradables.Length;
+        base_Size = 1;
+
+    }
     // Start is called before the first frame update
     // void Start()
     // {
@@ -71,7 +79,7 @@ public class SaveAndLoad : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("OutPost"))
         {
-            TurnToIntArray(outPost, PlayerPrefs.GetString("OutPost"));
+            TurnToIntArray(outPost, PlayerPrefs.GetString("OutPost"), 2);
             StoreInGameObjectForOutposts();
         }
         else
@@ -94,16 +102,17 @@ public class SaveAndLoad : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("upgradable"))
         {
-            TurnToIntArray(upgradable, PlayerPrefs.GetString("upgradable"));
+            TurnToIntArray(upgradable, PlayerPrefs.GetString("upgradable"),3);
             StoreInGameObjectForUpgradables();
         }
         else
         {
             for (int i = 0; i < upgradableSize; i++)
             {
-                upgradables[i].GetComponent<Damageable>().SetHealth(GetComponent<Damageable>().GetMaxHealth());
+                upgradables[i].GetComponent<Damageable>().SetHealth(upgradables[i].GetComponent<Damageable>().GetMaxHealth());
                 upgradables[i].GetComponent<Upgradable>().SetLevel(1);
                 upgradables[i].GetComponent<Upgradable>().SetPayedMoney(0);
+                
             }
         }
     }
@@ -112,7 +121,7 @@ public class SaveAndLoad : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Base"))
         {
-            turnOneToIntArray(base_, PlayerPrefs.GetString("Base"));
+            turnOneToIntArray(base_, PlayerPrefs.GetString("Base"),3);
             StoreInGameObjectForbase();
         }
         else
@@ -134,7 +143,7 @@ public class SaveAndLoad : MonoBehaviour
     public void UpgradableSave()
     {
         StoreInArrayForUpgradable();
-        PlayerPrefs.SetString("upgradable", TurnToString(upgradable));
+        PlayerPrefs.SetString("upgradable", TurnToString(upgradable,3));
     }
 
     // public void MoneySave()
@@ -158,7 +167,7 @@ public class SaveAndLoad : MonoBehaviour
     public void OutPostSave()
     {
         StoreInArrayForOutPosts();
-        PlayerPrefs.SetString("OutPost", TurnToString(outPost));
+        PlayerPrefs.SetString("OutPost", TurnToString(outPost,2));
     }
     
     /*public void TowerSave()
@@ -170,15 +179,15 @@ public class SaveAndLoad : MonoBehaviour
     public void BaseSave()
     {
         StoreInArrayForBase();
-        PlayerPrefs.SetString("Base", TurnOneDToString(base_));
+        PlayerPrefs.SetString("Base", TurnOneDToString(base_,3));
     }
 
-    private string TurnToString(int[,] array)
+    private string TurnToString(int[,] array,int length)
     {
         string answer = "";
 
         for(int i = 0; i < array.GetLength(0); i++)
-            for(int j = 0; j < 3; j++)
+            for(int j = 0; j < length; j++)
             {
                 answer += array[i,j] + " ";
             }
@@ -186,36 +195,40 @@ public class SaveAndLoad : MonoBehaviour
         return answer;
     }
 
-    private string TurnOneDToString(int[] array)
+    private string TurnOneDToString(int[] array,int length)
     {
         string answer = "";
 
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < length; i++)
             answer += array[i] + " ";
 
         return answer;
     }
     
-    private void TurnToIntArray(int[,] array, string savedString)
+    private void TurnToIntArray(int[,] array, string savedString,int length)
     {
         string[] subStrings = savedString.Split();
         int counter = 0;
 
         for(int i = 0; i < array.GetLength(0); i++)
-            for(int j = 0; j < 3; j++)
+            for(int j = 0; j < length; j++)
             {
                 int.TryParse(subStrings[counter], out array[i,j]);
                 counter++;
             }
     }
 
-    private void turnOneToIntArray(int[] array, string savedString)
+    private void turnOneToIntArray(int[] array, string savedString,int length)
     {
         string[] subStrings = savedString.Split();
         
-        int.TryParse(subStrings[0], out array[0]);
-        int.TryParse(subStrings[1], out array[1]);
-        int.TryParse(subStrings[2], out array[2]);
+        for(int i = 0; i< length; i++)
+        {
+            int.TryParse(subStrings[i], out array[i]);
+        }
+        //int.TryParse(subStrings[0], out array[0]);
+        //int.TryParse(subStrings[1], out array[1]);
+        //int.TryParse(subStrings[2], out array[2]);
     }
 
     private void Update() 

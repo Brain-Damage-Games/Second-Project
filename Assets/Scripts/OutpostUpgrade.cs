@@ -29,14 +29,14 @@ public class OutpostUpgrade : MonoBehaviour
     private GameObject outPost;
 
 
-    private void Awake()
+    private void Start()
     {
-        saveAndLoad.GetComponent<SaveAndLoad>().OutPostLoad();
-        SetFace();
         outPost = gameObject;
-        outPost.transform.SetAsFirstSibling();
+
         damageable = GetComponent<Damageable>();
         spawner = GetComponent<Spawner>();
+        SetFace();
+        outPost.transform.SetAsFirstSibling();
     }
     //remove comment form codes below to test this class
     /*public bool update = false;
