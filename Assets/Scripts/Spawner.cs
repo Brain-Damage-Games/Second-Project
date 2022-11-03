@@ -50,7 +50,7 @@ public class Spawner : MonoBehaviour
 	//if you want to activate spawning from outside this class use this function
 	public void StartSpawning()
 	{
-		//spawn = true;
+		spawn = true;
 		countSpawn = 0f;
 	}
 

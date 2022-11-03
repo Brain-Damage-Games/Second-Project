@@ -53,7 +53,12 @@ public class Upgradable : MonoBehaviour
     private int payedMoney;
     private int maxMoney;
     private int levelCount;
+    private bool sliderIsFilled;
 
+    //[SerializeField]
+    //private bool yes = false;
+
+    // i changed leve-1 to level cuase now there is a zero state
     private void Awake()
     {
         saveAndLoad.GetComponent<SaveAndLoad>().BaseLoad();
@@ -96,6 +101,7 @@ public class Upgradable : MonoBehaviour
         {
             inputMoney = Balance.GetBalance();
             UpdateHandler();
+            //yes = false;
         }
     }
     private void UpdateHandler()
@@ -120,7 +126,7 @@ public class Upgradable : MonoBehaviour
                 payedMoney -= maxMoney;
                 BU.CheckIndividualUpgrade(level, true);
                 Upgrade();
-                if (level - 1 < statePrefabs.Length)
+                if (level < statePrefabs.Length)
                 {
                     ChangeProgressFace();
 
@@ -135,7 +141,7 @@ public class Upgradable : MonoBehaviour
             {
                 payedMoney = 0;
                 Downgrade();
-                if (level - 1 >= 0)
+                if (level  >= 0)
                 {
                     ChangeProgressFace();
                 }
@@ -147,7 +153,13 @@ public class Upgradable : MonoBehaviour
             slider.value = payedMoney;
             txt.text = ((int)(payedMoney * 100) / maxMoney).ToString() + "%";
 
-
+            if (slider.value == slider.maxValue)
+            {
+                sliderIsFilled = true;
+                slider.gameObject.SetActive(false);
+            }
+            else
+                sliderIsFilled = false;
         }
     }
     public void Upgrade()
@@ -157,7 +169,7 @@ public class Upgradable : MonoBehaviour
         damageable.SetMaxHealth(damageable.GetMaxHealth() + maxHealthIncrease);
         damager.SetDamageValue(damager.GetDamageValue() + damageValueIncrease);
             
-        if (level - 1 < statePrefabs.Length)
+        if (level < statePrefabs.Length)
         {
             ChangeFace();
                 
@@ -170,7 +182,7 @@ public class Upgradable : MonoBehaviour
     }
     public void Downgrade()
     {
-        if (level <= 1)
+        if (level <= 0)
         {
             print("this upgradableObject shall be destroyed");
         }
@@ -181,7 +193,7 @@ public class Upgradable : MonoBehaviour
             damageable.SetMaxHealth(damageable.GetMaxHealth() - maxHealthIncrease);
             damager.SetDamageValue(damager.GetDamageValue() - damageValueIncrease);
 
-            if (level - 1 >= 0)
+            if (level >= 0)
             {
                 BU.ChangeProgress(-level);
                 ChangeFace();
@@ -199,7 +211,7 @@ public class Upgradable : MonoBehaviour
         Quaternion q = parent.transform.rotation;
         GameObject currentState = parent.transform.GetChild(0).gameObject;
         Destroy(currentState);
-        GameObject newState = Instantiate(statePrefabs[level - 1], position, q);
+        GameObject newState = Instantiate(statePrefabs[level], position, q);
         newState.transform.SetParent(parent.transform);
         newState.transform.SetAsFirstSibling();
 
@@ -207,8 +219,8 @@ public class Upgradable : MonoBehaviour
     private void ChangeProgressFace()
     {
         slider.maxValue = maxMoney;
-        sliderFill.color = slidersFill[level - 1]; ;
-        sliderBackground.sprite = slidersBackground[level - 1];
+        sliderFill.color = slidersFill[level]; ;
+        sliderBackground.sprite = slidersBackground[level];
         slider.value = payedMoney;
     }
     private void OnTriggerEnter(Collider col)
@@ -217,7 +229,7 @@ public class Upgradable : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             playerInRange = true;
-            if(slider!=null)
+            if(slider!=null && !sliderIsFilled)
                 slider.gameObject.SetActive(true);
             forceField.GetComponent<MeshRenderer>().enabled = true;
         }
@@ -236,7 +248,7 @@ public class Upgradable : MonoBehaviour
     }
     private void UpdateMaxMoney()
     {
-        maxMoney = 100 * level;
+        maxMoney = 100 * level > 0 ? 100* level : 50;
     }
 
     public int GetLevel()
