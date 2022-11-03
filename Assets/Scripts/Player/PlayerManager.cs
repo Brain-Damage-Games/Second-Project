@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviour
         if (col.tag == "Enemy"){
             targetsInRange.Remove(col.transform);
             col.GetComponent<Damageable>().onDeath -= FindNewTarget;
-            if (currentTarget.gameObject == col.gameObject){
+            if (currentTarget?.gameObject == col.gameObject){
                 FindNewTarget(null);
             }
         } 

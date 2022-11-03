@@ -10,6 +10,7 @@ public class PathFinding : MonoBehaviour
     [SerializeField] private GameObject patrolPrefab;
 
     [SerializeField] float minPatrolX ,maxPatrolX, minPatrolZ, maxPatrolZ, maxPatrolTime;
+    [SerializeField] private float playerFollowRange;
 
     private Transform directFollowTarget, patrolPoint;
     private bool directFollow = false, patrol = true;
@@ -40,21 +41,10 @@ public class PathFinding : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-            UnFollow();
-        else if (Input.GetKeyDown(KeyCode.D))
+        if (Vector3.Distance(transform.position, player.position) <= playerFollowRange){
             Follow(player);
-
-            if (patrol)
-            {
-                if (timer > Random.Range(maxPatrolTime, maxPatrolTime + 2))
-                {
-                    NextPostion();
-                    SetTarget(patrolPoint);
-                    timer = 0;
-                }
-                timer += Time.deltaTime;
-            }
+        }
+        else UnFollow();
     }
     public void SetTarget(Transform newTarget)
     {

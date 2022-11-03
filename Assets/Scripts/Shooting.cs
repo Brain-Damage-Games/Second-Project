@@ -50,6 +50,7 @@ public class Shooting : MonoBehaviour
     }
 
     private void AimAtTarget(){
+        if (shootTarget == null) return;
         Vector3 targetDirection = (shootTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), aimSpeed*Time.deltaTime);
     }

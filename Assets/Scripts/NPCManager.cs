@@ -28,8 +28,10 @@ public class NPCManager : MonoBehaviour
 
     [SerializeField]
     private float destructionTime = 3f;
+    private bool dead = false;
 
     private bool coolDownComplete => pursuitTimer >= pursuitCooldown;
+    
   
     void Awake(){
         shooting = GetComponent<Shooting>();
@@ -65,7 +67,8 @@ public class NPCManager : MonoBehaviour
         damageable.onDeath += Die;
     }
 
-    void Update(){ 
+    void Update(){
+        if (IsDead()) return; 
         if(pursuiting){
             pursuitTimer += Time.deltaTime;
             if (coolDownComplete){
@@ -77,7 +80,6 @@ public class NPCManager : MonoBehaviour
             if (shooting.CanHitTarget()) pathFinding.SetStop(true);
             else pathFinding.SetStop(false);
         }
-        
     }
     
     private void FindNewTarget(Transform previousTarget){
@@ -98,7 +100,7 @@ public class NPCManager : MonoBehaviour
         }
         else{
             shooting.SetShooting(false);
-            pathFinding.SetStop(false);
+            if (!IsDead()) pathFinding.SetStop(false);
         }
     }
     public void StartNight(){
@@ -149,10 +151,11 @@ public class NPCManager : MonoBehaviour
         animator.SetBool("Death_b", true);
         animator.SetBool("Shoot_b", false);
         gunObject.SetActive(false);
+        dead = true;
 
         StartCoroutine(DeathEffect());
         shooting.enabled = false;
-        pathFinding.enabled = false;
+        pathFinding.SetStop(true);
         
     }
     private IEnumerator DeathEffect()
@@ -164,6 +167,10 @@ public class NPCManager : MonoBehaviour
         Instantiate(coin, transform.position, Quaternion.identity);
         Destroy(p, p.main.duration + 1);
         Destroy(gameObject);
+    }
+
+    public bool IsDead(){
+        return dead;
     }
 
 }

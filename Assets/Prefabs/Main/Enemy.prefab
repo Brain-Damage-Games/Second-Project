@@ -93,6 +93,7 @@ MonoBehaviour:
   minPatrolZ: 0
   maxPatrolZ: 20
   maxPatrolTime: 6
+  playerFollowRange: 0
 --- !u!114 &2340061672945064419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,9 +111,9 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   pursuitCooldown: 0
   shootRange: 10
-  gunObject: {fileID: 0}
-  smokeParticle: {fileID: 0}
-  coin: {fileID: 0}
+  gunObject: {fileID: 2341679543237502390}
+  smokeParticle: {fileID: 7124372553021101703, guid: 50dd4bb6d6b7e2c4bb0b8a0be8864620, type: 3}
+  coin: {fileID: 5856947294326956755, guid: 1ad56b66a830d004a8b07733296748ab, type: 3}
   destructionTime: 3
 --- !u!114 &2340061672945064417
 MonoBehaviour:
@@ -136,7 +137,7 @@ MonoBehaviour:
   OnShoot:
     m_PersistentCalls:
       m_Calls: []
-  gunObject: {fileID: 0}
+  gunObject: {fileID: 2341679543237502390}
 --- !u!114 &790785673477038205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   radius: 1.07
   height: 2
   canMove: 1
-  maxSpeed: 3
+  maxSpeed: 5
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2
@@ -408,5 +409,10 @@ PrefabInstance:
 --- !u!4 &2339579619599609968 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4023067158591890, guid: b589d558de1251e46b15f1965fadc472, type: 3}
+  m_PrefabInstance: {fileID: 2340061674634955234}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2341679543237502390 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1900586067242068, guid: b589d558de1251e46b15f1965fadc472, type: 3}
   m_PrefabInstance: {fileID: 2340061674634955234}
   m_PrefabAsset: {fileID: 0}
